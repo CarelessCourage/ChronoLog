@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { storage, TimeEntry } from '@/lib/storage';
+import { sendVictorToast } from '@/lib/victor';
 import { TopBar } from '@/components/TopBar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -48,7 +49,16 @@ export function TimePage() {
 
     storage.entries.save(entry);
     setShowSuccess(true);
+    sendVictorToast(`Directive received: ${hoursNum.toFixed(1)} hours logged for ${todayDate}. Proceed to decompression.`, {
+      channel: 'victor-compliance'
+    });
   };
+
+  function victorSend() {
+      sendVictorToast(`Directive received: 45 hours logged for ${todayDate}. Proceed to decompression.`, {
+      channel: 'victor-compliance'
+    });
+  }
 
   if (!isLoaded) {
     return null;
@@ -105,7 +115,7 @@ export function TimePage() {
                 </Alert>
               )}
 
-              <Button onClick={handleSave} className="w-full">
+              <Button onClick={victorSend} className="w-full">
                 Save Time Entry
               </Button>
             </CardContent>
