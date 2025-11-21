@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { CheckCircle2 } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 function getTodayDate(): string {
   const today = new Date();
@@ -48,10 +48,6 @@ export function TimePage() {
 
     storage.entries.save(entry);
     setShowSuccess(true);
-
-    setTimeout(() => {
-      setShowSuccess(false);
-    }, 3000);
   };
 
   if (!isLoaded) {
@@ -109,15 +105,6 @@ export function TimePage() {
                 </Alert>
               )}
 
-              {showSuccess && (
-                <Alert className="bg-green-50 border-green-200">
-                  <CheckCircle2 className="h-4 w-4 text-green-600" />
-                  <AlertDescription className="text-green-800">
-                    Time entry saved successfully!
-                  </AlertDescription>
-                </Alert>
-              )}
-
               <Button onClick={handleSave} className="w-full">
                 Save Time Entry
               </Button>
@@ -136,6 +123,27 @@ export function TimePage() {
           </Card>
         </div>
       </div>
+
+      <Dialog open={showSuccess} onOpenChange={setShowSuccess}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Time logged. Compliance achieved.</DialogTitle>
+            <DialogDescription>
+              Your {hours || '7.5'} hours have been recorded in accordance with Section 12.4 of the Time Compliance Policy.
+            </DialogDescription>
+          </DialogHeader>
+          <p className="text-sm text-slate-600">
+            Thank you for your punctual cooperation. You are now authorized to temporarily detach from your workstation.
+            Enjoy your limited personal time responsibly.
+          </p>
+          <p className="text-xs text-slate-400">
+            You will be reminded to repeat this ceremony tomorrow.
+          </p>
+          <DialogFooter>
+            <Button onClick={() => setShowSuccess(false)}>Acknowledge</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

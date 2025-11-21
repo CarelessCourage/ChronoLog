@@ -4,7 +4,6 @@ import { createBrowserHistory } from '@tanstack/history';
 import { HomePage } from '@/pages/HomePage';
 import { LoginPage } from '@/pages/LoginPage';
 import { TimePage } from '@/pages/TimePage';
-import { SuccessPage } from '@/pages/SuccessPage';
 import { FiredPage } from '@/pages/FiredPage';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 
@@ -37,12 +36,6 @@ const timeRoute = createRoute({
   component: TimePage
 });
 
-const successRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: 'success',
-  component: SuccessPage
-});
-
 const firedRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: 'fired',
@@ -53,7 +46,6 @@ const routeTree = rootRoute.addChildren([
   homeRoute,
   loginRoute,
   timeRoute,
-  successRoute,
   firedRoute
 ]);
 
