@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1ec17bd-2ed4-4c68-ba6f-a630e71dc739" name="Changes" comment="lunch time">
+    <list default="true" id="a1ec17bd-2ed4-4c68-ba6f-a630e71dc739" name="Changes" comment="viKtor">
+      <change afterPath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps/VoiceRecognition.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/VictorToast.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/VictorToast.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +100,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1763745733830</updated>
-      <workItem from="1763745734898" duration="11034000" />
+      <workItem from="1763745734898" duration="13517000" />
     </task>
     <task id="LOCAL-00001" summary="setup test step file for stepper">
       <option name="closed" value="true" />
@@ -165,7 +166,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763759981202</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="viKtor">
+      <option name="closed" value="true" />
+      <created>1763760257523</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1763760257523</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -180,7 +189,8 @@
     <MESSAGE value="added dna samples" />
     <MESSAGE value="slack notification" />
     <MESSAGE value="lunch time" />
-    <option name="LAST_COMMIT_MESSAGE" value="lunch time" />
+    <MESSAGE value="viKtor" />
+    <option name="LAST_COMMIT_MESSAGE" value="viKtor" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

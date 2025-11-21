@@ -2,6 +2,7 @@ import { Step } from '@/components/SteppedPage';
 import { DNASampleStep } from '@/pages/AuthenticationPage/steps/DNASampleStep/DNASampleStep.tsx';
 import { PasswordStep } from './steps/PasswordStep';
 import { BinaryQuestionStep } from './steps/BinaryQuestionStep';
+import {VoiceRecognition} from "@/pages/AuthenticationPage/steps/VoiceRecognition.tsx";
 
 /**
  * Configure your login steps here.
@@ -17,6 +18,10 @@ import { BinaryQuestionStep } from './steps/BinaryQuestionStep';
  * Remove it from this array
  */
 export const loginSteps: Step[] = [
+  {
+    id: 'voicerecognition',
+    content: <VoiceRecognition />,
+  },
   {
     id: 'password',
     content: <PasswordStep />,
