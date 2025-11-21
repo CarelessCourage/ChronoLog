@@ -13,10 +13,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-
-// Hardcoded credentials
-const VALID_USERNAME = 'worker2847@chronolog.corp';
-const VALID_PASSWORD = 'Compliance2024!';
+import { credentials } from '@/lib/credentials';
 
 // Random interruption messages
 const INTERRUPTION_MESSAGES = [
@@ -79,7 +76,7 @@ export function PasswordStep() {
     e.preventDefault();
     setError('');
 
-    if (username === VALID_USERNAME && password === VALID_PASSWORD) {
+    if (credentials.validate(username, password)) {
       // If this is the first time they got it correct, force password reset
       if (!hasAttemptedCorrectLoginRef.current) {
         hasAttemptedCorrectLoginRef.current = true;

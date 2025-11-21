@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider } from '@tanstack/react-router';
 import { router } from './router';
 import { Toaster } from '@/components/ui/toaster';
+import { credentials } from '@/lib/credentials';
 import './index.css';
 
 interface PostItNote {
@@ -16,7 +17,7 @@ interface PostItNote {
 const INITIAL_POSTITS: PostItNote[] = [
   {
     id: 1,
-    text: "🔐 Login Info:\nEmail: worker2847@chronolog.corp\nPassword: Compliance2024!",
+    text: credentials.getLoginInfo(),
     x: 120,
     y: 150,
     color: "#fef08a" // yellow
