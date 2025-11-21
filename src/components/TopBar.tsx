@@ -1,6 +1,6 @@
 import { useNavigate } from '@tanstack/react-router';
 import { storage } from '@/lib/storage';
-import { Button } from '@/components/ui/button';
+import { RetroButton } from '@/components/ui/retro-button';
 
 export function TopBar() {
   const navigate = useNavigate();
@@ -16,9 +16,9 @@ export function TopBar() {
         <h1 className="text-xl font-semibold text-slate-800 font-pixel">
           ChronoLog - Time Compliance Portal
         </h1>
-        <Button variant="outline" size="sm" onClick={handleLogout}>
+        <RetroButton variant="outline" size="sm" onClick={handleLogout}>
           Log out
-        </Button>
+        </RetroButton>
       </div>
     </div>
   );

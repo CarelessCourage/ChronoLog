@@ -1,6 +1,6 @@
 import { useStepper } from '@/components/StepperProvider';
 import { StepperFormBox } from '@/components/StepperFormBox.tsx';
-import { Button } from '@/components/ui/button';
+import { RetroButton } from '@/components/ui/retro-button';
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'convex/react';
 import { api } from '../../../../convex/_generated/api';
@@ -97,15 +97,11 @@ export function ButtonSyncStep() {
   };
 
   return (
-    <StepperFormBox>
+    <StepperFormBox
+      title="Two-Person Verification"
+      description="You need a friend to help verify your identity. This is a security measure."
+    >
       <div className="space-y-6">
-        <div className="text-center space-y-4">
-          <h2 className="text-2xl font-bold font-pixel">Two-Person Verification</h2>
-          <p className="text-sm text-gray-600">
-            You need a friend to help verify your identity. This is a security measure.
-          </p>
-        </div>
-
         <div className="bg-yellow-50 border-2 border-yellow-400 p-4 rounded space-y-3">
           <p className="text-sm font-semibold">Instructions:</p>
           <ol className="text-sm space-y-2 list-decimal list-inside">
@@ -127,14 +123,15 @@ export function ButtonSyncStep() {
         </div>
 
         <div className="space-y-3">
-          <Button
+          <RetroButton
             onClick={handlePress}
             disabled={!sessionId || hasPressed}
-            className="w-full h-16 text-lg font-bold"
+            size="lg"
+            className="w-full h-16"
             variant={hasPressed ? 'secondary' : 'default'}
           >
             {hasPressed ? '⏳ Waiting for helper...' : '👆 PRESS BUTTON'}
-          </Button>
+          </RetroButton>
 
           {session?.helperPressed && !session?.userPressed && (
             <p className="text-sm text-center text-green-600 font-semibold animate-pulse">

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useMutation, useQuery } from 'convex/react';
 import { api } from '../../convex/_generated/api';
-import { Button } from '@/components/ui/button';
+import { RetroButton } from '@/components/ui/retro-button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -103,9 +103,13 @@ export function ButtonPage() {
               <p className="text-xs text-gray-500">Ask the person for their 6-character ID code</p>
             </div>
 
-            <Button onClick={handleConnect} className="w-full" disabled={sessionId.length !== 6}>
+            <RetroButton
+              onClick={handleConnect}
+              className="w-full"
+              disabled={sessionId.length !== 6}
+            >
               Connect
-            </Button>
+            </RetroButton>
           </div>
         ) : (
           <div className="space-y-4">
@@ -114,14 +118,14 @@ export function ButtonPage() {
               <p className="text-2xl font-bold font-mono tracking-wider">{sessionId}</p>
             </div>
 
-            <Button
+            <RetroButton
               onClick={handlePress}
               disabled={hasPressed}
               className="w-full h-16 text-lg font-bold"
               variant={hasPressed ? 'secondary' : 'default'}
             >
               {hasPressed ? '⏳ Button Pressed!' : '👆 PRESS BUTTON'}
-            </Button>
+            </RetroButton>
 
             {session?.userPressed && !session?.helperPressed && (
               <p className="text-sm text-center text-green-600 font-semibold animate-pulse">
@@ -135,7 +139,7 @@ export function ButtonPage() {
               </p>
             )}
 
-            <Button
+            <RetroButton
               onClick={() => {
                 setIsConnected(false);
                 setHasPressed(false);
@@ -145,7 +149,7 @@ export function ButtonPage() {
               className="w-full"
             >
               Disconnect
-            </Button>
+            </RetroButton>
           </div>
         )}
       </div>

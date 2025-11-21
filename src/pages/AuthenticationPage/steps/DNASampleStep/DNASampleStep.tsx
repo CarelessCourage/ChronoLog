@@ -3,7 +3,7 @@ import { StepperFormBox } from '@/components/StepperFormBox.tsx';
 import { useState, useEffect } from 'react';
 import { sendVictorToast } from '@/lib/victor.tsx';
 import { Icon } from '@iconify/react';
-import { Button } from '@/components/ui/button.tsx';
+import { RetroButton } from '@/components/ui/retro-button.tsx';
 import { UrineSubStep } from '@/pages/AuthenticationPage/steps/DNASampleStep/UrineSubStep.tsx';
 
 export function DNASampleStep() {
@@ -72,10 +72,12 @@ export function DNASampleStep() {
           </div>
           <div className="flex gap-4 mt-4 justify-end">
             {secondSampleFailed && (
-              <Button onClick={() => nextStep()}>Try another another method</Button>
+              <RetroButton onClick={() => nextStep()}>Try another another method</RetroButton>
             )}
-            {attemptCount >= 1 && <Button onClick={() => setSubStep(2)}>Try another method</Button>}
-            <Button
+            {attemptCount >= 1 && (
+              <RetroButton onClick={() => setSubStep(2)}>Try another method</RetroButton>
+            )}
+            <RetroButton
               onClick={() => {
                 setCountdown(5);
                 setAttemptCount((prev) => prev + 1);
@@ -83,7 +85,7 @@ export function DNASampleStep() {
               }}
             >
               Try again
-            </Button>
+            </RetroButton>
           </div>
         </>
       )}

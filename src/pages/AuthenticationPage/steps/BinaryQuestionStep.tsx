@@ -1,6 +1,6 @@
 import { useStepper } from '@/components/StepperProvider';
 import { StepperFormBox } from '@/components/StepperFormBox';
-import { Button } from '@/components/ui/button';
+import { RetroButton } from '@/components/ui/retro-button';
 import { useState } from 'react';
 import {
   AlertDialog,
@@ -11,7 +11,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import {sendVictorToast} from "@/lib/victor.tsx";
+import { sendVictorToast } from '@/lib/victor.tsx';
 
 export function BinaryQuestionStep() {
   const { nextStep } = useStepper();
@@ -40,42 +40,28 @@ export function BinaryQuestionStep() {
   };
 
   return (
-    <StepperFormBox>
+    <StepperFormBox
+      title="SECURITY VERIFICATION"
+      description="Please answer the following question:"
+    >
       <div className="space-y-8">
-        <div className="space-y-4">
-          <h2 className="text-2xl font-bold text-gray-800 tracking-wider font-pixel">
-            SECURITY VERIFICATION
-          </h2>
-          <div className="font-normal">
-            <p className="text-sm text-gray-600 mb-6">Please answer the following question:</p>
-            <div className="p-4 bg-gray-100 win98-inset mb-6">
-              <p className="text-center font-mono text-sm text-gray-900 break-all leading-relaxed">
-                {binaryQuestion}
-              </p>
-            </div>
-          </div>
+        <div className="p-4 bg-gray-100 win98-inset">
+          <p className="text-center font-mono text-sm text-gray-900 break-all leading-relaxed">
+            {binaryQuestion}
+          </p>
         </div>
 
         <div className="flex flex-wrap gap-4 justify-center">
-          <Button
-            onClick={() => handleAnswer('yes')}
-            className="win98-outset bg-gray-300 hover:bg-gray-400 text-gray-900 font-bold tracking-wider px-8 font-pixel"
-          >
+          <RetroButton onClick={() => handleAnswer('yes')} size="lg">
             <span className="font-mono">{binaryYes}</span>
-          </Button>
-          <Button
-            onClick={() => handleAnswer('no')}
-            className="win98-outset bg-gray-300 hover:bg-gray-400 text-gray-900 font-bold tracking-wider px-8 font-pixel"
-          >
+          </RetroButton>
+          <RetroButton onClick={() => handleAnswer('no')} size="lg">
             <span className="font-mono">{binaryNo}</span>
-          </Button>
+          </RetroButton>
 
-          <Button
-            onClick={() => handleAnswer('maybe')}
-            className="win98-outset bg-gray-300 hover:bg-gray-400 text-gray-900 font-bold tracking-wider px-8 font-pixel"
-          >
+          <RetroButton onClick={() => handleAnswer('maybe')} size="lg">
             <span className="font-mono">{binaryMaybe}</span>
-          </Button>
+          </RetroButton>
         </div>
       </div>
 
@@ -86,11 +72,16 @@ export function BinaryQuestionStep() {
             <AlertDialogDescription>{dialogMessage}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogAction onClick={() => {
-                setIsDialogOpen(false)
+            <AlertDialogAction
+              onClick={() => {
+                setIsDialogOpen(false);
                 sendVictorToast('...so are you actually an AI?', {
-                isViolation: true,
-            })}}>OK</AlertDialogAction>
+                  isViolation: true,
+                });
+              }}
+            >
+              OK
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

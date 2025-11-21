@@ -1,6 +1,6 @@
 import { useStepper } from '@/components/StepperProvider';
 import { StepperFormBox } from '@/components/StepperFormBox.tsx';
-import { Button } from '@/components/ui/button';
+import { RetroButton } from '@/components/ui/retro-button';
 import { useEffect, useRef, useState } from 'react';
 import { Progress } from '@/components/ui/progress';
 
@@ -173,15 +173,11 @@ export function DanceVerificationStep() {
   const progressPercentage = (danceProgress / MOVEMENT_THRESHOLD) * 100;
 
   return (
-    <StepperFormBox>
+    <StepperFormBox
+      title="Dance Verification"
+      description="Prove you're human by dancing! Move around until the meter fills up."
+    >
       <div className="space-y-6">
-        <div className="text-center space-y-4">
-          <h2 className="text-2xl font-bold font-pixel">Dance Verification</h2>
-          <p className="text-sm text-gray-600">
-            Prove you're human by dancing! Move around until the meter fills up.
-          </p>
-        </div>
-
         {/* Webcam feed */}
         <div className="relative bg-black rounded-lg overflow-hidden">
           <video ref={videoRef} className="w-full h-64 object-cover" autoPlay playsInline muted />
@@ -211,23 +207,19 @@ export function DanceVerificationStep() {
         {/* Controls */}
         <div className="space-y-3">
           {!isStreaming ? (
-            <Button onClick={startWebcam} className="w-full">
+            <RetroButton onClick={startWebcam} className="w-full">
               Start Camera
-            </Button>
+            </RetroButton>
           ) : (
             <>
               {!isDetecting ? (
-                <Button onClick={startDancing} className="w-full h-12 text-lg font-bold">
+                <RetroButton onClick={startDancing} size="lg" className="w-full">
                   🕺 Start Dancing!
-                </Button>
+                </RetroButton>
               ) : (
-                <Button
-                  onClick={stopDancing}
-                  variant="secondary"
-                  className="w-full h-12 text-lg font-bold"
-                >
+                <RetroButton onClick={stopDancing} variant="secondary" size="lg" className="w-full">
                   ⏸️ Stop
-                </Button>
+                </RetroButton>
               )}
             </>
           )}

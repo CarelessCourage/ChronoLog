@@ -1,8 +1,7 @@
 import { useStepper } from '@/components/StepperProvider';
 import { StepperFormBox } from '@/components/StepperFormBox.tsx';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
+import { RetroButton } from '@/components/ui/retro-button';
 import { useState, useRef } from 'react';
 import {
   AlertDialog,
@@ -39,9 +38,6 @@ export function PasswordStep() {
   // Character-based interruption tracking
   const charCountRef = useRef(0);
   const thresholdRef = useRef(Math.floor(Math.random() * 3) + 2); // Random threshold between 2-4
-
-  // Track if this is the first successful login attempt
-  const hasAttemptedCorrectLoginRef = useRef(false);
 
   // Track the previously focused element
   const previouslyFocusedElementRef = useRef<HTMLElement | null>(null);
@@ -92,7 +88,6 @@ export function PasswordStep() {
     setError('');
 
     if (credentials.validate(username, password)) {
-    
       // Second time with correct credentials, allow login
       nextStep();
     } else {
@@ -101,7 +96,10 @@ export function PasswordStep() {
   };
 
   return (
-    <StepperFormBox>
+    <StepperFormBox
+      title="Enter Your Credentials"
+      description="Please provide your username and password to continue."
+    >
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
           <Input
@@ -126,9 +124,9 @@ export function PasswordStep() {
           />
         </div>
         {error && <div className="text-sm text-red-600 font-medium">{error}</div>}
-        <Button type="submit" className="w-full">
+        <RetroButton type="submit" className="w-full">
           OK
-        </Button>
+        </RetroButton>
       </form>
 
       <AlertDialog open={isDialogOpen} onOpenChange={handleDialogClose}>

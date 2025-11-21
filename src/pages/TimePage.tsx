@@ -8,7 +8,7 @@ import {
 } from '@tanstack/react-table';
 import { sendVictorToast } from '@/lib/victor';
 import { TopBar } from '@/components/TopBar';
-import { Button } from '@/components/ui/button';
+import { RetroButton } from '@/components/ui/retro-button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -133,18 +133,20 @@ export function TimePage() {
     // Validate each day has exactly 7.5 hours
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'] as const;
     const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-    
+
     for (let i = 0; i < days.length; i++) {
       const day = days[i];
       const dayName = dayNames[i];
       const dayTotal = data.reduce((sum, row) => sum + (row[day] || 0), 0);
-      
+
       if (dayTotal > 7.5) {
-        sendVictorToast(` Overtime!? Nonono, refer to the shadow account excel system`, { isViolation: true });
+        sendVictorToast(` Overtime!? Nonono, refer to the shadow account excel system`, {
+          isViolation: true,
+        });
         return;
       } else if (dayTotal < 7.5) {
         sendVictorToast(` What about the faktureringsgrad!?`, { isViolation: true });
-    
+
         return;
       }
     }
@@ -276,13 +278,13 @@ export function TimePage() {
               )}
 
               <div className="mt-6 flex justify-end">
-                <Button
+                <RetroButton
                   onClick={handleSubmit}
                   size="lg"
                   className="win98-outset bg-gray-300 hover:bg-gray-400 text-gray-900 font-bold tracking-wider font-pixel"
                 >
                   SUBMIT TIMESHEET
-                </Button>
+                </RetroButton>
               </div>
             </CardContent>
           </Card>
@@ -313,12 +315,12 @@ export function TimePage() {
             </DialogDescription>
           </DialogHeader>
           <div className="flex justify-center mt-4">
-            <Button
+            <RetroButton
               onClick={() => setShowSuccess(false)}
               className="w-full sm:w-auto win98-outset bg-gray-300 hover:bg-gray-400 text-gray-900 font-bold tracking-wider font-pixel"
             >
               BACK TO TIME WRITING
-            </Button>
+            </RetroButton>
           </div>
         </DialogContent>
       </Dialog>

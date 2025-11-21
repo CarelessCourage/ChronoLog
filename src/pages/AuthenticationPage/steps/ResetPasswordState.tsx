@@ -1,7 +1,7 @@
 import { useStepper } from '@/components/StepperProvider';
 import { StepperFormBox } from '@/components/StepperFormBox.tsx';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import { RetroButton } from '@/components/ui/retro-button';
 import { useState } from 'react';
 import { credentials } from '@/lib/credentials';
 
@@ -132,45 +132,38 @@ export function ResetPasswordStep() {
   };
 
   return (
-    <StepperFormBox>
-      <div className="space-y-4">
-        <div className="text-center space-y-2">
-          <h2 className="text-lg font-semibold">Reset Your Password</h2>
-          <p className="text-sm text-muted-foreground">{getRequirement()}</p>
+    <StepperFormBox title="Reset Your Password" description={getRequirement()}>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-2">
+          <Input
+            id="new-password"
+            type="password"
+            placeholder="New Password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            autoComplete="new-password"
+            required
+          />
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Input
-              id="new-password"
-              type="password"
-              placeholder="New Password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              autoComplete="new-password"
-              required
-            />
-          </div>
+        <div className="space-y-2">
+          <Input
+            id="confirm-password"
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            autoComplete="new-password"
+            required
+          />
+        </div>
 
-          <div className="space-y-2">
-            <Input
-              id="confirm-password"
-              type="password"
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              autoComplete="new-password"
-              required
-            />
-          </div>
+        {error && <div className="text-sm text-red-600 font-medium">{error}</div>}
 
-          {error && <div className="text-sm text-red-600 font-medium">{error}</div>}
-
-          <Button type="submit" className="w-full">
-            Reset Password
-          </Button>
-        </form>
-      </div>
+        <RetroButton type="submit" className="w-full">
+          Reset Password
+        </RetroButton>
+      </form>
     </StepperFormBox>
   );
 }
