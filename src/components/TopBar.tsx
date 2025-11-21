@@ -13,7 +13,7 @@ export function TopBar() {
   return (
     <div className="border-b bg-white shadow-sm">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-slate-800">
+        <h1 className="text-xl font-semibold text-slate-800 font-pixel">
           ChronoLog - Time Compliance Portal
         </h1>
         <Button variant="outline" size="sm" onClick={handleLogout}>

@@ -20,7 +20,9 @@ export function BinaryQuestionStep() {
     <StepperFormBox>
       <div className="space-y-8">
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold text-gray-800 tracking-wider">SECURITY VERIFICATION</h2>
+          <h2 className="text-2xl font-bold text-gray-800 tracking-wider font-pixel">
+            SECURITY VERIFICATION
+          </h2>
           <div className="font-normal">
             <p className="text-sm text-gray-600 mb-6">Please answer the following question:</p>
             <div className="p-4 bg-gray-100 win98-inset mb-6">
@@ -34,20 +36,20 @@ export function BinaryQuestionStep() {
         <div className="flex flex-wrap gap-4 justify-center">
           <Button
             onClick={handleAnswer}
-            className="win98-outset bg-gray-300 hover:bg-gray-400 text-gray-900 font-bold tracking-wider px-8"
+            className="win98-outset bg-gray-300 hover:bg-gray-400 text-gray-900 font-bold tracking-wider px-8 font-pixel"
           >
             <span className="font-mono">{binaryYes}</span>
           </Button>
           <Button
             onClick={handleAnswer}
-            className="win98-outset bg-gray-300 hover:bg-gray-400 text-gray-900 font-bold tracking-wider px-8"
+            className="win98-outset bg-gray-300 hover:bg-gray-400 text-gray-900 font-bold tracking-wider px-8 font-pixel"
           >
             <span className="font-mono">{binaryNo}</span>
           </Button>
 
           <Button
             onClick={handleAnswer}
-            className="win98-outset bg-gray-300 hover:bg-gray-400 text-gray-900 font-bold tracking-wider px-8"
+            className="win98-outset bg-gray-300 hover:bg-gray-400 text-gray-900 font-bold tracking-wider px-8 font-pixel"
           >
             <span className="font-mono">{binaryMaybe}</span>
           </Button>
