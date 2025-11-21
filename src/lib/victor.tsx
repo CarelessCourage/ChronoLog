@@ -1,13 +1,28 @@
 import { toast } from '@/hooks/use-toast';
 import { VictorToastContent } from '@/components/VictorToast';
+import { addViolation, getViolationCount, isFired } from '@/lib/violations';
 
 interface VictorToastOptions {
   channel?: string;
   timestamp?: string;
   duration?: number;
+  isViolation?: boolean;
 }
 
 export function sendVictorToast(message: string, options?: VictorToastOptions) {
+  let currentViolations = getViolationCount();
+
+  if (options?.isViolation) {
+    currentViolations = addViolation();
+
+    if (isFired()) {
+      // Redirect to fired page after a short delay
+      setTimeout(() => {
+        window.location.href = '/fired';
+      }, 3000);
+    }
+  }
+
   // Play notification sound
   const audio = new Audio('/audio/slackNotification.mp3');
   audio.play().catch((error) => {
@@ -24,7 +39,9 @@ export function sendVictorToast(message: string, options?: VictorToastOptions) {
         message={message}
         channel={options?.channel}
         timestamp={options?.timestamp}
+        isViolation={options?.isViolation}
+        violationCount={currentViolations}
       />
-    )
+    ),
   });
 }
