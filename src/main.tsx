@@ -79,7 +79,7 @@ function App() {
       {postIts.map(postIt => (
         <div
           key={postIt.id}
-          className="fixed w-48 p-4 shadow-lg cursor-move select-none z-50"
+          className="fixed w-48 p-4 shadow-lg cursor-move select-none z-50 font-normal"
           style={{
             left: `${postIt.x}px`,
             top: `${postIt.y}px`,

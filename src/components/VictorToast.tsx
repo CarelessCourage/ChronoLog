@@ -15,7 +15,7 @@ export function VictorToastContent({
   const displayTime = timestamp ?? new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 font-normal">
       <div className="flex items-start gap-3">
         <Avatar className="h-9 w-9 border border-slate-200 bg-emerald-50 text-emerald-600 flex items-center justify-center">
           <AvatarFallback className="bg-transparent">

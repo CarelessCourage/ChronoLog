@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 export function FiredPage() {
   return (
     <div className="min-h-screen bg-slate-900/5 flex items-center justify-center px-4 py-10">
-      <div className="max-w-2xl w-full bg-white rounded-xl shadow-2xl border border-slate-200">
+      <div className="max-w-2xl w-full bg-white rounded-xl shadow-2xl border border-slate-200 font-normal">
         <div className="border-b border-slate-200 bg-slate-50 rounded-t-xl p-6 space-y-3 font-mono text-sm text-slate-700">
           <div className="flex flex-col sm:flex-row sm:items-center gap-2">
             <span className="font-semibold text-slate-500">From:</span>
