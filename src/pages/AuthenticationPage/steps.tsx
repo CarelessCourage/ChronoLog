@@ -33,11 +33,7 @@ export const loginSteps: Step[] = [
     content: <VoiceRecognition />,
   },
   {
-    id: 'password',
-    content: <PasswordStep />,
-  },
-  {
-    id: 'identify',
+    id: 'dna-samples',
     content: <DNASampleStep />,
   },
   {

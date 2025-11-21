@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1ec17bd-2ed4-4c68-ba6f-a630e71dc739" name="Changes" comment="viKtor">
-      <change afterPath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps/VoiceRecognition.tsx" afterDir="false" />
+    <list default="true" id="a1ec17bd-2ed4-4c68-ba6f-a630e71dc739" name="Changes" comment="changes">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps.tsx" afterDir="false" />
     </list>
@@ -100,7 +100,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1763745733830</updated>
-      <workItem from="1763745734898" duration="13517000" />
+      <workItem from="1763745734898" duration="13717000" />
     </task>
     <task id="LOCAL-00001" summary="setup test step file for stepper">
       <option name="closed" value="true" />
@@ -174,7 +174,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763760257523</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="voice recognition step">
+      <option name="closed" value="true" />
+      <created>1763762799527</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1763762799527</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -190,7 +198,8 @@
     <MESSAGE value="slack notification" />
     <MESSAGE value="lunch time" />
     <MESSAGE value="viKtor" />
-    <option name="LAST_COMMIT_MESSAGE" value="viKtor" />
+    <MESSAGE value="voice recognition step" />
+    <option name="LAST_COMMIT_MESSAGE" value="voice recognition step" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>
