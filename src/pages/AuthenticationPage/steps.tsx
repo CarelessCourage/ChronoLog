@@ -1,7 +1,7 @@
 import { Step } from '@/components/SteppedPage';
-import { DNASampleStep } from '@/pages/AuthenticationPage/steps/DNASampleStep/DNASampleStep.tsx';
 import { PasswordStep } from './steps/PasswordStep';
 import { BinaryQuestionStep } from './steps/BinaryQuestionStep';
+import { ResetPasswordStep } from './steps/ResetPasswordState.tsx';
 
 /**
  * Configure your login steps here.
@@ -17,6 +17,7 @@ import { BinaryQuestionStep } from './steps/BinaryQuestionStep';
  * Remove it from this array
  */
 export const loginSteps: Step[] = [
+<<<<<<< HEAD
   {
     id: 'password',
     content: <PasswordStep />,
@@ -28,5 +29,26 @@ export const loginSteps: Step[] = [
   {
     id: 'binary',
     content: <BinaryQuestionStep />,
+=======
+  {
+    id: 'password',
+    content: <PasswordStep />,
+  },
+  {
+    id: 'reset-password',
+    content: <ResetPasswordStep />,
+  },  
+  {
+    id: 'password',
+    content: <PasswordStep />,
+  },
+  {
+    id: 'binary',
+    content: <BinaryQuestionStep />,
+  },
+  {
+    id: 'captcha',
+    content: <CaptchaStep />,
+>>>>>>> 7b091a9 (Added reset password)
   },
 ];

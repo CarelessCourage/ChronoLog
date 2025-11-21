@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from '@tanstack/react-router';
 import { router } from './router';
@@ -35,6 +35,21 @@ function App() {
   const [postIts, setPostIts] = useState<PostItNote[]>(INITIAL_POSTITS);
   const [draggingId, setDraggingId] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+
+  // Subscribe to credential changes and update the login post-it
+  useEffect(() => {
+    const unsubscribe = credentials.subscribe(() => {
+      setPostIts(prev =>
+        prev.map(postIt =>
+          postIt.id === 1
+            ? { ...postIt, text: credentials.getLoginInfo() }
+            : postIt
+        )
+      );
+    });
+
+    return unsubscribe;
+  }, []);
 
   const handleMouseDown = (id: number, e: React.MouseEvent) => {
     const postIt = postIts.find(p => p.id === id);

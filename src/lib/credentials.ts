@@ -7,12 +7,22 @@ interface CredentialsState {
   email: string;
   password: string;
   passwordHistory: string[];
+  resetAttempts: number;
 }
+
+type CredentialsListener = () => void;
 
 const state: CredentialsState = {
   email: 'worker2847@chronolog.corp',
   password: 'Compliance2024!',
   passwordHistory: [],
+  resetAttempts: 0,
+};
+
+const listeners: Set<CredentialsListener> = new Set();
+
+const notifyListeners = () => {
+  listeners.forEach(listener => listener());
 };
 
 export const credentials = {
@@ -36,6 +46,7 @@ export const credentials = {
    */
   setEmail: (newEmail: string): void => {
     state.email = newEmail;
+    notifyListeners();
   },
   
   /**
@@ -47,6 +58,7 @@ export const credentials = {
       state.passwordHistory.push(state.password);
     }
     state.password = newPassword;
+    notifyListeners();
   },
   
   /**
@@ -64,6 +76,25 @@ export const credentials = {
   },
   
   /**
+   * Get the number of reset attempts
+   */
+  getResetAttempts: (): number => state.resetAttempts,
+  
+  /**
+   * Increment reset attempts counter
+   */
+  incrementResetAttempts: (): void => {
+    state.resetAttempts += 1;
+  },
+  
+  /**
+   * Reset the reset attempts counter
+   */
+  resetResetAttempts: (): void => {
+    state.resetAttempts = 0;
+  },
+  
+  /**
    * Validate credentials
    */
   validate: (email: string, password: string): boolean => {
@@ -74,5 +105,16 @@ export const credentials = {
    * Get formatted login info for display
    */
   getLoginInfo: (): string => `🔐 Login Info:\nEmail: ${state.email}\nPassword: ${state.password}`,
+  
+  /**
+   * Subscribe to credential changes
+   * Returns an unsubscribe function
+   */
+  subscribe: (listener: CredentialsListener): (() => void) => {
+    listeners.add(listener);
+    return () => {
+      listeners.delete(listener);
+    };
+  },
 };
 
