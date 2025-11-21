@@ -32,6 +32,8 @@ const toastVariants = cva(
         default: 'border bg-background text-foreground',
         destructive:
           'destructive group border-destructive bg-destructive text-destructive-foreground',
+        slack:
+          'border border-slate-200 bg-white text-slate-900 shadow-[0_18px_40px_rgba(15,23,42,0.25)] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-emerald-400 before:content-[""]',
       },
     },
     defaultVariants: {

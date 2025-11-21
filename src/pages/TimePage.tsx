@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { storage, TimeEntry } from '@/lib/storage';
+import { sendVictorToast } from '@/lib/victor';
 import { TopBar } from '@/components/TopBar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -48,7 +49,11 @@ export function TimePage() {
 
     storage.entries.save(entry);
     setShowSuccess(true);
+    sendVictorToast(`WTF did you just download!?`, {
+      channel: 'head of security'
+    });
   };
+
 
   if (!isLoaded) {
     return null;
