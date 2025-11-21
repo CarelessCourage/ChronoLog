@@ -44,7 +44,6 @@ const firedRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
   homeRoute,
-  loginRoute,
   timeRoute,
   successRoute,
   firedRoute
