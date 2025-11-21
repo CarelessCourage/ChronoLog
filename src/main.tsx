@@ -52,6 +52,21 @@ function App() {
     return unsubscribe;
   }, []);
 
+  // Subscribe to router changes
+  useEffect(() => {
+    // Initial path update
+    setCurrentPath(router.state.location.pathname);
+
+    // Subscribe to all router state changes
+    const unsubscribe = router.subscribe('onBeforeLoad', ({ pathChanged }) => {
+      if (pathChanged) {
+        setCurrentPath(router.state.location.pathname);
+      }
+    });
+
+    return unsubscribe;
+  }, []);
+
   const handleMouseDown = (id: number, e: React.MouseEvent) => {
     const postIt = postIts.find((p) => p.id === id);
     if (!postIt) return;
@@ -83,14 +98,6 @@ function App() {
     setDraggingId(null);
   };
 
-  // Track route changes
-  React.useEffect(() => {
-    const handleRouteChange = () => {
-      setCurrentPath(window.location.pathname);
-    };
-    window.addEventListener('popstate', handleRouteChange);
-    return () => window.removeEventListener('popstate', handleRouteChange);
-  }, []);
 
   const showPostIts = currentPath !== '/';
 
