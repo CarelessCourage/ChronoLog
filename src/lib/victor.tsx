@@ -23,6 +23,12 @@ export function sendVictorToast(message: string, options?: VictorToastOptions) {
     }
   }
 
+  // Play notification sound
+  const audio = new Audio('/audio/slackNotification.mp3');
+  audio.play().catch((error) => {
+    console.warn('Failed to play notification sound:', error);
+  });
+
   toast({
     variant: 'slack',
     duration: options?.duration ?? 7000,

@@ -98,7 +98,7 @@ export function PasswordStep() {
         <div className="space-y-2">
           <Input
             id="username"
-            type="password"
+            type="text"
             placeholder="Username"
             value={username}
             onChange={(e) => handleInputChange(setUsername, e.target.value)}

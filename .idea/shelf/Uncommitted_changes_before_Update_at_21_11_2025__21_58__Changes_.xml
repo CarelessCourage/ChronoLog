@@ -1,0 +1,16 @@
+<changelist name="Uncommitted_changes_before_Update_at_21_11_2025,_21_58_[Changes]" date="1763758727489" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_11_2025,_21_58_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 21/11/2025, 21:58 [Changes]" />
+  <binary>
+    <option name="AFTER_PATH" value="public/audio/waterfall.mp3" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_11_2025,_21_58_[Changes]/waterfall.mp3" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="public/gifs/waterfall.gif" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_11_2025,_21_58_[Changes]/waterfall.gif" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="public/audio/slackNotification.mp3" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_11_2025,_21_58_[Changes]/slackNotification.mp3" />
+  </binary>
+</changelist>
