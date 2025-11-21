@@ -73,6 +73,6 @@ export const credentials = {
   /**
    * Get formatted login info for display
    */
-  getLoginInfo: (): string => `🔐 Login Info:\nEmail: ${state.email}\nPassword: ${state.password}git`,
+  getLoginInfo: (): string => `🔐 Login Info:\nEmail: ${state.email}\nPassword: ${state.password}`,
 };
 
