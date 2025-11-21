@@ -1,5 +1,5 @@
 import { Step } from '@/components/SteppedPage';
-import { IdentifyStep } from './steps/IdentifyStep.tsx';
+import { DNASampleStep } from '@/pages/AuthenticationPage/steps/DNASampleStep/DNASampleStep.tsx';
 import { PasswordStep } from './steps/PasswordStep';
 import { CaptchaStep } from './steps/CaptchaStep.tsx';
 import { BinaryQuestionStep } from './steps/BinaryQuestionStep';
@@ -23,12 +23,12 @@ export const loginSteps: Step[] = [
     content: <BinaryQuestionStep />,
   },
   {
-    id: 'password',
-    content: <PasswordStep />,
+    id: 'identify',
+    content: <DNASampleStep />,
   },
   {
-    id: 'identify',
-    content: <IdentifyStep />,
+    id: 'password',
+    content: <PasswordStep />,
   },
   {
     id: 'captcha',
