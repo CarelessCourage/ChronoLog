@@ -14,22 +14,22 @@ interface Scene {
 const scenes: Scene[] = [
   {
     gif: '/gifs/hugeRuleBook.gif',
-    text: 'The European Union has unleashed millions of new regulations.\n\nCybercriminals lurk in every shadow, waiting to steal your lunch password.',
+    text: 'The European Union has unleashed millions of new regulations.<br/> <br/> Cybercriminals lurk in every shadow, waiting to steal your lunch password.',
     duration: 5000,
   },
   {
     gif: '/gifs/officeInStorm.gif',
-    text: "Some oil company's new time-reporting system is here.\n\nBuilt to comply with every dystopian directive. Designed by sadists. Protected by Viktor's paranoia.",
+    text: "Some oil company's new time-reporting system is here.<br/> <br/> Built to comply with every dystopian directive. <br/> <br/>Designed by sadists.<br/> <br/> Protected by Viktor's paranoia.",
     duration: 5000,
   },
   {
     gif: '/gifs/manTypingAtComputer.gif',
-    text: 'Viktor with a K. The man who turned security up to eleven',
+    text: 'Viktor (with a K!) <br/> <br/> The man who turned security up to eleven',
     duration: 4000,
   },
   {
     gif: '/gifs/officeDesk.gif',
-    text: 'And you?\n\nYou just want to…',
+    text: 'And you?You just want to…',
     duration: 4000,
   },
 ];
@@ -161,7 +161,7 @@ export function IndexPage() {
         <div className="absolute inset-0 bg-black/60" />
 
         {/* Text content */}
-        <div className="relative z-10 max-w-3xl mx-auto px-8">
+        <div style={{ minWidth: '56rem', minHeight: '30vh' }} className="relative z-10 max-w-4xl mx-auto px-8">
           <p
             ref={textRef}
             className="text-2xl md:text-4xl text-white leading-relaxed whitespace-pre-line font-semibold drop-shadow-2xl"
