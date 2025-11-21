@@ -1,5 +1,5 @@
 import { useStepper } from '@/components/StepperProvider';
-import {StepperFormBox} from "@/components/StepperFormBox.tsx";
+import { StepperFormBox } from '@/components/StepperFormBox.tsx';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -38,11 +38,11 @@ export function PasswordStep() {
   const [error, setError] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogMessage, setDialogMessage] = useState('');
-  
+
   // Character-based interruption tracking
   const charCountRef = useRef(0);
   const thresholdRef = useRef(Math.floor(Math.random() * 3) + 2); // Random threshold between 2-4
-  
+
   // Track if this is the first successful login attempt
   const hasAttemptedCorrectLoginRef = useRef(false);
 
@@ -51,14 +51,13 @@ export function PasswordStep() {
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
     }
-    
+
     // Show random alert message
-    const randomMessage = INTERRUPTION_MESSAGES[
-      Math.floor(Math.random() * INTERRUPTION_MESSAGES.length)
-    ];
+    const randomMessage =
+      INTERRUPTION_MESSAGES[Math.floor(Math.random() * INTERRUPTION_MESSAGES.length)];
     setDialogMessage(randomMessage);
     setIsDialogOpen(true);
-    
+
     // Reset counter and set new random threshold
     charCountRef.current = 0;
     thresholdRef.current = Math.floor(Math.random() * 5) + 2; // New threshold between 2-4
@@ -66,10 +65,10 @@ export function PasswordStep() {
 
   const handleInputChange = (setter: (value: string) => void, value: string) => {
     setter(value);
-    
+
     // Increment character count
     charCountRef.current += 1;
-    
+
     // Check if we've reached the threshold
     if (charCountRef.current >= thresholdRef.current) {
       triggerInterruption();
@@ -100,7 +99,6 @@ export function PasswordStep() {
     <StepperFormBox>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-        
           <Input
             id="username"
             type="password"
@@ -112,7 +110,6 @@ export function PasswordStep() {
           />
         </div>
         <div className="space-y-2">
-       
           <Input
             id="password"
             type="password"
@@ -123,9 +120,7 @@ export function PasswordStep() {
             required
           />
         </div>
-        {error && (
-          <div className="text-sm text-red-600 font-medium">{error}</div>
-        )}
+        {error && <div className="text-sm text-red-600 font-medium">{error}</div>}
         <Button type="submit" className="w-full">
           OK
         </Button>
@@ -135,18 +130,13 @@ export function PasswordStep() {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>System Notification</AlertDialogTitle>
-            <AlertDialogDescription>
-              {dialogMessage}
-            </AlertDialogDescription>
+            <AlertDialogDescription>{dialogMessage}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogAction onClick={() => setIsDialogOpen(false)}>
-              OK
-            </AlertDialogAction>
+            <AlertDialogAction onClick={() => setIsDialogOpen(false)}>OK</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
     </StepperFormBox>
   );
 }
-
