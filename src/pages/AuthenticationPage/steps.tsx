@@ -18,12 +18,12 @@ import { CaptchaStep } from './steps/CaptchaStep.tsx';
  */
 export const loginSteps: Step[] = [
   {
-    id: 'identify',
-    content: <IdentifyStep />,
-  },
-  {
     id: 'password',
     content: <PasswordStep />,
+  },
+  {
+    id: 'identify',
+    content: <IdentifyStep />,
   },
   {
     id: 'captcha',
