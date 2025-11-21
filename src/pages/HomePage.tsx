@@ -9,7 +9,7 @@ export function HomePage() {
     if (storage.auth.isLoggedIn()) {
       navigate({ to: '/time', replace: true });
     } else {
-      navigate({ to: '/login', replace: true });
+      navigate({ to: '/login/password', replace: true });
     }
   }, [navigate]);
 
