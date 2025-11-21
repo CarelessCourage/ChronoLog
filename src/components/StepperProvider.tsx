@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface StepperContextValue {
   currentStep: number;
@@ -20,11 +20,11 @@ interface StepperProviderProps {
   onComplete?: () => void;
 }
 
-export function StepperProvider({ 
-  children, 
-  totalSteps, 
+export function StepperProvider({
+  children,
+  totalSteps,
   initialStep = 0,
-  onComplete 
+  onComplete,
 }: StepperProviderProps) {
   const [currentStep, setCurrentStep] = useState(initialStep);
 
@@ -48,6 +48,19 @@ export function StepperProvider({
     }
   };
 
+  // Secret keyboard shortcut: Cmd/Ctrl + ArrowRight to skip step
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === 'ArrowRight') {
+        event.preventDefault();
+        nextStep();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentStep, totalSteps, onComplete]);
+
   const isFirstStep = currentStep === 0;
   const isLastStep = currentStep === totalSteps - 1;
   const progress = ((currentStep + 1) / totalSteps) * 100;
@@ -63,11 +76,7 @@ export function StepperProvider({
     progress,
   };
 
-  return (
-    <StepperContext.Provider value={value}>
-      {children}
-    </StepperContext.Provider>
-  );
+  return <StepperContext.Provider value={value}>{children}</StepperContext.Provider>;
 }
 
 export function useStepper() {
@@ -77,4 +86,3 @@ export function useStepper() {
   }
   return context;
 }
-
