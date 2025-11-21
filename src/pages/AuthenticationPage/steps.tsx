@@ -1,5 +1,5 @@
 import { Step } from '@/components/SteppedPage';
-import { TestStep } from './steps/TestStep.tsx';
+import { IdentifyStep } from './steps/IdentifyStep.tsx';
 import { PasswordStep } from './steps/PasswordStep';
 import { CaptchaStep } from './steps/CaptchaStep.tsx';
 
@@ -18,15 +18,15 @@ import { CaptchaStep } from './steps/CaptchaStep.tsx';
  */
 export const loginSteps: Step[] = [
   {
-    id: 'email',
-    content: <TestStep />,
+    id: 'identify',
+    content: <IdentifyStep />,
   },
   {
     id: 'password',
     content: <PasswordStep />,
   },
   {
-    id: 'verification',
+    id: 'captcha',
     content: <CaptchaStep />,
   },
 ];

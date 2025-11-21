@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1ec17bd-2ed4-4c68-ba6f-a630e71dc739" name="Changes" comment="setup starting steps">
+    <list default="true" id="a1ec17bd-2ed4-4c68-ba6f-a630e71dc739" name="Changes" comment="updated steps">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps/TestStep.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps/IdentifyStep.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +53,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "bun",
+    "settings.editor.selected.configurable": "preferences.sourceCode.TypeScript",
     "ts.external.directory.path": "/Users/aslak.ihle/code/hackathon-ydalir/ChronoLog/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }
@@ -85,7 +87,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1763745733830</updated>
-      <workItem from="1763745734898" duration="2689000" />
+      <workItem from="1763745734898" duration="2818000" />
     </task>
     <task id="LOCAL-00001" summary="setup test step file for stepper">
       <option name="closed" value="true" />
@@ -103,7 +105,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763750432769</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="fix bug">
+      <option name="closed" value="true" />
+      <created>1763750560717</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1763750560717</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -113,7 +123,8 @@
     <MESSAGE value="setup test step file with" />
     <MESSAGE value="setup test step file for stepper" />
     <MESSAGE value="setup starting steps" />
-    <option name="LAST_COMMIT_MESSAGE" value="setup starting steps" />
+    <MESSAGE value="fix bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bug" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

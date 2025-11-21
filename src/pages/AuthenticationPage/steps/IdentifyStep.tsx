@@ -1,7 +1,7 @@
 import { useStepper } from '@/components/StepperProvider';
 import {StepperFormBox} from "@/components/StepperFormBox.tsx";
 
-export function TestStep() {
+export function IdentifyStep() {
   const {  } = useStepper();
 
 
