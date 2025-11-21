@@ -3,7 +3,8 @@ import { DNASampleStep } from '@/pages/AuthenticationPage/steps/DNASampleStep/DN
 import { PasswordStep } from './steps/PasswordStep';
 import { BinaryQuestionStep } from './steps/BinaryQuestionStep';
 import { ResetPasswordStep } from './steps/ResetPasswordState.tsx';
-import {VoiceRecognition} from "@/pages/AuthenticationPage/steps/VoiceRecognition.tsx";
+import { ButtonSyncStep } from './steps/ButtonSyncStep';
+import { VoiceRecognition } from '@/pages/AuthenticationPage/steps/VoiceRecognition.tsx';
 
 /**
  * Configure your login steps here.
@@ -19,7 +20,6 @@ import {VoiceRecognition} from "@/pages/AuthenticationPage/steps/VoiceRecognitio
  * Remove it from this array
  */
 export const loginSteps: Step[] = [
-
   {
     id: 'password',
     content: <PasswordStep />,
@@ -37,8 +37,11 @@ export const loginSteps: Step[] = [
     content: <DNASampleStep />,
   },
   {
+    id: 'button-sync',
+    content: <ButtonSyncStep />,
+  },
+  {
     id: 'binary',
     content: <BinaryQuestionStep />,
   },
-
 ];

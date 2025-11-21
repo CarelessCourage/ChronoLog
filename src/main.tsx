@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from '@tanstack/react-router';
+import { ConvexProvider, ConvexReactClient } from 'convex/react';
 import { router } from './router';
 import { Toaster } from '@/components/ui/toaster';
 import { credentials } from '@/lib/credentials';
 import './index.css';
+
+const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string);
 
 interface PostItNote {
   id: number;
@@ -40,11 +43,9 @@ function App() {
   // Subscribe to credential changes and update the login post-it
   useEffect(() => {
     const unsubscribe = credentials.subscribe(() => {
-      setPostIts(prev =>
-        prev.map(postIt =>
-          postIt.id === 1
-            ? { ...postIt, text: credentials.getLoginInfo() }
-            : postIt
+      setPostIts((prev) =>
+        prev.map((postIt) =>
+          postIt.id === 1 ? { ...postIt, text: credentials.getLoginInfo() } : postIt
         )
       );
     });
@@ -132,6 +133,8 @@ function App() {
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <App />
+    <ConvexProvider client={convex}>
+      <App />
+    </ConvexProvider>
   </React.StrictMode>
 );
