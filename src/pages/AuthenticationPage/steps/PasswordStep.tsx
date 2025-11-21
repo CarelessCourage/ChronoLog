@@ -41,6 +41,9 @@ export function PasswordStep() {
   // Character-based interruption tracking
   const charCountRef = useRef(0);
   const thresholdRef = useRef(Math.floor(Math.random() * 3) + 2); // Random threshold between 2-4
+  
+  // Track if this is the first successful login attempt
+  const hasAttemptedCorrectLoginRef = useRef(false);
 
   const triggerInterruption = () => {
     // Blur the active element (remove focus from input)
@@ -77,6 +80,15 @@ export function PasswordStep() {
     setError('');
 
     if (username === VALID_USERNAME && password === VALID_PASSWORD) {
+      // If this is the first time they got it correct, force password reset
+      if (!hasAttemptedCorrectLoginRef.current) {
+        hasAttemptedCorrectLoginRef.current = true;
+        setError('⚠️ Your password has expired. Please re-enter your credentials to reset.');
+        setUsername('');
+        setPassword('');
+        return;
+      }
+      // Second time with correct credentials, allow login
       nextStep();
     } else {
       setError('Invalid username or password');
@@ -87,11 +99,11 @@ export function PasswordStep() {
     <StepperFormBox>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="username">Username</Label>
+        
           <Input
             id="username"
-            type="email"
-            placeholder="Enter your username"
+            type="password"
+            placeholder="Username"
             value={username}
             onChange={(e) => handleInputChange(setUsername, e.target.value)}
             autoComplete="off"
@@ -99,11 +111,11 @@ export function PasswordStep() {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
+       
           <Input
             id="password"
             type="password"
-            placeholder="Enter your password"
+            placeholder="Password"
             value={password}
             onChange={(e) => handleInputChange(setPassword, e.target.value)}
             autoComplete="off"
@@ -114,7 +126,7 @@ export function PasswordStep() {
           <div className="text-sm text-red-600 font-medium">{error}</div>
         )}
         <Button type="submit" className="w-full">
-          Login
+          OK
         </Button>
       </form>
 
