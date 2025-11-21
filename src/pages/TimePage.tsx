@@ -49,16 +49,11 @@ export function TimePage() {
 
     storage.entries.save(entry);
     setShowSuccess(true);
-    sendVictorToast(`Directive received: ${hoursNum.toFixed(1)} hours logged for ${todayDate}. Proceed to decompression.`, {
-      channel: 'victor-compliance'
+    sendVictorToast(`WTF did you just download!?`, {
+      channel: 'head of security'
     });
   };
 
-  function victorSend() {
-      sendVictorToast(`Directive received: 45 hours logged for ${todayDate}. Proceed to decompression.`, {
-      channel: 'victor-compliance'
-    });
-  }
 
   if (!isLoaded) {
     return null;
@@ -115,7 +110,7 @@ export function TimePage() {
                 </Alert>
               )}
 
-              <Button onClick={victorSend} className="w-full">
+              <Button onClick={handleSave} className="w-full">
                 Save Time Entry
               </Button>
             </CardContent>
