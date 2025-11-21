@@ -23,7 +23,7 @@ function SteppedPageContent({ steps }: { steps: Step[] }) {
       {/* Split background */}
       <div className="fixed inset-0 grid grid-cols-[3fr_4fr]">
         <div className="bg-slate-900/5" />
-        <div 
+        <div
           className="bg-cover bg-center"
           style={{ backgroundImage: 'url(/gifs/officeDesk.gif)' }}
         />
@@ -55,4 +55,3 @@ export function SteppedPage({ steps, onComplete }: SteppedPageProps) {
     </StepperProvider>
   );
 }
-
