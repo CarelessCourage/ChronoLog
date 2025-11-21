@@ -17,19 +17,7 @@ import { ResetPasswordStep } from './steps/ResetPasswordState.tsx';
  * Remove it from this array
  */
 export const loginSteps: Step[] = [
-<<<<<<< HEAD
-  {
-    id: 'password',
-    content: <PasswordStep />,
-  },
-  {
-    id: 'identify',
-    content: <DNASampleStep />,
-  },
-  {
-    id: 'binary',
-    content: <BinaryQuestionStep />,
-=======
+
   {
     id: 'password',
     content: <PasswordStep />,
@@ -46,9 +34,5 @@ export const loginSteps: Step[] = [
     id: 'binary',
     content: <BinaryQuestionStep />,
   },
-  {
-    id: 'captcha',
-    content: <CaptchaStep />,
->>>>>>> 7b091a9 (Added reset password)
-  },
+
 ];
