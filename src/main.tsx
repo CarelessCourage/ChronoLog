@@ -24,7 +24,7 @@ const INITIAL_POSTITS: PostItNote[] = [
   },
   {
     id: 2,
-    text: "🍔 Don't forget lunch!\n12:00 - 12:30 PM",
+    text: "🍔 Don't forget lunch!\n10:30 - 11:00 PM",
     x: 320,
     y: 180,
     color: "#fed7aa" // orange
