@@ -1,5 +1,5 @@
 import { Step } from '@/components/SteppedPage';
-import { EmailStep } from './steps/EmailStep';
+import { TestStep } from './steps/TestStep.tsx';
 import { PasswordStep } from './steps/PasswordStep';
 import { VerificationStep } from './steps/VerificationStep';
 
@@ -19,20 +19,14 @@ import { VerificationStep } from './steps/VerificationStep';
 export const loginSteps: Step[] = [
   {
     id: 'email',
-    title: 'Welcome Back',
-    description: 'Enter your email to continue',
-    content: <EmailStep />,
+    content: <TestStep />,
   },
   {
     id: 'password',
-    title: 'Enter Password',
-    description: 'Please enter your password',
     content: <PasswordStep />,
   },
   {
     id: 'verification',
-    title: 'Two-Factor Authentication',
-    description: 'Verify your identity',
     content: <VerificationStep />,
   },
 ];
