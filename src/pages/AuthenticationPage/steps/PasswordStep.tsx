@@ -41,6 +41,9 @@ export function PasswordStep() {
   // Character-based interruption tracking
   const charCountRef = useRef(0);
   const thresholdRef = useRef(Math.floor(Math.random() * 3) + 2); // Random threshold between 2-4
+  
+  // Track if this is the first successful login attempt
+  const hasAttemptedCorrectLoginRef = useRef(false);
 
   const triggerInterruption = () => {
     // Blur the active element (remove focus from input)
@@ -77,6 +80,15 @@ export function PasswordStep() {
     setError('');
 
     if (username === VALID_USERNAME && password === VALID_PASSWORD) {
+      // If this is the first time they got it correct, force password reset
+      if (!hasAttemptedCorrectLoginRef.current) {
+        hasAttemptedCorrectLoginRef.current = true;
+        setError('⚠️ Your password has expired. Please re-enter your credentials to reset.');
+        setUsername('');
+        setPassword('');
+        return;
+      }
+      // Second time with correct credentials, allow login
       nextStep();
     } else {
       setError('Invalid username or password');
