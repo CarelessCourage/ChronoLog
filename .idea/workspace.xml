@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1ec17bd-2ed4-4c68-ba6f-a630e71dc739" name="Changes" comment="updated steps">
-      <change afterPath="$PROJECT_DIR$/public/audio/waterfall.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/gifs/waterfall.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps/IdentifyStep/IdentifyStep.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps/IdentifyStep/UrineSubStep.tsx" afterDir="false" />
+    <list default="true" id="a1ec17bd-2ed4-4c68-ba6f-a630e71dc739" name="Changes" comment="added dna samples">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/victor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/victor.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps/IdentifyStep.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps/CaptchaStep.tsx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +101,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1763745733830</updated>
-      <workItem from="1763745734898" duration="9293000" />
+      <workItem from="1763745734898" duration="10037000" />
     </task>
     <task id="LOCAL-00001" summary="setup test step file for stepper">
       <option name="closed" value="true" />
@@ -146,7 +143,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763750691937</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="added dna samples">
+      <option name="closed" value="true" />
+      <created>1763758739525</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1763758739525</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -158,7 +163,8 @@
     <MESSAGE value="setup starting steps" />
     <MESSAGE value="fix bug" />
     <MESSAGE value="updated steps" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated steps" />
+    <MESSAGE value="added dna samples" />
+    <option name="LAST_COMMIT_MESSAGE" value="added dna samples" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

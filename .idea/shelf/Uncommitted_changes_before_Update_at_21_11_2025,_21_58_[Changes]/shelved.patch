@@ -1,0 +1,361 @@
+Index: src/pages/AuthenticationPage/steps/IdentifyStep.tsx
+===================================================================
+diff --git a/src/pages/AuthenticationPage/steps/IdentifyStep.tsx b/src/pages/AuthenticationPage/steps/IdentifyStep.tsx
+deleted file mode 100644
+--- a/src/pages/AuthenticationPage/steps/IdentifyStep.tsx	(revision 6cd32a5602cb64d560b91f97d18a7078e86cc735)
++++ /dev/null	(revision 6cd32a5602cb64d560b91f97d18a7078e86cc735)
+@@ -1,14 +0,0 @@
+-import { useStepper } from '@/components/StepperProvider';
+-import {StepperFormBox} from "@/components/StepperFormBox.tsx";
+-
+-export function IdentifyStep() {
+-  const {  } = useStepper();
+-
+-
+-  return (
+-      <StepperFormBox>
+-          Identify
+-      </StepperFormBox>
+-  );
+-}
+-
+Index: src/pages/AuthenticationPage/steps.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { Step } from '@/components/SteppedPage';\nimport { IdentifyStep } from './steps/IdentifyStep.tsx';\nimport { PasswordStep } from './steps/PasswordStep';\nimport { CaptchaStep } from './steps/CaptchaStep.tsx';\n\n/**\n * Configure your login steps here.\n * \n * To add a new step:\n * 1. Create a new component in the steps/ folder\n * 2. Import it and add it to this array\n * \n * To reorder steps:\n * Simply change the order in this array\n * \n * To remove a step:\n * Remove it from this array\n */\nexport const loginSteps: Step[] = [\n  {\n    id: 'password',\n    content: <PasswordStep />,\n  },\n  {\n    id: 'identify',\n    content: <IdentifyStep />,\n  },\n  {\n    id: 'captcha',\n    content: <CaptchaStep />,\n  },\n];\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pages/AuthenticationPage/steps.tsx b/src/pages/AuthenticationPage/steps.tsx
+--- a/src/pages/AuthenticationPage/steps.tsx	(revision 6cd32a5602cb64d560b91f97d18a7078e86cc735)
++++ b/src/pages/AuthenticationPage/steps.tsx	(date 1763758664096)
+@@ -1,5 +1,5 @@
+ import { Step } from '@/components/SteppedPage';
+-import { IdentifyStep } from './steps/IdentifyStep.tsx';
++import { DNASampleStep } from '@/pages/AuthenticationPage/steps/DNASampleStep/DNASampleStep.tsx';
+ import { PasswordStep } from './steps/PasswordStep';
+ import { CaptchaStep } from './steps/CaptchaStep.tsx';
+ 
+@@ -18,14 +18,14 @@
+  */
+ export const loginSteps: Step[] = [
+   {
++    id: 'identify',
++    content: <DNASampleStep />,
++  },
++  {
+     id: 'password',
+     content: <PasswordStep />,
+   },
+   {
+-    id: 'identify',
+-    content: <IdentifyStep />,
+-  },
+-  {
+     id: 'captcha',
+     content: <CaptchaStep />,
+   },
+Index: src/pages/AuthenticationPage/steps/DNASampleStep/DNASampleStep.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pages/AuthenticationPage/steps/DNASampleStep/DNASampleStep.tsx b/src/pages/AuthenticationPage/steps/DNASampleStep/DNASampleStep.tsx
+new file mode 100644
+--- /dev/null	(date 1763758664100)
++++ b/src/pages/AuthenticationPage/steps/DNASampleStep/DNASampleStep.tsx	(date 1763758664100)
+@@ -0,0 +1,96 @@
++import { useStepper } from '@/components/StepperProvider.tsx';
++import {StepperFormBox} from "@/components/StepperFormBox.tsx";
++import { useState, useEffect } from "react";
++import {sendVictorToast} from "@/lib/victor.tsx";
++import { Icon } from '@iconify/react';
++import {Button} from "@/components/ui/button.tsx";
++import {UrineSubStep} from "@/pages/AuthenticationPage/steps/DNASampleStep/UrineSubStep.tsx";
++
++export function DNASampleStep() {
++  const { nextStep } = useStepper();
++
++    const [subStep, setSubStep] = useState(0);
++    const [countdown, setCountdown] = useState(5);
++    const [attemptCount, setAttemptCount] = useState(0);
++    const [secondSampleFailed, setSecondSampleFailed] = useState(false);
++
++    useEffect(() => {
++        if (subStep === 0) {
++            // First attempt: 5 seconds total, second+ attempts: 2 seconds total
++            const totalDuration = attemptCount === 0 ? 5000 : 2000;
++            const tickInterval = totalDuration / 5; // Divide by 5 to get 5 ticks
++
++            const timer = setTimeout(() => {
++                setSubStep(1);
++            }, totalDuration);
++
++            const interval = setInterval(() => {
++                setCountdown((prev) => {
++                    if (prev <= 1) {
++                        clearInterval(interval);
++                        return 0;
++                    }
++                    return prev - 1;
++                });
++            }, tickInterval);
++
++            return () => {
++                clearTimeout(timer);
++                clearInterval(interval);
++            };
++        }
++    }, [subStep, attemptCount]);
++
++    useEffect(() => {
++        if(subStep === 2) {
++            setTimeout(() => {
++                sendVictorToast('DO NOT! urinate on company equipment!! This is an HR violation.')
++            }, 4000)
++        }
++    }, [subStep]);
++
++    return (
++      <StepperFormBox>
++          {subStep === 0 && (
++              <>
++                  <div className='text-center'>
++                      System needs a blood sample to verify that you're human.<br /> Please enter a blood sample on your reader.
++                  </div>
++                  <div className="text-4xl font-bold mt-4 text-center">
++                      {countdown}s
++                  </div>
++              </>
++          )}
++          {subStep === 1 && (
++              <>
++                  <div className="flex flex-col items-center gap-4">
++                      <Icon icon="mdi:close-circle" className="text-red-500" width="64" height="64" />
++                      <div>
++                          Human check unsuccessful. Respond faster next time to prove you're really human.
++                      </div>
++                  </div>
++                  <div className="flex gap-4 mt-4 justify-end">
++                      {secondSampleFailed && (
++                          <Button onClick={() => nextStep()}>Try another another method</Button>
++                      )}
++                      {attemptCount >= 1 && (
++                          <Button onClick={() => setSubStep(2)}>Try another method</Button>
++                      )}
++                      <Button onClick={() => {
++                          setCountdown(5);
++                          setAttemptCount(prev => prev + 1);
++                          setSubStep(0);
++                      }}>Try again</Button>
++                  </div>
++              </>
++          )}
++          {subStep === 2 && (
++              <UrineSubStep onTimerExpire={() => {
++                  setSecondSampleFailed(true);
++                  setSubStep(1);
++              }} />
++          )}
++      </StepperFormBox>
++  );
++}
++
+Index: src/pages/AuthenticationPage/steps/DNASampleStep/UrineSubStep.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pages/AuthenticationPage/steps/DNASampleStep/UrineSubStep.tsx b/src/pages/AuthenticationPage/steps/DNASampleStep/UrineSubStep.tsx
+new file mode 100644
+--- /dev/null	(date 1763758586587)
++++ b/src/pages/AuthenticationPage/steps/DNASampleStep/UrineSubStep.tsx	(date 1763758586587)
+@@ -0,0 +1,71 @@
++import {FC, useState, useEffect, useRef} from 'react';
++
++interface UrineSubStepProps {
++    onTimerExpire?: () => void;
++}
++
++export const UrineSubStep: FC<UrineSubStepProps> = ({ onTimerExpire }) => {
++    const [countdown, setCountdown] = useState(30);
++    const [showWaterfall, setShowWaterfall] = useState(false);
++    const audioRef = useRef<HTMLAudioElement | null>(null);
++
++    useEffect(() => {
++        const timer = setTimeout(() => {
++            if (onTimerExpire) {
++                onTimerExpire();
++            }
++        }, 30000);
++
++        const waterfallTimer = setTimeout(() => {
++            setShowWaterfall(true);
++            // Play audio when waterfall appears with looping
++            const audio = new Audio('/audio/waterfall.mp3');
++            audio.loop = true;
++            audioRef.current = audio;
++            audio.play().catch(err => console.error('Error playing audio:', err));
++        }, 15000);
++
++        const interval = setInterval(() => {
++            setCountdown((prev) => {
++                if (prev <= 1) {
++                    clearInterval(interval);
++                    return 0;
++                }
++                return prev - 1;
++            });
++        }, 1000);
++
++        return () => {
++            clearTimeout(timer);
++            clearTimeout(waterfallTimer);
++            clearInterval(interval);
++            // Stop and cleanup audio when component unmounts
++            if (audioRef.current) {
++                audioRef.current.pause();
++                audioRef.current = null;
++            }
++        };
++    }, [onTimerExpire]);
++
++    return (
++        <div className='relative'>
++            {showWaterfall && (
++                <div className="absolute -top-8 left-0 z-10">
++                    <img
++                        src="/gifs/waterfall.gif"
++                        alt="Waterfall"
++                        className="w-32 h-auto rounded-lg"
++                    />
++                </div>
++            )}
++            <div className="text-center">
++                <div>
++                    System needs a urine sample to verify that you're human.<br /> Please enter a urine sample on your reader
++                </div>
++                <div className="text-4xl font-bold mt-4">
++                    {countdown}s
++                </div>
++            </div>
++        </div>
++    );
++};
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"a1ec17bd-2ed4-4c68-ba6f-a630e71dc739\" name=\"Changes\" comment=\"updated steps\">\n      <change beforePath=\"$PROJECT_DIR$/src/pages/AuthenticationPage/steps.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/pages/AuthenticationPage/steps.tsx\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\"><![CDATA[{\n  \"lastFilter\": {\n    \"state\": \"OPEN\",\n    \"assignee\": \"aslakihle\"\n  }\n}]]></component>\n  <component name=\"GithubPullRequestsUISettings\"><![CDATA[{\n  \"selectedUrlAndAccountId\": {\n    \"url\": \"git@github.com:CarelessCourage/ChronoLog.git\",\n    \"accountId\": \"b9d18e25-9ceb-4c2f-ab06-0f97ffb3ed2d\"\n  }\n}]]></component>\n  <component name=\"ProblemsViewState\">\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\n  </component>\n  <component name=\"ProjectColorInfo\"><![CDATA[{\n  \"associatedIndex\": 3\n}]]></component>\n  <component name=\"ProjectId\" id=\"35nVHP17ybdwTlzRqQUjTcx48G8\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"autoscrollFromSource\" value=\"true\" />\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"ModuleVcsDetector.initialDetectionPerformed\": \"true\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"RunOnceActivity.git.unshallow\": \"true\",\n    \"git-widget-placeholder\": \"main\",\n    \"js.debugger.nextJs.config.created.client\": \"true\",\n    \"js.debugger.nextJs.config.created.server\": \"true\",\n    \"node.js.detected.package.eslint\": \"true\",\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\n    \"nodejs_package_manager_path\": \"bun\",\n    \"settings.editor.selected.configurable\": \"preferences.sourceCode.TypeScript\",\n    \"ts.external.directory.path\": \"/Users/aslak.ihle/code/hackathon-ydalir/ChronoLog/node_modules/typescript/lib\",\n    \"vue.rearranger.settings.migration\": \"true\"\n  }\n}]]></component>\n  <component name=\"RunManager\" selected=\"npm.Next.js: server-side\">\n    <configuration name=\"Next.js: debug client-side\" type=\"JavascriptDebugType\" uri=\"http://localhost:3000/\">\n      <method v=\"2\" />\n    </configuration>\n    <configuration name=\"Next.js: server-side\" type=\"js.build_tools.npm\">\n      <package-json value=\"$PROJECT_DIR$/package.json\" />\n      <command value=\"run\" />\n      <scripts>\n        <script value=\"dev\" />\n      </scripts>\n      <node-interpreter value=\"project\" />\n      <envs />\n      <method v=\"2\" />\n    </configuration>\n  </component>\n  <component name=\"SharedIndexes\">\n    <attachedChunks>\n      <set>\n        <option value=\"bundled-js-predefined-d6986cc7102b-a71380e98a7c-JavaScript-WS-252.28238.10\" />\n      </set>\n    </attachedChunks>\n  </component>\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"a1ec17bd-2ed4-4c68-ba6f-a630e71dc739\" name=\"Changes\" comment=\"\" />\n      <created>1763745733830</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1763745733830</updated>\n      <workItem from=\"1763745734898\" duration=\"2829000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"setup test step file for stepper\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1763750234263</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1763750234263</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"setup starting steps\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1763750432769</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1763750432769</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"fix bug\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1763750560717</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1763750560717</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"updated steps\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1763750677466</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1763750677466</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"5\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"setup test step file with\" />\n    <MESSAGE value=\"setup test step file for stepper\" />\n    <MESSAGE value=\"setup starting steps\" />\n    <MESSAGE value=\"fix bug\" />\n    <MESSAGE value=\"updated steps\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"updated steps\" />\n  </component>\n  <component name=\"github-copilot-workspace\">\n    <instructionFileLocations>\n      <option value=\".github/instructions\" />\n    </instructionFileLocations>\n    <promptFileLocations>\n      <option value=\".github/prompts\" />\n    </promptFileLocations>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 6cd32a5602cb64d560b91f97d18a7078e86cc735)
++++ b/.idea/workspace.xml	(date 1763758488956)
+@@ -5,7 +5,13 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="a1ec17bd-2ed4-4c68-ba6f-a630e71dc739" name="Changes" comment="updated steps">
++      <change afterPath="$PROJECT_DIR$/public/audio/waterfall.mp3" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/public/gifs/waterfall.gif" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps/IdentifyStep/IdentifyStep.tsx" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps/IdentifyStep/UrineSubStep.tsx" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps.tsx" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps/IdentifyStep.tsx" beforeDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -15,25 +21,28 @@
+   <component name="Git.Settings">
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
+-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+-  "lastFilter": {
+-    "state": "OPEN",
+-    "assignee": "aslakihle"
++  <component name="GitHubPullRequestSearchHistory">{
++  &quot;lastFilter&quot;: {
++    &quot;state&quot;: &quot;OPEN&quot;,
++    &quot;assignee&quot;: &quot;aslakihle&quot;
+   }
+-}]]></component>
+-  <component name="GithubPullRequestsUISettings"><![CDATA[{
+-  "selectedUrlAndAccountId": {
+-    "url": "git@github.com:CarelessCourage/ChronoLog.git",
+-    "accountId": "b9d18e25-9ceb-4c2f-ab06-0f97ffb3ed2d"
++}</component>
++  <component name="GithubPullRequestsUISettings">{
++  &quot;selectedUrlAndAccountId&quot;: {
++    &quot;url&quot;: &quot;git@github.com:CarelessCourage/ChronoLog.git&quot;,
++    &quot;accountId&quot;: &quot;b9d18e25-9ceb-4c2f-ab06-0f97ffb3ed2d&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="ProblemsViewState">
+     <option name="selectedTabId" value="CurrentFile" />
+   </component>
+-  <component name="ProjectColorInfo"><![CDATA[{
+-  "associatedIndex": 3
+-}]]></component>
++  <component name="ProjectColorInfo">{
++  &quot;associatedIndex&quot;: 3
++}</component>
+   <component name="ProjectId" id="35nVHP17ybdwTlzRqQUjTcx48G8" />
++  <component name="ProjectLevelVcsManager">
++    <OptionsSetting value="false" id="Update" />
++  </component>
+   <component name="ProjectViewState">
+     <option name="autoscrollFromSource" value="true" />
+     <option name="hideEmptyMiddlePackages" value="true" />
+@@ -47,6 +56,7 @@
+     "git-widget-placeholder": "main",
+     "js.debugger.nextJs.config.created.client": "true",
+     "js.debugger.nextJs.config.created.server": "true",
++    "last_opened_file_path": "/Users/aslak.ihle/code/hackathon-ydalir/ChronoLog/public/audio",
+     "node.js.detected.package.eslint": "true",
+     "node.js.selected.package.eslint": "(autodetect)",
+     "node.js.selected.package.tslint": "(autodetect)",
+@@ -56,6 +66,15 @@
+     "vue.rearranger.settings.migration": "true"
+   }
+ }]]></component>
++  <component name="RecentsManager">
++    <key name="CopyFile.RECENT_KEYS">
++      <recent name="$PROJECT_DIR$/public/audio" />
++      <recent name="$PROJECT_DIR$/public/gifs" />
++    </key>
++    <key name="MoveFile.RECENT_KEYS">
++      <recent name="$PROJECT_DIR$/src/pages/AuthenticationPage/steps/IdentifyStep" />
++    </key>
++  </component>
+   <component name="RunManager" selected="npm.Next.js: server-side">
+     <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
+       <method v="2" />
+@@ -85,7 +104,7 @@
+       <option name="number" value="Default" />
+       <option name="presentableId" value="Default" />
+       <updated>1763745733830</updated>
+-      <workItem from="1763745734898" duration="2829000" />
++      <workItem from="1763745734898" duration="9293000" />
+     </task>
+     <task id="LOCAL-00001" summary="setup test step file for stepper">
+       <option name="closed" value="true" />
+@@ -119,7 +138,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1763750677466</updated>
+     </task>
+-    <option name="localTasksCounter" value="5" />
++    <task id="LOCAL-00005" summary="updated steps">
++      <option name="closed" value="true" />
++      <created>1763750691937</created>
++      <option name="number" value="00005" />
++      <option name="presentableId" value="LOCAL-00005" />
++      <option name="project" value="LOCAL" />
++      <updated>1763750691937</updated>
++    </task>
++    <option name="localTasksCounter" value="6" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
