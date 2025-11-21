@@ -1,6 +1,7 @@
 import { Outlet } from '@tanstack/react-router';
 import { createRootRoute, createRoute, createRouter } from '@tanstack/react-router';
 import { createBrowserHistory } from '@tanstack/history';
+import { IndexPage } from '@/pages/IndexPage';
 import { AuthenticationPage } from '@/pages/AuthenticationPage';
 import { TimePage } from '@/pages/TimePage';
 import { FiredPage } from '@/pages/FiredPage';
@@ -14,36 +15,38 @@ const RootLayout = () => (
 );
 
 const rootRoute = createRootRoute({
-  component: RootLayout
+  component: RootLayout,
 });
 
-const homeRoute = createRoute({
+const indexRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/',
+  component: IndexPage,
+});
+
+const loginRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/login',
-  component: AuthenticationPage
+  component: AuthenticationPage,
 });
 
 const timeRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: 'time',
-  component: TimePage
+  component: TimePage,
 });
 
 const firedRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: 'fired',
-  component: FiredPage
+  component: FiredPage,
 });
 
-const routeTree = rootRoute.addChildren([
-  homeRoute,
-  timeRoute,
-  firedRoute
-]);
+const routeTree = rootRoute.addChildren([indexRoute, loginRoute, timeRoute, firedRoute]);
 
 export const router = createRouter({
   routeTree,
-  history: createBrowserHistory()
+  history: createBrowserHistory(),
 });
 
 declare module '@tanstack/react-router' {

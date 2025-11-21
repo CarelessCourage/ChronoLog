@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from '@tanstack/react-router';
 import { router } from './router';
@@ -20,43 +20,59 @@ const INITIAL_POSTITS: PostItNote[] = [
     text: credentials.getLoginInfo(),
     x: 120,
     y: 150,
-    color: "#fef08a" // yellow
+    color: '#fef08a', // yellow
   },
   {
     id: 2,
     text: "🍔 Don't forget lunch!\n10:30 - 11:00 PM",
     x: 320,
     y: 180,
-    color: "#fed7aa" // orange
-  }
+    color: '#fed7aa', // orange
+  },
 ];
 
 function App() {
   const [postIts, setPostIts] = useState<PostItNote[]>(INITIAL_POSTITS);
   const [draggingId, setDraggingId] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+
+  // Subscribe to credential changes and update the login post-it
+  useEffect(() => {
+    const unsubscribe = credentials.subscribe(() => {
+      setPostIts(prev =>
+        prev.map(postIt =>
+          postIt.id === 1
+            ? { ...postIt, text: credentials.getLoginInfo() }
+            : postIt
+        )
+      );
+    });
+
+    return unsubscribe;
+  }, []);
 
   const handleMouseDown = (id: number, e: React.MouseEvent) => {
-    const postIt = postIts.find(p => p.id === id);
+    const postIt = postIts.find((p) => p.id === id);
     if (!postIt) return;
-    
+
     setDraggingId(id);
     setDragOffset({
       x: e.clientX - postIt.x,
-      y: e.clientY - postIt.y
+      y: e.clientY - postIt.y,
     });
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (draggingId === null) return;
-    
-    setPostIts(prev =>
-      prev.map(postIt =>
+
+    setPostIts((prev) =>
+      prev.map((postIt) =>
         postIt.id === draggingId
           ? {
               ...postIt,
               x: e.clientX - dragOffset.x,
-              y: e.clientY - dragOffset.y
+              y: e.clientY - dragOffset.y,
             }
           : postIt
       )
@@ -67,34 +83,42 @@ function App() {
     setDraggingId(null);
   };
 
+  // Track route changes
+  React.useEffect(() => {
+    const handleRouteChange = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    window.addEventListener('popstate', handleRouteChange);
+    return () => window.removeEventListener('popstate', handleRouteChange);
+  }, []);
+
+  const showPostIts = currentPath !== '/';
+
   return (
-    <div
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      className="relative"
-    >
+    <div onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} className="relative">
       <RouterProvider router={router} />
       <Toaster />
-      
-      {/* Post-it Notes */}
-      {postIts.map(postIt => (
-        <div
-          key={postIt.id}
-          className="fixed w-48 p-4 shadow-lg cursor-move select-none z-50 font-normal"
-          style={{
-            left: `${postIt.x}px`,
-            top: `${postIt.y}px`,
-            backgroundColor: postIt.color,
-            transform: `rotate(${postIt.id % 2 === 0 ? '-2deg' : '2deg'})`,
-            boxShadow: '2px 2px 8px rgba(0,0,0,0.15)',
-          }}
-          onMouseDown={(e) => handleMouseDown(postIt.id, e)}
-        >
-          <div className="text-sm text-slate-800 whitespace-pre-line leading-relaxed">
-            {postIt.text}
+
+      {/* Post-it Notes - Hidden on intro screen */}
+      {showPostIts &&
+        postIts.map((postIt) => (
+          <div
+            key={postIt.id}
+            className="fixed w-48 p-4 shadow-lg cursor-move select-none z-50 font-normal"
+            style={{
+              left: `${postIt.x}px`,
+              top: `${postIt.y}px`,
+              backgroundColor: postIt.color,
+              transform: `rotate(${postIt.id % 2 === 0 ? '-2deg' : '2deg'})`,
+              boxShadow: '2px 2px 8px rgba(0,0,0,0.15)',
+            }}
+            onMouseDown={(e) => handleMouseDown(postIt.id, e)}
+          >
+            <div className="text-sm text-slate-800 whitespace-pre-line leading-relaxed">
+              {postIt.text}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </div>
   );
 }

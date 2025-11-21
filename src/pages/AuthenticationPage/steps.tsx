@@ -2,6 +2,7 @@ import { Step } from '@/components/SteppedPage';
 import { DNASampleStep } from '@/pages/AuthenticationPage/steps/DNASampleStep/DNASampleStep.tsx';
 import { PasswordStep } from './steps/PasswordStep';
 import { BinaryQuestionStep } from './steps/BinaryQuestionStep';
+import { ResetPasswordStep } from './steps/ResetPasswordState.tsx';
 import {VoiceRecognition} from "@/pages/AuthenticationPage/steps/VoiceRecognition.tsx";
 
 /**
@@ -18,6 +19,15 @@ import {VoiceRecognition} from "@/pages/AuthenticationPage/steps/VoiceRecognitio
  * Remove it from this array
  */
 export const loginSteps: Step[] = [
+
+  {
+    id: 'password',
+    content: <PasswordStep />,
+  },
+  {
+    id: 'reset-password',
+    content: <ResetPasswordStep />,
+  },
   {
     id: 'voicerecognition',
     content: <VoiceRecognition />,
@@ -34,4 +44,5 @@ export const loginSteps: Step[] = [
     id: 'binary',
     content: <BinaryQuestionStep />,
   },
+
 ];
