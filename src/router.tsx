@@ -1,8 +1,7 @@
 import { Outlet } from '@tanstack/react-router';
 import { createRootRoute, createRoute, createRouter } from '@tanstack/react-router';
 import { createBrowserHistory } from '@tanstack/history';
-import { HomePage } from '@/pages/HomePage';
-import { LoginPage } from '@/pages/LoginPage';
+import { StepperPage } from '@/pages/LoginPage';
 import { TimePage } from '@/pages/TimePage';
 import { FiredPage } from '@/pages/FiredPage';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
@@ -21,13 +20,7 @@ const rootRoute = createRootRoute({
 const homeRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
-  component: HomePage
-});
-
-const loginRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: 'login',
-  component: LoginPage
+  component: StepperPage
 });
 
 const timeRoute = createRoute({
@@ -44,7 +37,6 @@ const firedRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
   homeRoute,
-  loginRoute,
   timeRoute,
   firedRoute
 ]);
