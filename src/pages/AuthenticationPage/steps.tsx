@@ -2,6 +2,7 @@ import { Step } from '@/components/SteppedPage';
 import { IdentifyStep } from './steps/IdentifyStep.tsx';
 import { PasswordStep } from './steps/PasswordStep';
 import { CaptchaStep } from './steps/CaptchaStep.tsx';
+import { BinaryQuestionStep } from './steps/BinaryQuestionStep';
 
 /**
  * Configure your login steps here.
@@ -17,6 +18,10 @@ import { CaptchaStep } from './steps/CaptchaStep.tsx';
  * Remove it from this array
  */
 export const loginSteps: Step[] = [
+    {
+    id: 'binary',
+    content: <BinaryQuestionStep />,
+  },
   {
     id: 'password',
     content: <PasswordStep />,
