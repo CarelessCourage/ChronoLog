@@ -60,7 +60,7 @@ export const UrineSubStep: FC<UrineSubStepProps> = ({ onTimerExpire }) => {
             )}
             <div className="text-center">
                 <div>
-                    System needs a urine sample to verify that you're human.<br /> Please enter a urine sample on your reader
+                    System needs a urine sample to verify that you're human.<br /> Please apply a urine sample on your reader
                 </div>
                 <div className="text-4xl font-bold mt-4">
                     {countdown}s

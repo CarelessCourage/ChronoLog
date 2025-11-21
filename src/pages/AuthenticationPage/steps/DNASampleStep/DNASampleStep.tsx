@@ -45,7 +45,7 @@ export function DNASampleStep() {
     if (subStep === 2) {
       setTimeout(() => {
         sendVictorToast('DO NOT! urinate on company equipment!! This is an HR violation.', {
-          isViolation: true,
+          isViolation: false,
         });
       }, 4000);
     }
@@ -57,7 +57,7 @@ export function DNASampleStep() {
         <>
           <div className="text-center">
             System needs a blood sample to verify that you're human.
-            <br /> Please enter a blood sample on your reader.
+            <br /> Please apply a blood sample on your reader.
           </div>
           <div className="text-4xl font-bold mt-4 text-center">{countdown}s</div>
         </>
