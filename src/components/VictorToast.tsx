@@ -1,3 +1,4 @@
+import { Icon } from '@iconify/react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 interface VictorToastContentProps {
@@ -16,8 +17,10 @@ export function VictorToastContent({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-start gap-3">
-        <Avatar className="h-9 w-9 border border-slate-200 bg-emerald-50 text-emerald-600">
-          <AvatarFallback className="text-sm font-semibold tracking-wide">VB</AvatarFallback>
+        <Avatar className="h-9 w-9 border border-slate-200 bg-emerald-50 text-emerald-600 flex items-center justify-center">
+          <AvatarFallback className="bg-transparent">
+            <Icon icon="logos:slack-icon" width="20" height="20" />
+          </AvatarFallback>
         </Avatar>
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-baseline gap-2">
