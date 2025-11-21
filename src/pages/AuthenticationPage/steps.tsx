@@ -2,6 +2,7 @@ import { Step } from '@/components/SteppedPage';
 import { PasswordStep } from './steps/PasswordStep';
 import { BinaryQuestionStep } from './steps/BinaryQuestionStep';
 import { ResetPasswordStep } from './steps/ResetPasswordState.tsx';
+import { ButtonSyncStep } from './steps/ButtonSyncStep';
 
 /**
  * Configure your login steps here.
@@ -29,6 +30,10 @@ export const loginSteps: Step[] = [
   {
     id: 'password',
     content: <PasswordStep />,
+  },
+  {
+    id: 'button-sync',
+    content: <ButtonSyncStep />,
   },
   {
     id: 'binary',

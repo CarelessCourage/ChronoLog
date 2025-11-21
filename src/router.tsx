@@ -5,6 +5,7 @@ import { IndexPage } from '@/pages/IndexPage';
 import { AuthenticationPage } from '@/pages/AuthenticationPage';
 import { TimePage } from '@/pages/TimePage';
 import { FiredPage } from '@/pages/FiredPage';
+import { ButtonPage } from '@/pages/ButtonPage';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 
 const RootLayout = () => (
@@ -42,7 +43,13 @@ const firedRoute = createRoute({
   component: FiredPage,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, loginRoute, timeRoute, firedRoute]);
+const buttonRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: 'button',
+  component: ButtonPage,
+});
+
+const routeTree = rootRoute.addChildren([indexRoute, loginRoute, timeRoute, firedRoute, buttonRoute]);
 
 export const router = createRouter({
   routeTree,
