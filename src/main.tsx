@@ -27,7 +27,7 @@ const INITIAL_POSTITS: PostItNote[] = [
   },
   {
     id: 2,
-    text: "🍔 Don't forget lunch!\n10:30 - 11:00 PM",
+    text: "🍔 Don't forget lunch!\n12:00 - 12:30 PM",
     x: 320,
     y: 180,
     color: '#fed7aa', // orange
@@ -123,10 +123,12 @@ function App() {
 
   return (
     <div onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} className="relative">
-      <RouterProvider router={router} />
+      <ConvexProvider client={convex}>
+        <RouterProvider router={router} />
+      </ConvexProvider>
       <Toaster />
 
-      {/* Post-it Notes - Hidden on intro screen */}
+      {/* Post-it Notes */}
       {showPostIts &&
         postIts.map((postIt) => (
           <div
@@ -152,8 +154,6 @@ function App() {
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <ConvexProvider client={convex}>
-      <App />
-    </ConvexProvider>
+    <App />
   </React.StrictMode>
 );

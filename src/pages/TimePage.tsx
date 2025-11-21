@@ -114,8 +114,10 @@ export function TimePage() {
 
   const [data, setData] = useState<TimeSheetRow[]>(initialData);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [validationError, setValidationError] = useState('');
 
   const updateHours = (project: string, day: string, hours: number) => {
+    setValidationError(''); // Clear any existing errors
     setData((prev) =>
       prev.map((row) => {
         if (row.project === project) {
@@ -128,10 +130,30 @@ export function TimePage() {
   };
 
   const handleSubmit = () => {
+    // Validate each day has exactly 7.5 hours
+    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'] as const;
+    const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    
+    for (let i = 0; i < days.length; i++) {
+      const day = days[i];
+      const dayName = dayNames[i];
+      const dayTotal = data.reduce((sum, row) => sum + (row[day] || 0), 0);
+      
+      if (dayTotal > 7.5) {
+        sendVictorToast(` Overtime!? Nonono, refer to the shadow account excel system`, { isViolation: true });
+        return;
+      } else if (dayTotal < 7.5) {
+        sendVictorToast(` What about the faktureringsgrad!?`, { isViolation: true });
+    
+        return;
+      }
+    }
+
     const totalHours = data.reduce((sum, row) => {
       return sum + row.monday + row.tuesday + row.wednesday + row.thursday + row.friday;
     }, 0);
 
+    setValidationError(''); // Clear any errors
     setShowSuccess(true);
     sendVictorToast(
       `Timesheet submitted: ${totalHours.toFixed(1)} hours logged this week. Compliance pending review.`,
@@ -246,6 +268,12 @@ export function TimePage() {
                   </tbody>
                 </table>
               </div>
+
+              {validationError && (
+                <div className="mt-4 p-4 bg-red-100 border-2 border-red-500 text-red-800 font-medium text-center win98-inset">
+                  {validationError}
+                </div>
+              )}
 
               <div className="mt-6 flex justify-end">
                 <Button

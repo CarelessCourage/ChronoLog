@@ -11,6 +11,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import {sendVictorToast} from "@/lib/victor.tsx";
 
 export function BinaryQuestionStep() {
   const { nextStep } = useStepper();
@@ -85,7 +86,11 @@ export function BinaryQuestionStep() {
             <AlertDialogDescription>{dialogMessage}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogAction onClick={() => setIsDialogOpen(false)}>OK</AlertDialogAction>
+            <AlertDialogAction onClick={() => {
+                setIsDialogOpen(false)
+                sendVictorToast('...so are you actually an AI?', {
+                isViolation: true,
+            })}}>OK</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
