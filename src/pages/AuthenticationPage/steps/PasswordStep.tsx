@@ -3,7 +3,7 @@ import {StepperFormBox} from "@/components/StepperFormBox.tsx";
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { useState, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,14 +20,14 @@ const VALID_PASSWORD = 'Compliance2024!';
 
 // Random interruption messages
 const INTERRUPTION_MESSAGES = [
-  '⚠️ Your session will expire soon!',
-  '🔔 New notification: Please verify your identity',
-  '⏰ Reminder: Update your security settings',
-  '📧 You have unread messages',
-  '🔒 Security alert: Unusual login attempt detected',
-  '💬 System message: Please complete verification',
-  '⚡ Action required: Confirm your email address',
-  '🎯 Important: Review your account settings',
+  'Your session will expire soon!',
+  'New notification: Please verify your identity',
+  'Reminder: Update your security settings',
+  'You have unread messages',
+  'Security alert: Unusual login attempt detected',
+  'System message: Please complete verification',
+  'Action required: Confirm your email address',
+  'Important: Review your account settings',
 ];
 
 export function PasswordStep() {
@@ -37,38 +37,40 @@ export function PasswordStep() {
   const [error, setError] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogMessage, setDialogMessage] = useState('');
+  
+  // Character-based interruption tracking
+  const charCountRef = useRef(0);
+  const thresholdRef = useRef(Math.floor(Math.random() * 3) + 2); // Random threshold between 2-4
 
-  // Random interruption feature
-  useEffect(() => {
-    const scheduleRandomInterruption = () => {
-      // Random interval between 5-10 seconds
-      const randomDelay = Math.floor(Math.random() * (10000 - 5000 + 1)) + 5000;
-      
-      const timeoutId = setTimeout(() => {
-        // Blur the active element (remove focus from input)
-        if (document.activeElement instanceof HTMLElement) {
-          document.activeElement.blur();
-        }
-        
-        // Show random alert message
-        const randomMessage = INTERRUPTION_MESSAGES[
-          Math.floor(Math.random() * INTERRUPTION_MESSAGES.length)
-        ];
-        setDialogMessage(randomMessage);
-        setIsDialogOpen(true);
-        
-        // Schedule next interruption
-        scheduleRandomInterruption();
-      }, randomDelay);
-      
-      return timeoutId;
-    };
+  const triggerInterruption = () => {
+    // Blur the active element (remove focus from input)
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
     
-    const timeoutId = scheduleRandomInterruption();
+    // Show random alert message
+    const randomMessage = INTERRUPTION_MESSAGES[
+      Math.floor(Math.random() * INTERRUPTION_MESSAGES.length)
+    ];
+    setDialogMessage(randomMessage);
+    setIsDialogOpen(true);
     
-    // Cleanup on unmount
-    return () => clearTimeout(timeoutId);
-  }, []);
+    // Reset counter and set new random threshold
+    charCountRef.current = 0;
+    thresholdRef.current = Math.floor(Math.random() * 5) + 2; // New threshold between 2-4
+  };
+
+  const handleInputChange = (setter: (value: string) => void, value: string) => {
+    setter(value);
+    
+    // Increment character count
+    charCountRef.current += 1;
+    
+    // Check if we've reached the threshold
+    if (charCountRef.current >= thresholdRef.current) {
+      triggerInterruption();
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,7 +93,7 @@ export function PasswordStep() {
             type="email"
             placeholder="Enter your username"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => handleInputChange(setUsername, e.target.value)}
             autoComplete="off"
             required
           />
@@ -103,8 +105,8 @@ export function PasswordStep() {
             type="password"
             placeholder="Enter your password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="new-password"
+            onChange={(e) => handleInputChange(setPassword, e.target.value)}
+            autoComplete="off"
             required
           />
         </div>
