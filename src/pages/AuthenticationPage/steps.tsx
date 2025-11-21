@@ -1,7 +1,7 @@
 import { Step } from '@/components/SteppedPage';
 import { TestStep } from './steps/TestStep.tsx';
 import { PasswordStep } from './steps/PasswordStep';
-import { VerificationStep } from './steps/VerificationStep';
+import { CaptchaStep } from 'src/pages/AuthenticationPage/steps/CaptchaStep.tsx';
 
 /**
  * Configure your login steps here.
@@ -27,7 +27,7 @@ export const loginSteps: Step[] = [
   },
   {
     id: 'verification',
-    content: <VerificationStep />,
+    content: <CaptchaStep />,
   },
 ];
 

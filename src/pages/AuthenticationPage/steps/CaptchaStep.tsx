@@ -1,14 +1,11 @@
 import { useStepper } from '@/components/StepperProvider';
 import {StepperFormBox} from "@/components/StepperFormBox.tsx";
 
-export function TestStep() {
-  const {  } = useStepper();
-
+export function CaptchaStep() {
+  const { nextStep, previousStep, isLastStep } = useStepper();
 
   return (
-      <StepperFormBox>
-          Identify
-      </StepperFormBox>
+    <StepperFormBox>Captcha</StepperFormBox>
   );
 }
 
