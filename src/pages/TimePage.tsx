@@ -1,6 +1,4 @@
-'use client';
-
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { storage, TimeEntry } from '@/lib/storage';
 import { TopBar } from '@/components/TopBar';
 import { Button } from '@/components/ui/button';
@@ -14,7 +12,7 @@ function getTodayDate(): string {
   return today.toISOString().split('T')[0];
 }
 
-export default function TimePage() {
+export function TimePage() {
   const todayDate = getTodayDate();
   const [description, setDescription] = useState('Regular work day');
   const [hours, setHours] = useState('7.5');

@@ -1,15 +1,13 @@
-'use client';
-
-import { useRouter } from 'next/navigation';
+import { useNavigate } from '@tanstack/react-router';
 import { storage } from '@/lib/storage';
 import { Button } from '@/components/ui/button';
 
 export function TopBar() {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     storage.auth.logout();
-    router.push('/login');
+    navigate({ to: '/login', replace: true });
   };
 
   return (
