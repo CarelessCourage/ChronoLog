@@ -144,7 +144,7 @@ export function TimePage() {
       columnHelper.accessor('project', {
         header: 'Project',
         cell: info => (
-          <div className="font-medium text-slate-900 whitespace-nowrap px-4 py-2">
+          <div className="font-medium text-gray-800 whitespace-nowrap px-4 py-2 tracking-wide">
             {info.getValue()}
           </div>
         )
@@ -153,8 +153,8 @@ export function TimePage() {
         columnHelper.accessor(day.toLowerCase() as keyof TimeSheetRow, {
           header: () => (
             <div className="text-center">
-              <div className="font-semibold">{day.slice(0, 3)}</div>
-              <div className="text-xs text-slate-500">{date.slice(5)}</div>
+              <div className="font-semibold text-gray-800">{day.slice(0, 3).toUpperCase()}</div>
+              <div className="text-xs text-gray-600">{date.slice(5)}</div>
             </div>
           ),
           cell: info => (
@@ -169,7 +169,7 @@ export function TimePage() {
                 updateHours(info.row.original.project, day, val);
               }}
               disabled={isLocked(day)}
-              className="w-20 text-center"
+              className="w-20 text-center win98-inset bg-white text-gray-900 border-gray-500 font-bold disabled:opacity-50 disabled:text-gray-500 disabled:bg-gray-100"
             />
           )
         })
@@ -185,22 +185,22 @@ export function TimePage() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-gray-300 via-gray-200 to-gray-300">
       <TopBar />
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-7xl mx-auto space-y-6">
-          <Card className="shadow-lg">
-            <CardHeader>
-              <CardTitle>Weekly Timesheet</CardTitle>
+          <Card className="shadow-lg win98-outset bg-white border-gray-600">
+            <CardHeader className="border-b-4 border-gray-400">
+              <CardTitle className="text-gray-800 tracking-wider">WEEKLY TIMESHEET</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse">
                   <thead>
                     {table.getHeaderGroups().map(headerGroup => (
-                      <tr key={headerGroup.id} className="border-b bg-slate-50">
+                      <tr key={headerGroup.id} className="border-b-4 border-gray-400 bg-gray-200">
                         {headerGroup.headers.map(header => (
-                          <th key={header.id} className="p-3 text-slate-700">
+                          <th key={header.id} className="p-3 text-gray-800 font-bold tracking-wide">
                             {header.isPlaceholder
                               ? null
                               : flexRender(header.column.columnDef.header, header.getContext())}
@@ -211,7 +211,7 @@ export function TimePage() {
                   </thead>
                   <tbody>
                     {table.getRowModel().rows.map(row => (
-                      <tr key={row.id} className="border-b hover:bg-slate-50">
+                      <tr key={row.id} className="border-b-2 border-gray-300 hover:bg-gray-100 transition-colors">
                         {row.getVisibleCells().map(cell => (
                           <td key={cell.id} className="p-2">
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -224,8 +224,8 @@ export function TimePage() {
               </div>
 
               <div className="mt-6 flex justify-end">
-                <Button onClick={handleSubmit} size="lg">
-                  Submit Timesheet
+                <Button onClick={handleSubmit} size="lg" className="win98-outset bg-gray-300 hover:bg-gray-400 text-gray-900 font-bold tracking-wider">
+                  SUBMIT TIMESHEET
                 </Button>
               </div>
             </CardContent>
@@ -234,29 +234,29 @@ export function TimePage() {
       </div>
 
       <Dialog open={showSuccess} onOpenChange={setShowSuccess}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md win98-outset bg-white border-gray-600">
           <DialogHeader>
-            <DialogTitle className="text-center text-2xl font-semibold">
-              Time logged. Compliance achieved.
+            <DialogTitle className="text-center text-2xl font-semibold text-gray-800 tracking-wider">
+              TIME LOGGED. COMPLIANCE ACHIEVED.
             </DialogTitle>
             <DialogDescription className="space-y-3 pt-4">
-              <p className="text-sm uppercase tracking-[0.3em] text-slate-500 text-center">
+              <p className="text-sm uppercase tracking-[0.3em] text-gray-600 text-center">
                 ChronoLog Directive
               </p>
-              <p className="text-slate-600 text-center">
+              <p className="text-gray-700 text-center">
                 Your 7.5 hours have been recorded in accordance with Section 12.4 of the Time Compliance Policy.
               </p>
-              <p className="text-slate-500 text-center">
+              <p className="text-gray-700 text-center">
                 Thank you for your punctual cooperation. You are now authorized to temporarily detach from your workstation. Enjoy your limited personal time responsibly.
               </p>
-              <p className="text-sm text-slate-400 text-center">
+              <p className="text-sm text-gray-500 text-center">
                 You will be reminded to repeat this ceremony tomorrow.
               </p>
             </DialogDescription>
           </DialogHeader>
           <div className="flex justify-center mt-4">
-            <Button onClick={() => setShowSuccess(false)} className="w-full sm:w-auto">
-              Back to time writing
+            <Button onClick={() => setShowSuccess(false)} className="w-full sm:w-auto win98-outset bg-gray-300 hover:bg-gray-400 text-gray-900 font-bold tracking-wider">
+              BACK TO TIME WRITING
             </Button>
           </div>
         </DialogContent>
