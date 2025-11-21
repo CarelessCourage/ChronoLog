@@ -43,9 +43,13 @@ export function PasswordStep() {
   // Track if this is the first successful login attempt
   const hasAttemptedCorrectLoginRef = useRef(false);
 
+  // Track the previously focused element
+  const previouslyFocusedElementRef = useRef<HTMLElement | null>(null);
+
   const triggerInterruption = () => {
-    // Blur the active element (remove focus from input)
+    // Store the currently focused element before blur
     if (document.activeElement instanceof HTMLElement) {
+      previouslyFocusedElementRef.current = document.activeElement;
       document.activeElement.blur();
     }
 
@@ -58,6 +62,17 @@ export function PasswordStep() {
     // Reset counter and set new random threshold
     charCountRef.current = 0;
     thresholdRef.current = Math.floor(Math.random() * 5) + 2; // New threshold between 2-4
+  };
+
+  const handleDialogClose = () => {
+    setIsDialogOpen(false);
+    // Restore focus to the previously focused element
+    setTimeout(() => {
+      if (previouslyFocusedElementRef.current) {
+        previouslyFocusedElementRef.current.focus();
+        previouslyFocusedElementRef.current = null;
+      }
+    }, 0);
   };
 
   const handleInputChange = (setter: (value: string) => void, value: string) => {
@@ -116,14 +131,16 @@ export function PasswordStep() {
         </Button>
       </form>
 
-      <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <AlertDialog open={isDialogOpen} onOpenChange={handleDialogClose}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>System Notification</AlertDialogTitle>
             <AlertDialogDescription>{dialogMessage}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogAction onClick={() => setIsDialogOpen(false)}>OK</AlertDialogAction>
+            <AlertDialogAction autoFocus onClick={handleDialogClose}>
+              OK
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
