@@ -40,14 +40,34 @@ function App() {
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
 
-  // Subscribe to credential changes and update the login post-it
+  // Subscribe to credential changes and add new login post-it
   useEffect(() => {
+    let previousEmail = credentials.getEmail();
+
     const unsubscribe = credentials.subscribe(() => {
-      setPostIts((prev) =>
-        prev.map((postIt) =>
-          postIt.id === 1 ? { ...postIt, text: credentials.getLoginInfo() } : postIt
-        )
-      );
+      const currentEmail = credentials.getEmail();
+
+      // If email changed, it's a new identity - add a new post-it
+      if (currentEmail !== previousEmail) {
+        setPostIts((prev) => [
+          ...prev,
+          {
+            id: Date.now(), // Use timestamp as unique ID
+            text: credentials.getLoginInfo(),
+            x: 120 + prev.length * 30, // Offset each new post-it
+            y: 150 + prev.length * 30,
+            color: '#fef08a', // yellow
+          },
+        ]);
+        previousEmail = currentEmail;
+      } else {
+        // Password changed but not email - update existing post-it
+        setPostIts((prev) =>
+          prev.map((postIt) =>
+            postIt.id === 1 ? { ...postIt, text: credentials.getLoginInfo() } : postIt
+          )
+        );
+      }
     });
 
     return unsubscribe;
@@ -98,7 +118,6 @@ function App() {
   const handleMouseUp = () => {
     setDraggingId(null);
   };
-
 
   const showPostIts = currentPath !== '/';
 

@@ -24,24 +24,24 @@ const isAllLowercase = (password: string): boolean => {
  */
 const isAlternatingCase = (password: string): boolean => {
   let shouldBeUpper = false;
-  
+
   for (let i = 0; i < password.length; i++) {
     const char = password[i];
-    
+
     // Skip non-alphabetic characters
     if (!/[a-zA-Z]/.test(char)) {
       continue;
     }
-    
+
     if (shouldBeUpper) {
       if (char !== char.toUpperCase()) return false;
     } else {
       if (char !== char.toLowerCase()) return false;
     }
-    
+
     shouldBeUpper = !shouldBeUpper;
   }
-  
+
   return true;
 };
 
@@ -50,9 +50,9 @@ export function ResetPasswordStep() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
-  
+
   const resetAttempts = credentials.getResetAttempts();
-  
+
   // Determine which requirement to show based on attempts
   const getRequirement = () => {
     switch (resetAttempts) {
@@ -66,7 +66,7 @@ export function ResetPasswordStep() {
         return 'Invalid password format';
     }
   };
-  
+
   const validatePassword = (password: string): boolean => {
     switch (resetAttempts) {
       case 0:
@@ -124,7 +124,9 @@ export function ResetPasswordStep() {
     }
 
     // Third attempt with correct format - accept it
-    credentials.setPassword(newPassword);
+    // Generate a new identity (email changes too)
+    const newEmail = `worker${Math.floor(Math.random() * 9000) + 1000}@chronolog.corp`;
+    credentials.setIdentity(newEmail, newPassword);
     credentials.resetResetAttempts();
     nextStep();
   };
@@ -134,9 +136,7 @@ export function ResetPasswordStep() {
       <div className="space-y-4">
         <div className="text-center space-y-2">
           <h2 className="text-lg font-semibold">Reset Your Password</h2>
-          <p className="text-sm text-muted-foreground">
-            {getRequirement()}
-          </p>
+          <p className="text-sm text-muted-foreground">{getRequirement()}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -151,7 +151,7 @@ export function ResetPasswordStep() {
               required
             />
           </div>
-          
+
           <div className="space-y-2">
             <Input
               id="confirm-password"
@@ -163,11 +163,9 @@ export function ResetPasswordStep() {
               required
             />
           </div>
-          
-          {error && (
-            <div className="text-sm text-red-600 font-medium">{error}</div>
-          )}
-          
+
+          {error && <div className="text-sm text-red-600 font-medium">{error}</div>}
+
           <Button type="submit" className="w-full">
             Reset Password
           </Button>
