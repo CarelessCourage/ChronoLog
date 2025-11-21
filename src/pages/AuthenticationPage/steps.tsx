@@ -5,6 +5,7 @@ import { BinaryQuestionStep } from './steps/BinaryQuestionStep';
 import { ResetPasswordStep } from './steps/ResetPasswordState.tsx';
 import { ButtonSyncStep } from './steps/ButtonSyncStep';
 import { VoiceRecognition } from '@/pages/AuthenticationPage/steps/VoiceRecognition.tsx';
+import { DanceVerificationStep } from './steps/DanceVerificationStep';
 
 /**
  * Configure your login steps here.
@@ -35,6 +36,10 @@ export const loginSteps: Step[] = [
   {
     id: 'dna-samples',
     content: <DNASampleStep />,
+  },
+  {
+    id: 'dance-verification',
+    content: <DanceVerificationStep />,
   },
   {
     id: 'button-sync',
