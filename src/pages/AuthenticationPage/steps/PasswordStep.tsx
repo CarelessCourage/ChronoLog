@@ -28,6 +28,7 @@ const INTERRUPTION_MESSAGES = [
   'System message: Please complete verification',
   'Action required: Confirm your email address',
   'Important: Review your account settings',
+  'Nononono 🙂‍↔️',
 ];
 
 export function PasswordStep() {
