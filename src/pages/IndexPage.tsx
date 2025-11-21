@@ -103,7 +103,7 @@ export function IndexPage() {
       textRef.current.textContent = '';
 
       gsap.to(textRef.current, {
-        duration: text.length * 0.03,
+        duration: text.length * 0.02,
         text: {
           value: text,
           delimiter: '',
@@ -116,9 +116,9 @@ export function IndexPage() {
   if (showTitle) {
     return (
       <>
-        <div className="fixed inset-0 bg-black z-0" />
+        <div className="fixed inset-0 bg-black z-40" />
         <div
-          className={`min-h-screen flex items-center justify-center cursor-pointer transition-opacity duration-500 relative z-10 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
+          className={`min-h-screen flex items-center justify-center cursor-pointer transition-opacity duration-500 relative z-50 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
           onClick={handleClick}
         >
           <div className="text-center space-y-8">
@@ -146,9 +146,9 @@ export function IndexPage() {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black z-0" />
+      <div className="fixed inset-0 bg-black z-50" />
       <div
-        className={`min-h-screen relative flex items-center justify-center cursor-pointer transition-opacity duration-500 z-10 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
+        className={`min-h-screen relative flex items-center justify-center cursor-pointer transition-opacity duration-500 z-50 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
         onClick={handleClick}
       >
         {/* Background GIF */}
