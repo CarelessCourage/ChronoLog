@@ -11,7 +11,7 @@ interface VictorToastContentProps {
 
 export function VictorToastContent({
   message,
-  channel = 'victor-directives',
+  channel = 'viktor-directives',
   timestamp,
   isViolation = false,
   violationCount = 0,

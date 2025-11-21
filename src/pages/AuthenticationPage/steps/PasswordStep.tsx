@@ -77,14 +77,7 @@ export function PasswordStep() {
     setError('');
 
     if (credentials.validate(username, password)) {
-      // If this is the first time they got it correct, force password reset
-      if (!hasAttemptedCorrectLoginRef.current) {
-        hasAttemptedCorrectLoginRef.current = true;
-        setError('⚠️ Your password has expired. Please re-enter your credentials to reset.');
-        setUsername('');
-        setPassword('');
-        return;
-      }
+    
       // Second time with correct credentials, allow login
       nextStep();
     } else {

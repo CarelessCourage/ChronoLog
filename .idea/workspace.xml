@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1ec17bd-2ed4-4c68-ba6f-a630e71dc739" name="Changes" comment="added dna samples">
+    <list default="true" id="a1ec17bd-2ed4-4c68-ba6f-a630e71dc739" name="Changes" comment="lunch time">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/victor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/victor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps/CaptchaStep.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/VictorToast.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/VictorToast.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +99,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1763745733830</updated>
-      <workItem from="1763745734898" duration="10037000" />
+      <workItem from="1763745734898" duration="11034000" />
     </task>
     <task id="LOCAL-00001" summary="setup test step file for stepper">
       <option name="closed" value="true" />
@@ -151,7 +149,23 @@
       <option name="project" value="LOCAL" />
       <updated>1763758739525</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="slack notification">
+      <option name="closed" value="true" />
+      <created>1763759373637</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1763759373637</updated>
+    </task>
+    <task id="LOCAL-00008" summary="lunch time">
+      <option name="closed" value="true" />
+      <created>1763759981202</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1763759981202</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -164,7 +178,9 @@
     <MESSAGE value="fix bug" />
     <MESSAGE value="updated steps" />
     <MESSAGE value="added dna samples" />
-    <option name="LAST_COMMIT_MESSAGE" value="added dna samples" />
+    <MESSAGE value="slack notification" />
+    <MESSAGE value="lunch time" />
+    <option name="LAST_COMMIT_MESSAGE" value="lunch time" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>
