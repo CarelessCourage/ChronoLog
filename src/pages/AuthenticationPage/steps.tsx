@@ -1,7 +1,7 @@
 import { Step } from '@/components/SteppedPage';
 import { TestStep } from './steps/TestStep.tsx';
 import { PasswordStep } from './steps/PasswordStep';
-import { CaptchaStep } from 'src/pages/AuthenticationPage/steps/CaptchaStep.tsx';
+import { CaptchaStep } from './steps/CaptchaStep.tsx';
 
 /**
  * Configure your login steps here.
