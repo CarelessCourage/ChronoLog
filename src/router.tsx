@@ -1,7 +1,7 @@
 import { Outlet } from '@tanstack/react-router';
 import { createRootRoute, createRoute, createRouter } from '@tanstack/react-router';
 import { createBrowserHistory } from '@tanstack/history';
-import { StepperPage } from '@/pages/LoginPage';
+import { AuthenticationPage } from '@/pages/AuthenticationPage';
 import { TimePage } from '@/pages/TimePage';
 import { FiredPage } from '@/pages/FiredPage';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
@@ -19,8 +19,8 @@ const rootRoute = createRootRoute({
 
 const homeRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/',
-  component: StepperPage
+  path: '/login',
+  component: AuthenticationPage
 });
 
 const timeRoute = createRoute({

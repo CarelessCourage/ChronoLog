@@ -1,12 +1,9 @@
 import { ReactNode } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { StepperProvider, useStepper } from './StepperProvider';
 
 export interface Step {
   id: string;
-  title: string;
-  description: string;
   content: ReactNode;
 }
 
@@ -22,29 +19,19 @@ function SteppedPageContent({ steps }: { steps: Step[] }) {
   const step = steps[currentStep];
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 p-4">
-      <Card className="w-full max-w-md shadow-lg">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">
-            {step.title}
-          </CardTitle>
-          <CardDescription className="text-center">
-            {step.description}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          {/* Progress indicator */}
-          <div className="space-y-2">
-            <Progress value={progress} className="h-2" />
-            <p className="text-xs text-center text-slate-500">
-              Step {currentStep + 1} of {totalSteps}
-            </p>
-          </div>
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-slate-100">
+      {/* Progress indicator at the top */}
+      <div className="w-full bg-white border-b shadow-sm">
+        <div className="max-w-4xl mx-auto px-6 py-4 space-y-2">
+          <Progress value={progress} className="h-2" />
+          <p className="text-xs text-center text-slate-500">
+            Step {currentStep + 1} of {totalSteps}
+          </p>
+        </div>
+      </div>
 
-          {/* Step content */}
-          <div>{step.content}</div>
-        </CardContent>
-      </Card>
+      {/* Step content taking remaining space */}
+            {step.content}
     </div>
   );
 }

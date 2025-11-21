@@ -1,7 +1,7 @@
 import { Step } from '@/components/SteppedPage';
-import { EmailStep } from './steps/EmailStep';
+import { IdentifyStep } from './steps/IdentifyStep.tsx';
 import { PasswordStep } from './steps/PasswordStep';
-import { VerificationStep } from './steps/VerificationStep';
+import { CaptchaStep } from './steps/CaptchaStep.tsx';
 
 /**
  * Configure your login steps here.
@@ -18,22 +18,16 @@ import { VerificationStep } from './steps/VerificationStep';
  */
 export const loginSteps: Step[] = [
   {
-    id: 'email',
-    title: 'Welcome Back',
-    description: 'Enter your email to continue',
-    content: <EmailStep />,
-  },
-  {
     id: 'password',
-    title: 'Enter Password',
-    description: 'Please enter your password',
     content: <PasswordStep />,
   },
   {
-    id: 'verification',
-    title: 'Two-Factor Authentication',
-    description: 'Verify your identity',
-    content: <VerificationStep />,
+    id: 'identify',
+    content: <IdentifyStep />,
+  },
+  {
+    id: 'captcha',
+    content: <CaptchaStep />,
   },
 ];
 

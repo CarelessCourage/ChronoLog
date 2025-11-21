@@ -3,7 +3,7 @@ import { storage } from '@/lib/storage';
 import { SteppedPage } from '@/components/SteppedPage';
 import { loginSteps } from './steps';
 
-export function StepperPage() {
+export function AuthenticationPage() {
   const navigate = useNavigate();
 
   const handleComplete = () => {
