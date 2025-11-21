@@ -43,11 +43,9 @@ function App() {
   // Subscribe to credential changes and update the login post-it
   useEffect(() => {
     const unsubscribe = credentials.subscribe(() => {
-      setPostIts(prev =>
-        prev.map(postIt =>
-          postIt.id === 1
-            ? { ...postIt, text: credentials.getLoginInfo() }
-            : postIt
+      setPostIts((prev) =>
+        prev.map((postIt) =>
+          postIt.id === 1 ? { ...postIt, text: credentials.getLoginInfo() } : postIt
         )
       );
     });

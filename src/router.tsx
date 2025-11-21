@@ -49,7 +49,13 @@ const buttonRoute = createRoute({
   component: ButtonPage,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, loginRoute, timeRoute, firedRoute, buttonRoute]);
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  loginRoute,
+  timeRoute,
+  firedRoute,
+  buttonRoute,
+]);
 
 export const router = createRouter({
   routeTree,

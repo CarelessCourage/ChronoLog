@@ -45,7 +45,9 @@ export function ButtonPage() {
       setHasPressed(false);
     } else if (session.status === 'failed_timeout') {
       setDialogTitle('⏰ Session Expired');
-      setDialogMessage('This session has expired. Wait for the other person to create a new session.');
+      setDialogMessage(
+        'This session has expired. Wait for the other person to create a new session.'
+      );
       setIsDialogOpen(true);
       setHasPressed(false);
     }
@@ -98,9 +100,7 @@ export function ButtonPage() {
                 maxLength={6}
                 className="text-center text-2xl font-mono tracking-widest"
               />
-              <p className="text-xs text-gray-500">
-                Ask the person for their 6-character ID code
-              </p>
+              <p className="text-xs text-gray-500">Ask the person for their 6-character ID code</p>
             </div>
 
             <Button onClick={handleConnect} className="w-full" disabled={sessionId.length !== 6}>

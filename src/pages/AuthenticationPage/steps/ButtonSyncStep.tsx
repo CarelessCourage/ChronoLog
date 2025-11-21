@@ -27,10 +27,7 @@ export function ButtonSyncStep() {
   const createSession = useMutation(api.buttonSync.createSession);
   const pressButton = useMutation(api.buttonSync.pressButton);
   const resetSession = useMutation(api.buttonSync.resetSession);
-  const session = useQuery(
-    api.buttonSync.getSession,
-    sessionId ? { sessionId } : 'skip'
-  );
+  const session = useQuery(api.buttonSync.getSession, sessionId ? { sessionId } : 'skip');
 
   useEffect(() => {
     // Create session on mount
@@ -53,19 +50,19 @@ export function ButtonSyncStep() {
     } else if (session.status === 'failed_not_simultaneous') {
       const newFailureCount = failureCount + 1;
       setFailureCount(newFailureCount);
-      
+
       if (newFailureCount >= 2) {
         sendVictorToast(
           'SERIOUSLY?! Two failed attempts at pressing a button simultaneously? ' +
-          'This is literally the simplest task. Are you even trying? ' +
-          'Get your friend on the phone and COUNT TO THREE.'
+            'This is literally the simplest task. Are you even trying? ' +
+            'Get your friend on the phone and COUNT TO THREE.'
         );
       }
-      
+
       setDialogTitle('❌ Failed');
       setDialogMessage(
         `The buttons were not pressed at the same time (Attempt ${newFailureCount}). ` +
-        'You need to press within 1 second of each other. Keep your ID code and try again!'
+          'You need to press within 1 second of each other. Keep your ID code and try again!'
       );
       setIsDialogOpen(true);
       setHasPressed(false);
@@ -114,10 +111,11 @@ export function ButtonSyncStep() {
           <ol className="text-sm space-y-2 list-decimal list-inside">
             <li>Have someone open this app on a different device</li>
             <li>
-              Tell them to go to <span className="font-mono bg-white px-2 py-1 rounded">/button</span>
+              Tell them to go to{' '}
+              <span className="font-mono bg-white px-2 py-1 rounded">/button</span>
             </li>
             <li>
-              Give them your ID code: 
+              Give them your ID code:
               <div className="mt-2 bg-white p-3 rounded text-center">
                 <span className="text-2xl font-bold font-mono tracking-wider">
                   {sessionId || '------'}
@@ -151,9 +149,7 @@ export function ButtonSyncStep() {
           )}
         </div>
 
-        <div className="text-xs text-gray-500 text-center">
-          Session expires in 5 minutes
-        </div>
+        <div className="text-xs text-gray-500 text-center">Session expires in 5 minutes</div>
       </div>
 
       <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
