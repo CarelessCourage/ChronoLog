@@ -16,7 +16,6 @@ import { credentials } from '@/lib/credentials';
 import { useBackgroundMusic } from '@/lib/backgroundMusic';
 import { sendVictorToast } from '@/lib/victor';
 import { TitleScreen } from '@/components/TitleScreen';
-import { usePostIts } from '@/lib/postitContext';
 
 // Random interruption messages
 const INTERRUPTION_MESSAGES = [
@@ -37,6 +36,7 @@ export function PasswordStep() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  // Removed showPassword state and reveal button
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogMessage, setDialogMessage] = useState('');
   const [showTitleScreen, setShowTitleScreen] = useState(true);
@@ -126,6 +126,21 @@ export function PasswordStep() {
       setError('Invalid username or password');
     }
   };
+
+  // Effect to show Victor notifications after title screen is dismissed
+  useEffect(() => {
+    if (!showTitleScreen) {
+      sendVictorToast(
+        'Remember to write your hours before you leave!'
+      );
+      const timeout = setTimeout(() => {
+        sendVictorToast(
+          "You only have 3 strikes left and you're out of here!"
+        );
+      }, 3500);
+      return () => clearTimeout(timeout);
+    }
+  }, [showTitleScreen]);
 
   return (
     <>
