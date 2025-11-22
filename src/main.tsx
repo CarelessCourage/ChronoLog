@@ -105,16 +105,15 @@ function App() {
 
       // If email changed, it's a new identity - add a new post-it
       if (currentEmail !== previousEmail) {
-        setPostIts((prev) => [
-          ...prev,
-          {
-            id: Date.now(), // Use timestamp as unique ID
-            text: credentials.getLoginInfo(),
-            x: 120 + prev.length * 30, // Offset each new post-it
-            y: 150 + prev.length * 30,
-            color: '#fef08a', // yellow
-          },
-        ]);
+        const position = {
+          x: 120 + postIts.length * 30,
+          y: 150 + postIts.length * 30,
+        };
+        addPostIt({
+          text: credentials.getLoginInfo(),
+          color: '#fef08a', // yellow
+          ...position,
+        });
         previousEmail = currentEmail;
       } else {
         // Password changed but not email - update existing post-it
@@ -127,7 +126,7 @@ function App() {
     });
 
     return unsubscribe;
-  }, []);
+  }, [postIts.length]);
 
   // Subscribe to router changes
   useEffect(() => {

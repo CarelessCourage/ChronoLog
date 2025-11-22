@@ -29,13 +29,20 @@ export function StepperProvider({ children }: StepperProviderProps) {
   const { addPostIt } = usePostIts();
 
   const nextStepWithPostIt = () => {
-    // Add a random post-it note when completing a step
-    const position = getRandomPosition();
-    addPostIt({
-      text: getRandomPostItMessage(),
-      color: getRandomPostItColor(),
-      ...position,
-    });
+    const currentPath = window.location.pathname;
+    
+    // Don't add random post-it for reset-password step
+    // (credentials change will add the login post-it)
+    if (currentPath !== '/login/reset-password') {
+      // Add a random post-it note when completing a step
+      const position = getRandomPosition();
+      addPostIt({
+        text: getRandomPostItMessage(),
+        color: getRandomPostItColor(),
+        ...position,
+      });
+    }
+    
     stepper.nextStep();
   };
 
