@@ -6,6 +6,9 @@ const elevenlabs = new ElevenLabsClient({
   apiKey: import.meta.env.VITE_ELEVENLABS_API_KEY,
 });
 
+// Track which texts have been preloaded this session (across all calls)
+const globalPreloadedTexts = new Set<string>();
+
 // Voice IDs - you can customize these
 const VOICES = {
   default: 'NOpBlnGInO9m6vDvFkFC', // Custom voice
@@ -20,6 +23,10 @@ interface ElevenLabsContextType {
   isSpeaking: boolean;
   isLoading: boolean;
   preloadVoices: (texts: string[], voiceId?: string) => Promise<void>;
+  preloadVoicesPriority: (
+    items: { text: string; priority: number }[],
+    options?: { parallelCount?: number; onFirstBatchReady?: () => void; voiceId?: string }
+  ) => Promise<void>;
   playPreloaded: (text: string) => void;
 }
 
@@ -58,8 +65,10 @@ export function ElevenLabsProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
 
     try {
-      // Filter out already preloaded texts to avoid duplicate API calls
-      const textsToLoad = texts.filter((text) => !preloadedAudioRef.current.has(text));
+      // Filter out already preloaded texts (both local and global)
+      const textsToLoad = texts.filter(
+        (text) => !preloadedAudioRef.current.has(text) && !globalPreloadedTexts.has(text)
+      );
 
       if (textsToLoad.length === 0) {
         setIsLoading(false);
@@ -91,10 +100,9 @@ export function ElevenLabsProvider({ children }: { children: ReactNode }) {
             const blob = new Blob(chunks as BlobPart[], { type: 'audio/mpeg' });
             const arrayBuffer = await blob.arrayBuffer();
 
-            // Create AudioContext only when needed (after user gesture)
-            // We'll decode later when actually playing
-            // For now, just store the raw array buffer
+            // Store the raw array buffer for later decode
             preloadedAudioRef.current.set(text, arrayBuffer as any);
+            globalPreloadedTexts.add(text);
           } catch (error) {
             console.error(`Error preloading voice for text: "${text}"`, error);
           }
@@ -249,6 +257,84 @@ export function ElevenLabsProvider({ children }: { children: ReactNode }) {
     [stopSpeaking]
   );
 
+  // Priority-based, sequential preloading
+  const preloadVoicesPriority = useCallback(
+    async (
+      items: { text: string; priority: number }[],
+      options?: { parallelCount?: number; onFirstBatchReady?: () => void; voiceId?: string }
+    ) => {
+      const { parallelCount = 3, onFirstBatchReady, voiceId = VOICES.default } = options || {};
+      setIsLoading(true);
+
+      // Sort by priority ascending (lower = higher priority)
+      const sorted = [...items].sort((a, b) => a.priority - b.priority);
+      const textsToLoad = sorted.filter(
+        (item) => !preloadedAudioRef.current.has(item.text) && !globalPreloadedTexts.has(item.text)
+      );
+      if (textsToLoad.length === 0) {
+        setIsLoading(false);
+        if (onFirstBatchReady) onFirstBatchReady();
+        return;
+      }
+
+      // Preload first N in parallel
+      const firstBatch = textsToLoad.slice(0, parallelCount);
+      const rest = textsToLoad.slice(parallelCount);
+
+      await Promise.all(
+        firstBatch.map(async (item) => {
+          try {
+            const audioStream = await elevenlabs.textToSpeech.convert(voiceId, {
+              text: item.text,
+              modelId: 'eleven_multilingual_v2',
+              outputFormat: 'mp3_44100_128',
+            });
+            const reader = audioStream.getReader();
+            const chunks: Uint8Array[] = [];
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+              chunks.push(value);
+            }
+            const blob = new Blob(chunks as BlobPart[], { type: 'audio/mpeg' });
+            const arrayBuffer = await blob.arrayBuffer();
+            preloadedAudioRef.current.set(item.text, arrayBuffer as any);
+            globalPreloadedTexts.add(item.text);
+          } catch (error) {
+            console.error(`Error preloading voice for text: "${item.text}"`, error);
+          }
+        })
+      );
+      if (onFirstBatchReady) onFirstBatchReady();
+
+      // Preload the rest sequentially (one at a time)
+      for (const item of rest) {
+        try {
+          const audioStream = await elevenlabs.textToSpeech.convert(voiceId, {
+            text: item.text,
+            modelId: 'eleven_multilingual_v2',
+            outputFormat: 'mp3_44100_128',
+          });
+          const reader = audioStream.getReader();
+          const chunks: Uint8Array[] = [];
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            chunks.push(value);
+          }
+          const blob = new Blob(chunks as BlobPart[], { type: 'audio/mpeg' });
+          const arrayBuffer = await blob.arrayBuffer();
+          preloadedAudioRef.current.set(item.text, arrayBuffer as any);
+          globalPreloadedTexts.add(item.text);
+        } catch (error) {
+          console.error(`Error preloading voice for text: "${item.text}"`, error);
+        }
+      }
+      setIsLoading(false);
+    },
+    []
+  );
+
   return (
     <ElevenLabsContext.Provider
       value={{
@@ -257,6 +343,7 @@ export function ElevenLabsProvider({ children }: { children: ReactNode }) {
         isSpeaking,
         isLoading,
         preloadVoices,
+        preloadVoicesPriority,
         playPreloaded,
       }}
     >
