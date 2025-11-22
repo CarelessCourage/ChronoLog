@@ -24,7 +24,7 @@ export function BackgroundMusicProvider({ children }: { children: ReactNode }) {
     audioRef.current.play().catch((e) => {
       console.log('Background music autoplay blocked:', e);
     });
-    
+
     isPlayingRef.current = true;
   }, []);
 
