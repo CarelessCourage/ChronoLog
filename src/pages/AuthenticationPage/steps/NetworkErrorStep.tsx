@@ -545,13 +545,15 @@ export function NetworkErrorStep() {
             </div>
           </div>
 
-          {/* Continue button */}
-          {canProceed && (
-            <div className="flex flex-col items-start gap-2 mt-4">
-              <div className="text-green-600 font-semibold">✓ Connection restored!</div>
-              <RetroButton onClick={nextStep}>Continue to Next Step</RetroButton>
-            </div>
-          )}
+          {/* Continue button - reserve space to prevent layout shift */}
+          <div className="mt-4 min-h-[80px]">
+            {canProceed && (
+              <div className="flex flex-col items-start gap-2">
+                <div className="text-green-600 font-semibold">✓ Connection restored!</div>
+                <RetroButton onClick={nextStep}>Continue to Next Step</RetroButton>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Tips */}
