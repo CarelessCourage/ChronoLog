@@ -21,9 +21,7 @@ interface StepperProviderProps {
   onComplete?: () => void;
 }
 
-export function StepperProvider({
-  children,
-}: StepperProviderProps) {
+export function StepperProvider({ children }: StepperProviderProps) {
   // Use the URL-based stepper for login flow
   const stepper = useLoginStepper();
 

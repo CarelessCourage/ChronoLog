@@ -11,6 +11,7 @@ const LOGIN_STEPS = [
   '/login/dance-verification',
   '/login/button-sync',
   '/login/binary-question',
+  '/login/network-error',
 ] as const;
 
 export function useLoginStepper() {
@@ -23,7 +24,7 @@ export function useLoginStepper() {
 
   const nextStep = () => {
     const currentIndex = getCurrentStepIndex();
-    
+
     if (currentIndex === -1) {
       // Not on a login step, go to first step
       navigate({ to: LOGIN_STEPS[0] });
@@ -42,7 +43,7 @@ export function useLoginStepper() {
 
   const previousStep = () => {
     const currentIndex = getCurrentStepIndex();
-    
+
     if (currentIndex > 0) {
       navigate({ to: LOGIN_STEPS[currentIndex - 1] });
     }

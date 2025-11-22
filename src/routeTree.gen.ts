@@ -18,6 +18,7 @@ import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as LoginVoiceRecognitionRouteImport } from './routes/login/voice-recognition'
 import { Route as LoginResetPasswordRouteImport } from './routes/login/reset-password'
 import { Route as LoginPasswordRouteImport } from './routes/login/password'
+import { Route as LoginNetworkErrorRouteImport } from './routes/login/network-error'
 import { Route as LoginDnaSampleRouteImport } from './routes/login/dna-sample'
 import { Route as LoginDanceVerificationRouteImport } from './routes/login/dance-verification'
 import { Route as LoginButtonSyncRouteImport } from './routes/login/button-sync'
@@ -68,6 +69,11 @@ const LoginPasswordRoute = LoginPasswordRouteImport.update({
   path: '/password',
   getParentRoute: () => LoginRoute,
 } as any)
+const LoginNetworkErrorRoute = LoginNetworkErrorRouteImport.update({
+  id: '/network-error',
+  path: '/network-error',
+  getParentRoute: () => LoginRoute,
+} as any)
 const LoginDnaSampleRoute = LoginDnaSampleRouteImport.update({
   id: '/dna-sample',
   path: '/dna-sample',
@@ -99,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/login/button-sync': typeof LoginButtonSyncRoute
   '/login/dance-verification': typeof LoginDanceVerificationRoute
   '/login/dna-sample': typeof LoginDnaSampleRoute
+  '/login/network-error': typeof LoginNetworkErrorRoute
   '/login/password': typeof LoginPasswordRoute
   '/login/reset-password': typeof LoginResetPasswordRoute
   '/login/voice-recognition': typeof LoginVoiceRecognitionRoute
@@ -113,6 +120,7 @@ export interface FileRoutesByTo {
   '/login/button-sync': typeof LoginButtonSyncRoute
   '/login/dance-verification': typeof LoginDanceVerificationRoute
   '/login/dna-sample': typeof LoginDnaSampleRoute
+  '/login/network-error': typeof LoginNetworkErrorRoute
   '/login/password': typeof LoginPasswordRoute
   '/login/reset-password': typeof LoginResetPasswordRoute
   '/login/voice-recognition': typeof LoginVoiceRecognitionRoute
@@ -129,6 +137,7 @@ export interface FileRoutesById {
   '/login/button-sync': typeof LoginButtonSyncRoute
   '/login/dance-verification': typeof LoginDanceVerificationRoute
   '/login/dna-sample': typeof LoginDnaSampleRoute
+  '/login/network-error': typeof LoginNetworkErrorRoute
   '/login/password': typeof LoginPasswordRoute
   '/login/reset-password': typeof LoginResetPasswordRoute
   '/login/voice-recognition': typeof LoginVoiceRecognitionRoute
@@ -146,6 +155,7 @@ export interface FileRouteTypes {
     | '/login/button-sync'
     | '/login/dance-verification'
     | '/login/dna-sample'
+    | '/login/network-error'
     | '/login/password'
     | '/login/reset-password'
     | '/login/voice-recognition'
@@ -160,6 +170,7 @@ export interface FileRouteTypes {
     | '/login/button-sync'
     | '/login/dance-verification'
     | '/login/dna-sample'
+    | '/login/network-error'
     | '/login/password'
     | '/login/reset-password'
     | '/login/voice-recognition'
@@ -175,6 +186,7 @@ export interface FileRouteTypes {
     | '/login/button-sync'
     | '/login/dance-verification'
     | '/login/dna-sample'
+    | '/login/network-error'
     | '/login/password'
     | '/login/reset-password'
     | '/login/voice-recognition'
@@ -254,6 +266,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginPasswordRouteImport
       parentRoute: typeof LoginRoute
     }
+    '/login/network-error': {
+      id: '/login/network-error'
+      path: '/network-error'
+      fullPath: '/login/network-error'
+      preLoaderRoute: typeof LoginNetworkErrorRouteImport
+      parentRoute: typeof LoginRoute
+    }
     '/login/dna-sample': {
       id: '/login/dna-sample'
       path: '/dna-sample'
@@ -290,6 +309,7 @@ interface LoginRouteChildren {
   LoginButtonSyncRoute: typeof LoginButtonSyncRoute
   LoginDanceVerificationRoute: typeof LoginDanceVerificationRoute
   LoginDnaSampleRoute: typeof LoginDnaSampleRoute
+  LoginNetworkErrorRoute: typeof LoginNetworkErrorRoute
   LoginPasswordRoute: typeof LoginPasswordRoute
   LoginResetPasswordRoute: typeof LoginResetPasswordRoute
   LoginVoiceRecognitionRoute: typeof LoginVoiceRecognitionRoute
@@ -301,6 +321,7 @@ const LoginRouteChildren: LoginRouteChildren = {
   LoginButtonSyncRoute: LoginButtonSyncRoute,
   LoginDanceVerificationRoute: LoginDanceVerificationRoute,
   LoginDnaSampleRoute: LoginDnaSampleRoute,
+  LoginNetworkErrorRoute: LoginNetworkErrorRoute,
   LoginPasswordRoute: LoginPasswordRoute,
   LoginResetPasswordRoute: LoginResetPasswordRoute,
   LoginVoiceRecognitionRoute: LoginVoiceRecognitionRoute,

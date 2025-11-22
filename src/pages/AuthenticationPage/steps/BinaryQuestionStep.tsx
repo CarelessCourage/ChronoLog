@@ -58,7 +58,6 @@ export function BinaryQuestionStep() {
           <RetroButton onClick={() => handleAnswer('no')} size="lg">
             <span className="font-mono">{binaryNo}</span>
           </RetroButton>
-
           <RetroButton onClick={() => handleAnswer('maybe')} size="lg">
             <span className="font-mono">{binaryMaybe}</span>
           </RetroButton>
