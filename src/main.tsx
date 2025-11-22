@@ -139,17 +139,18 @@ function App() {
         postIts.map((postIt) => (
           <div
             key={postIt.id}
-            className="fixed w-48 p-4 shadow-lg cursor-move select-none z-50 font-normal"
+            className="fixed w-48 p-4 shadow-lg cursor-move select-none z-50"
             style={{
               left: `${postIt.x}px`,
               top: `${postIt.y}px`,
               backgroundColor: postIt.color,
               transform: `rotate(${postIt.id % 2 === 0 ? '-2deg' : '2deg'})`,
               boxShadow: '2px 2px 8px rgba(0,0,0,0.15)',
+              fontFamily: '"Just Me Again Down Here", cursive',
             }}
             onMouseDown={(e) => handleMouseDown(postIt.id, e)}
           >
-            <div className="text-sm text-slate-800 whitespace-pre-line leading-relaxed">
+            <div className="text-lg text-slate-800 whitespace-pre-line leading-relaxed">
               {postIt.text}
             </div>
           </div>
