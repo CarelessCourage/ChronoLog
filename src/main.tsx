@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from '@tanstack/react-router';
 import { ConvexProvider, ConvexReactClient } from 'convex/react';
@@ -8,6 +8,7 @@ import { credentials } from '@/lib/credentials';
 import { ElevenLabsProvider } from '@/lib/elevenlabs';
 import { BackgroundMusicProvider } from '@/lib/backgroundMusic';
 import { PostItContext, PostItNote } from '@/lib/postitContext';
+import { gsap } from 'gsap';
 import './index.css';
 
 const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string);
@@ -34,15 +35,16 @@ function App() {
   const [draggingId, setDraggingId] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  const postItRefs = useRef<Map<number, HTMLDivElement>>(new Map());
 
   const addPostIt = (note: Omit<PostItNote, 'id'>) => {
-    setPostIts((prev) => [
-      ...prev,
-      {
-        ...note,
-        id: Date.now(),
-      },
-    ]);
+    const newId = Date.now();
+    const newPostIt = {
+      ...note,
+      id: newId,
+    };
+    
+    setPostIts((prev) => [...prev, newPostIt]);
   };
 
   // Subscribe to credential changes and add new login post-it
@@ -156,6 +158,24 @@ function App() {
         postIts.map((postIt) => (
           <div
             key={postIt.id}
+            ref={(el) => {
+              if (el) {
+                postItRefs.current.set(postIt.id, el);
+                // If this is a new post-it (opacity is 0), animate it
+                if (el.style.opacity === '' || el.style.opacity === '0') {
+                  gsap.set(el, { opacity: 0, scale: 0, rotation: -180 });
+                  gsap.to(el, {
+                    opacity: 1,
+                    scale: 1,
+                    rotation: postIt.id % 2 === 0 ? -2 : 2,
+                    duration: 0.6,
+                    ease: 'back.out(1.7)',
+                  });
+                }
+              } else {
+                postItRefs.current.delete(postIt.id);
+              }
+            }}
             className="fixed w-48 p-4 shadow-lg cursor-move z-50"
             style={{
               left: `${postIt.x}px`,

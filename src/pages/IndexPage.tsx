@@ -45,29 +45,16 @@ export function IndexPage() {
   const [showStartScreen, setShowStartScreen] = useState(true);
   const [isPreloading, setIsPreloading] = useState(false);
   const [currentScene, setCurrentScene] = useState(0);
-  const [showTitle, setShowTitle] = useState(false);
-  const [visibleWordCount, setVisibleWordCount] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const titleRefs = useRef<(HTMLDivElement | null)[]>([]);
   const textRef = useRef<HTMLParagraphElement>(null);
-  const flashBangAudioRef = useRef<HTMLAudioElement | null>(null);
-
-  const allWords = ['Write.', 'Your.', 'Hours.'];
-
-  // Initialize flashbang audio
-  useEffect(() => {
-    flashBangAudioRef.current = new Audio('/audio/flashBang.mp3');
-    flashBangAudioRef.current.volume = 0.5;
-  }, []);
 
   // Preload all voices when component mounts
   useEffect(() => {
     const preloadAllVoices = async () => {
       setIsPreloading(true);
-      const textsToPreload = [
-        ...scenes.map((scene) => scene.text.replace(/<br\/>/g, ' ').replace(/<[^>]*>/g, '')),
-        'Write. Your. Hours.',
-      ];
+      const textsToPreload = scenes.map((scene) =>
+        scene.text.replace(/<br\/>/g, ' ').replace(/<[^>]*>/g, '')
+      );
       await preloadVoices(textsToPreload);
       setIsPreloading(false);
     };
@@ -82,18 +69,16 @@ export function IndexPage() {
 
   // Auto-speak scene text when scene changes
   useEffect(() => {
-    if (!showStartScreen && !showTitle && !isTransitioning) {
+    if (!showStartScreen && !isTransitioning) {
       const text = scenes[currentScene].text;
       const textForSpeech = text.replace(/<br\/>/g, ' ').replace(/<[^>]*>/g, '');
       playPreloaded(textForSpeech);
     }
-  }, [currentScene, showStartScreen, showTitle, isTransitioning, playPreloaded]);
+  }, [currentScene, showStartScreen, isTransitioning, playPreloaded]);
 
   const handleTestAudio = async () => {
     console.log('Test audio button clicked');
-    const text = showTitle
-      ? 'Write. Your. Hours.'
-      : scenes[currentScene].text.replace(/<br\/>/g, ' ').replace(/<[^>]*>/g, '');
+    const text = scenes[currentScene].text.replace(/<br\/>/g, ' ').replace(/<[^>]*>/g, '');
     console.log('Attempting to play:', text);
     try {
       playPreloaded(text);
@@ -107,13 +92,7 @@ export function IndexPage() {
     // Stop any currently playing speech
     stopSpeaking();
 
-    if (showTitle && visibleWordCount === 3) {
-      // If title is fully shown, go to login
-      navigate({ to: '/login' });
-    } else if (showTitle) {
-      // Skip to showing all title words
-      setVisibleWordCount(3);
-    } else if (currentScene < scenes.length - 1) {
+    if (currentScene < scenes.length - 1) {
       // Go to next scene with fade transition
       setIsTransitioning(true);
       setTimeout(() => {
@@ -121,60 +100,12 @@ export function IndexPage() {
         setIsTransitioning(false);
       }, 500);
     } else {
-      // Last scene, transition to title
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setShowTitle(true);
-        setIsTransitioning(false);
-      }, 500);
+      // Last scene, go to login
+      navigate({ to: '/login' });
     }
-  };
-
-  // Auto-speak title when it appears
+  };  // GSAP typewriter effect for scene text
   useEffect(() => {
-    if (showTitle && visibleWordCount === 1) {
-      playPreloaded('Write. Your. Hours.');
-    }
-  }, [showTitle, visibleWordCount, playPreloaded]);
-
-  useEffect(() => {
-    if (showTitle && visibleWordCount === 0) {
-      // Immediately show the first word when title screen appears
-      setVisibleWordCount(1);
-    } else if (showTitle && visibleWordCount < 3) {
-      const wordTimer = setTimeout(() => {
-        setVisibleWordCount((prev) => prev + 1);
-      }, 600);
-
-      return () => clearTimeout(wordTimer);
-    }
-  }, [showTitle, visibleWordCount]);
-
-  // GSAP animation for title words
-  useEffect(() => {
-    if (showTitle && visibleWordCount > 0) {
-      const element = titleRefs.current[visibleWordCount - 1];
-      if (element) {
-        // Play flashbang sound
-        if (flashBangAudioRef.current) {
-          flashBangAudioRef.current.currentTime = 0;
-          flashBangAudioRef.current.play().catch((err) => {
-            console.log('Failed to play flashbang:', err);
-          });
-        }
-
-        gsap.fromTo(
-          element,
-          { opacity: 0, scale: 0.5 },
-          { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.7)' }
-        );
-      }
-    }
-  }, [showTitle, visibleWordCount]);
-
-  // GSAP typewriter effect for scene text
-  useEffect(() => {
-    if (!showStartScreen && !showTitle && !isTransitioning && textRef.current) {
+    if (!showStartScreen && !isTransitioning && textRef.current) {
       const text = scenes[currentScene].text;
       textRef.current.textContent = '';
 
@@ -187,7 +118,7 @@ export function IndexPage() {
         ease: 'none',
       });
     }
-  }, [currentScene, showTitle, isTransitioning, showStartScreen]);
+  }, [currentScene, isTransitioning, showStartScreen]);
 
   // Start screen
   if (showStartScreen) {
@@ -205,44 +136,6 @@ export function IndexPage() {
               Click to Start
             </RetroButton>
           )}
-        </div>
-      </>
-    );
-  }
-
-  if (showTitle) {
-    return (
-      <>
-        <div className="fixed inset-0 bg-black z-40" />
-        {/* Loading Spinner */}
-        {(isLoading || isSpeaking) && (
-          <div className="fixed top-4 left-4 z-[60] flex items-center gap-2">
-            <Icon icon="line-md:loading-twotone-loop" className="w-8 h-8 text-white" />
-            <span className="text-white text-sm font-semibold">
-              {isLoading ? 'Loading voice...' : 'Playing voice...'}
-            </span>
-          </div>
-        )}
-        {/* Debug Audio Button */}
-        <RetroButton onClick={handleTestAudio} className="fixed top-4 right-4 z-[60]">
-          🔊 Test Audio
-        </RetroButton>
-        <div
-          className={`min-h-screen flex items-center justify-center cursor-pointer transition-opacity duration-500 relative z-50 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
-          onClick={handleClick}
-        >
-          <div className="text-center space-y-8">
-            {allWords.map((word, index) => (
-              <div
-                key={index}
-                ref={(el) => (titleRefs.current[index] = el)}
-                className="text-8xl font-bold text-white font-pixel"
-                style={{ opacity: 0 }}
-              >
-                {word}
-              </div>
-            ))}
-          </div>
         </div>
       </>
     );

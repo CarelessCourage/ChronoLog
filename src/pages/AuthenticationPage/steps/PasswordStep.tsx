@@ -15,6 +15,7 @@ import {
 import { credentials } from '@/lib/credentials';
 import { useBackgroundMusic } from '@/lib/backgroundMusic';
 import { sendVictorToast } from '@/lib/victor';
+import { TitleScreen } from '@/components/TitleScreen';
 
 // Random interruption messages
 const INTERRUPTION_MESSAGES = [
@@ -37,6 +38,7 @@ export function PasswordStep() {
   const [error, setError] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogMessage, setDialogMessage] = useState('');
+  const [showTitleScreen, setShowTitleScreen] = useState(true);
 
   // Start background music when component mounts
   useEffect(() => {
@@ -115,40 +117,45 @@ export function PasswordStep() {
   };
 
   return (
-    <StepperFormBox
-      title="Enter Your Credentials"
-      description="Please provide your username and password to continue."
-    >
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-2">
-          <Input
-            id="username"
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => handleInputChange(setUsername, e.target.value)}
-            onPaste={handlePaste}
-            autoComplete="off"
-            required
-          />
-        </div>
-        <div className="space-y-2">
-          <Input
-            id="password"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => handleInputChange(setPassword, e.target.value)}
-            onPaste={handlePaste}
-            autoComplete="off"
-            required
-          />
-        </div>
-        {error && <div className="text-sm text-red-600 font-medium">{error}</div>}
-        <RetroButton type="submit" className="w-full">
-          OK
-        </RetroButton>
-      </form>
+    <>
+      {/* Title Screen Overlay */}
+      {showTitleScreen && <TitleScreen onComplete={() => setShowTitleScreen(false)} />}
+
+      {/* Password Form */}
+      <StepperFormBox
+        title="Enter Your Credentials"
+        description="Please provide your username and password to continue."
+      >
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Input
+              id="username"
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => handleInputChange(setUsername, e.target.value)}
+              onPaste={handlePaste}
+              autoComplete="off"
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Input
+              id="password"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => handleInputChange(setPassword, e.target.value)}
+              onPaste={handlePaste}
+              autoComplete="off"
+              required
+            />
+          </div>
+          {error && <div className="text-sm text-red-600 font-medium">{error}</div>}
+          <RetroButton type="submit" className="w-full">
+            OK
+          </RetroButton>
+        </form>
 
       <AlertDialog open={isDialogOpen} onOpenChange={handleDialogClose}>
         <AlertDialogContent>
@@ -163,6 +170,7 @@ export function PasswordStep() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </StepperFormBox>
+      </StepperFormBox>
+    </>
   );
 }
