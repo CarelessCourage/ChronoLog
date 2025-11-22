@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TimeRouteImport } from './routes/time'
+import { Route as SuccessRouteImport } from './routes/success'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as FiredRouteImport } from './routes/fired'
 import { Route as ButtonRouteImport } from './routes/button'
@@ -29,6 +30,11 @@ import { Route as LoginBinaryQuestionRouteImport } from './routes/login/binary-q
 const TimeRoute = TimeRouteImport.update({
   id: '/time',
   path: '/time',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuccessRoute = SuccessRouteImport.update({
+  id: '/success',
+  path: '/success',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -112,6 +118,7 @@ export interface FileRoutesByFullPath {
   '/button': typeof ButtonRoute
   '/fired': typeof FiredRoute
   '/login': typeof LoginRouteWithChildren
+  '/success': typeof SuccessRoute
   '/time': typeof TimeRoute
   '/login/binary-question': typeof LoginBinaryQuestionRoute
   '/login/button-sync': typeof LoginButtonSyncRoute
@@ -129,6 +136,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/button': typeof ButtonRoute
   '/fired': typeof FiredRoute
+  '/success': typeof SuccessRoute
   '/time': typeof TimeRoute
   '/login/binary-question': typeof LoginBinaryQuestionRoute
   '/login/button-sync': typeof LoginButtonSyncRoute
@@ -148,6 +156,7 @@ export interface FileRoutesById {
   '/button': typeof ButtonRoute
   '/fired': typeof FiredRoute
   '/login': typeof LoginRouteWithChildren
+  '/success': typeof SuccessRoute
   '/time': typeof TimeRoute
   '/login/binary-question': typeof LoginBinaryQuestionRoute
   '/login/button-sync': typeof LoginButtonSyncRoute
@@ -168,6 +177,7 @@ export interface FileRouteTypes {
     | '/button'
     | '/fired'
     | '/login'
+    | '/success'
     | '/time'
     | '/login/binary-question'
     | '/login/button-sync'
@@ -185,6 +195,7 @@ export interface FileRouteTypes {
     | '/'
     | '/button'
     | '/fired'
+    | '/success'
     | '/time'
     | '/login/binary-question'
     | '/login/button-sync'
@@ -203,6 +214,7 @@ export interface FileRouteTypes {
     | '/button'
     | '/fired'
     | '/login'
+    | '/success'
     | '/time'
     | '/login/binary-question'
     | '/login/button-sync'
@@ -222,6 +234,7 @@ export interface RootRouteChildren {
   ButtonRoute: typeof ButtonRoute
   FiredRoute: typeof FiredRoute
   LoginRoute: typeof LoginRouteWithChildren
+  SuccessRoute: typeof SuccessRoute
   TimeRoute: typeof TimeRoute
 }
 
@@ -232,6 +245,13 @@ declare module '@tanstack/react-router' {
       path: '/time'
       fullPath: '/time'
       preLoaderRoute: typeof TimeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/success': {
+      id: '/success'
+      path: '/success'
+      fullPath: '/success'
+      preLoaderRoute: typeof SuccessRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -377,6 +397,7 @@ const rootRouteChildren: RootRouteChildren = {
   ButtonRoute: ButtonRoute,
   FiredRoute: FiredRoute,
   LoginRoute: LoginRouteWithChildren,
+  SuccessRoute: SuccessRoute,
   TimeRoute: TimeRoute,
 }
 export const routeTree = rootRouteImport

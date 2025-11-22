@@ -6,6 +6,7 @@ import {
   createColumnHelper,
   type ColumnDef,
 } from '@tanstack/react-table';
+import { useNavigate } from '@tanstack/react-router';
 import { sendVictorToast } from '@/lib/victor';
 import { TopBar } from '@/components/TopBar';
 import { RetroButton } from '@/components/ui/retro-button';
@@ -85,6 +86,7 @@ const PROJECTS: string[] = [
 ];
 
 export function TimePage() {
+  const navigate = useNavigate();
   const weekDates = useMemo(() => getWeekDates(), []);
 
   // Convert flat array to grid format
@@ -318,10 +320,10 @@ export function TimePage() {
           </DialogHeader>
           <div className="flex justify-center mt-4">
             <RetroButton
-              onClick={() => setShowSuccess(false)}
+              onClick={() => navigate({ to: '/success' })}
               className="w-full sm:w-auto win98-outset bg-gray-300 hover:bg-gray-400 text-gray-900 font-bold tracking-wider font-pixel"
             >
-              BACK TO TIME WRITING
+              GO HOME
             </RetroButton>
           </div>
         </DialogContent>
