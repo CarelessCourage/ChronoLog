@@ -149,15 +149,16 @@ export function NetworkErrorStep() {
 
   // Check collision
   const checkCollision = (trexX: number, trexY: number, obstacle: Obstacle): boolean => {
-    const trexLeft = trexX + 5;
-    const trexRight = trexX + TREX_WIDTH - 5;
-    const trexTop = trexY + 5;
+    // Add padding to make collision more forgiving (like Chrome does)
+    const trexLeft = trexX + 10;
+    const trexRight = trexX + TREX_WIDTH - 10;
+    const trexTop = trexY + 10;
     const trexBottom = trexY + TREX_HEIGHT - 5;
 
-    const obstacleLeft = obstacle.x;
-    const obstacleRight = obstacle.x + obstacle.type.width;
-    const obstacleTop = obstacle.type.yPos - obstacle.type.height;
-    const obstacleBottom = obstacle.type.yPos;
+    const obstacleLeft = obstacle.x + 5;
+    const obstacleRight = obstacle.x + obstacle.type.width - 5;
+    const obstacleTop = obstacle.type.yPos;
+    const obstacleBottom = obstacle.type.yPos + obstacle.type.height;
 
     return (
       trexRight > obstacleLeft &&
