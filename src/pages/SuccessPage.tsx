@@ -3,7 +3,7 @@ export function SuccessPage() {
     <div
       className="min-h-screen relative overflow-hidden"
       style={{
-        backgroundImage: 'url(/gifs/home.gif)',
+        backgroundImage: 'url(/gifs/home2.gif)',
         backgroundSize: 'cover',
         backgroundPosition: '100% 50%',
         backgroundRepeat: 'no-repeat',
