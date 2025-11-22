@@ -3,10 +3,11 @@ export function SuccessPage() {
     <div
       className="min-h-screen relative overflow-hidden"
       style={{
-        backgroundImage: 'url(/gifs/officeDesk.gif)',
+        backgroundImage: 'url(/gifs/home.gif)',
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
+        backgroundPosition: '100% 50%',
+        backgroundRepeat: 'no-repeat',
+          maxHeight: '100vh',
       }}
     >
       {/* Dark overlay for better text readability */}

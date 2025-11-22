@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1ec17bd-2ed4-4c68-ba6f-a630e71dc739" name="Changes" comment="slight improvement to credits page">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps/DrawSelfPortraitStep.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AuthenticationPage/steps/DrawSelfPortraitStep.tsx" afterDir="false" />
-    </list>
+    <list default="true" id="a1ec17bd-2ed4-4c68-ba6f-a630e71dc739" name="Changes" comment="new gif on home page" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,7 +49,7 @@
     "git-widget-placeholder": "main",
     "js.debugger.nextJs.config.created.client": "true",
     "js.debugger.nextJs.config.created.server": "true",
-    "last_opened_file_path": "/Users/aslak.ihle/code/hackathon-ydalir/ChronoLog/public/audio",
+    "last_opened_file_path": "/Users/aslak.ihle/code/hackathon-ydalir/ChronoLog/public/gifs",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -65,8 +62,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/public/audio" />
       <recent name="$PROJECT_DIR$/public/gifs" />
+      <recent name="$PROJECT_DIR$/public/audio" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/pages/AuthenticationPage/steps/IdentifyStep" />
@@ -246,7 +243,23 @@
       <option name="project" value="LOCAL" />
       <updated>1763808579388</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="green bar on drawing the successfull">
+      <option name="closed" value="true" />
+      <created>1763809436687</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1763809436687</updated>
+    </task>
+    <task id="LOCAL-00018" summary="new gif on home page">
+      <option name="closed" value="true" />
+      <created>1763811584847</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1763811584847</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -270,7 +283,9 @@
     <MESSAGE value="fixes" />
     <MESSAGE value="credits page" />
     <MESSAGE value="slight improvement to credits page" />
-    <option name="LAST_COMMIT_MESSAGE" value="slight improvement to credits page" />
+    <MESSAGE value="green bar on drawing the successfull" />
+    <MESSAGE value="new gif on home page" />
+    <option name="LAST_COMMIT_MESSAGE" value="new gif on home page" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>
