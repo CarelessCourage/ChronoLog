@@ -103,7 +103,7 @@ export function IndexPage() {
       // Last scene, go to login
       navigate({ to: '/login' });
     }
-  };  // GSAP typewriter effect for scene text
+  }; // GSAP typewriter effect for scene text
   useEffect(() => {
     if (!showStartScreen && !isTransitioning && textRef.current) {
       const text = scenes[currentScene].text;

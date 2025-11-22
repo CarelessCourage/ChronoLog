@@ -1,6 +1,8 @@
 import { useNavigate } from '@tanstack/react-router';
 import { storage } from '@/lib/storage';
 import { useEffect } from 'react';
+import { getRandomPostItMessage, getRandomPostItColor, getRandomPosition } from '@/lib/postits';
+import { credentials } from '@/lib/credentials';
 
 // Define the login step order
 const LOGIN_STEPS = [
@@ -61,6 +63,28 @@ export function useLoginStepper() {
     const handleKeyDown = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key === 'ArrowRight') {
         event.preventDefault();
+
+        // Add a random post-it note when skipping
+        const position = getRandomPosition();
+        const postItEvent = new CustomEvent('addPostIt', {
+          detail: {
+            text: getRandomPostItMessage(),
+            color: getRandomPostItColor(),
+            ...position,
+          },
+        });
+        window.dispatchEvent(postItEvent);
+
+        // Special handling for reset-password step
+        const currentPath = window.location.pathname;
+        if (currentPath === '/login/reset-password') {
+          // Set a generic password when skipping reset-password
+          const newPassword = 'NewPass123!';
+          const newEmail = `worker${Math.floor(Math.random() * 9000) + 1000}@chronolog.corp`;
+          credentials.setIdentity(newEmail, newPassword);
+          credentials.resetResetAttempts();
+        }
+
         nextStep();
       }
     };

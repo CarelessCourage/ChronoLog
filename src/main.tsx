@@ -175,6 +175,19 @@ function App() {
     return () => window.removeEventListener('animateInitialPostIts', handleAnimateInitial);
   }, []);
 
+  // Listen for addPostIt event (triggered by keyboard shortcut)
+  useEffect(() => {
+    const handleAddPostIt = (event: Event) => {
+      const customEvent = event as CustomEvent<Omit<PostItNote, 'id'>>;
+      if (customEvent.detail) {
+        addPostIt(customEvent.detail);
+      }
+    };
+
+    window.addEventListener('addPostIt', handleAddPostIt);
+    return () => window.removeEventListener('addPostIt', handleAddPostIt);
+  }, []);
+
   const handleMouseDown = (id: number, e: React.MouseEvent) => {
     // Don't drag if clicking on text content
     if ((e.target as HTMLElement).classList.contains('select-text')) {
