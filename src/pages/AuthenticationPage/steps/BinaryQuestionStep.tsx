@@ -42,11 +42,14 @@ export function BinaryQuestionStep() {
   return (
     <StepperFormBox
       title="SECURITY VERIFICATION"
-      description="Please answer the following question:"
+      description="Please answer the following question to prove you're not a robot:"
     >
       <div className="space-y-8">
         <div className="p-4 bg-gray-100 win98-inset">
-          <p className="text-center font-mono text-sm text-gray-900 break-all leading-relaxed">
+          <p
+            className="text-center font-mono text-sm text-gray-900 break-words leading-relaxed"
+            style={{ maxWidth: '830px' }}
+          >
             {binaryQuestion}
           </p>
         </div>
@@ -58,9 +61,15 @@ export function BinaryQuestionStep() {
           <RetroButton onClick={() => handleAnswer('no')} size="lg">
             <span className="font-mono">{binaryNo}</span>
           </RetroButton>
-          <RetroButton onClick={() => handleAnswer('maybe')} size="lg">
-            <span className="font-mono">{binaryMaybe}</span>
-          </RetroButton>
+          {false && (
+            <RetroButton
+              onClick={() => handleAnswer('maybe')}
+              size="lg"
+              style={{ maxWidth: '830px' }}
+            >
+              <span className="font-mono break-words max-w-full">{binaryMaybe}</span>
+            </RetroButton>
+          )}
         </div>
       </div>
 
