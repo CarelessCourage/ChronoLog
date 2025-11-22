@@ -40,26 +40,26 @@ const scenes: Scene[] = [
 
 export function IndexPage() {
   const navigate = useNavigate();
-  const { playPreloaded, stopSpeaking, isSpeaking, isLoading, preloadVoices } = useElevenLabs();
+  const { playPreloaded, stopSpeaking, isSpeaking, isLoading, preloadVoicesPriority } =
+    useElevenLabs();
+  const [isPreloading, setIsPreloading] = useState(true);
+  // Preload the first 2 scene voices before enabling start, then load the rest in the background
+  useEffect(() => {
+    const items = scenes.map((scene, i) => ({
+      text: scene.text.replace(/<br\/>/g, ' ').replace(/<[^>]*>/g, ''),
+      priority: i,
+    }));
+    preloadVoicesPriority(items, {
+      parallelCount: 2,
+      onFirstBatchReady: () => setIsPreloading(false),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const { startAmbient } = useBackgroundMusic();
   const [showStartScreen, setShowStartScreen] = useState(true);
-  const [isPreloading, setIsPreloading] = useState(false);
   const [currentScene, setCurrentScene] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const textRef = useRef<HTMLParagraphElement>(null);
-
-  // Preload all voices when component mounts
-  useEffect(() => {
-    const preloadAllVoices = async () => {
-      setIsPreloading(true);
-      const textsToPreload = scenes.map((scene) =>
-        scene.text.replace(/<br\/>/g, ' ').replace(/<[^>]*>/g, '')
-      );
-      await preloadVoices(textsToPreload);
-      setIsPreloading(false);
-    };
-    preloadAllVoices();
-  }, [preloadVoices]);
 
   const handleStartGame = () => {
     // Start ambient sound
