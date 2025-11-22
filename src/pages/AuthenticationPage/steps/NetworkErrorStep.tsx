@@ -1,5 +1,4 @@
 import { useRef, useEffect, useState } from 'react';
-import { StepperFormBox } from '@/components/StepperFormBox';
 import { RetroButton } from '@/components/ui/retro-button';
 import { useStepper } from '@/components/StepperProvider';
 
@@ -457,11 +456,28 @@ export function NetworkErrorStep() {
   }, [gameStarted, isGameOver, spriteLoaded]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <StepperFormBox
-      title="Network Connection Error"
-      description="No internet connection detected. Recover connection by playing the game!"
-    >
-      <div className="space-y-6">
+    <div className="min-h-screen bg-white flex items-center justify-center p-8">
+      <div className="max-w-2xl w-full">
+        {/* Error header styled like Chrome's offline page */}
+        <div className="mb-8">
+          <div className="flex items-start gap-4 mb-6">
+            <svg className="w-12 h-12 text-gray-400 mt-1 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10" strokeWidth="2"/>
+              <line x1="12" y1="8" x2="12" y2="12" strokeWidth="2"/>
+              <line x1="12" y1="16" x2="12.01" y2="16" strokeWidth="2"/>
+            </svg>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-700 mb-3">No internet</h1>
+              <p className="text-gray-500 mb-2">Try:</p>
+              <ul className="text-sm text-gray-500 space-y-1">
+                <li>• Checking the network cables, modem, and router</li>
+                <li>• Reconnecting to Wi-Fi</li>
+                <li>• Or play the game below to restore connection</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         {/* Game canvas */}
         <div className="flex flex-col items-center gap-4">
           <div className="relative border-2 border-gray-300 rounded bg-[#f7f7f7]">
@@ -510,18 +526,18 @@ export function NetworkErrorStep() {
           </div>
 
           {/* Instructions and progress */}
-          <div className="text-center space-y-2">
+          <div className="space-y-3 mt-4">
             <div className="text-sm text-gray-600">
               Jump over obstacles to score points. Reach {POINTS_TO_WIN} points to reconnect!
             </div>
-            <div className="flex items-center gap-2 justify-center">
+            <div className="flex items-center gap-2">
               <div className="text-2xl font-bold text-blue-600">{score}</div>
               <div className="text-gray-400">/</div>
               <div className="text-lg text-gray-600">{POINTS_TO_WIN}</div>
             </div>
 
             {/* Progress bar */}
-            <div className="w-full max-w-xs mx-auto h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div className="w-full max-w-xs h-2 bg-gray-200 rounded-full overflow-hidden">
               <div
                 className="h-full bg-blue-500 transition-all duration-300"
                 style={{ width: `${Math.min((score / POINTS_TO_WIN) * 100, 100)}%` }}
@@ -531,7 +547,7 @@ export function NetworkErrorStep() {
 
           {/* Continue button */}
           {canProceed && (
-            <div className="flex flex-col items-center gap-2">
+            <div className="flex flex-col items-start gap-2 mt-4">
               <div className="text-green-600 font-semibold">✓ Connection restored!</div>
               <RetroButton onClick={nextStep}>Continue to Next Step</RetroButton>
             </div>
@@ -539,11 +555,16 @@ export function NetworkErrorStep() {
         </div>
 
         {/* Tips */}
-        <div className="text-xs text-gray-500 text-center space-y-1">
+        <div className="text-xs text-gray-500 space-y-1 mt-6">
           <p>💡 Tip: Press SPACE or ↑ to jump</p>
           <p>The game speed increases as you progress</p>
         </div>
+        
+        {/* Error code at bottom */}
+        <div className="text-xs text-gray-400 mt-8">
+          ERR_INTERNET_DISCONNECTED
+        </div>
       </div>
-    </StepperFormBox>
+    </div>
   );
 }
