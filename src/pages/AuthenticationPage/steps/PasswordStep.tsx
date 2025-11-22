@@ -16,6 +16,7 @@ import { credentials } from '@/lib/credentials';
 import { useBackgroundMusic } from '@/lib/backgroundMusic';
 import { sendVictorToast } from '@/lib/victor';
 import { TitleScreen } from '@/components/TitleScreen';
+import { usePostIts } from '@/lib/postitContext';
 
 // Random interruption messages
 const INTERRUPTION_MESSAGES = [
@@ -39,11 +40,21 @@ export function PasswordStep() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogMessage, setDialogMessage] = useState('');
   const [showTitleScreen, setShowTitleScreen] = useState(true);
+  const hasTriggeredInitialAnimation = useRef(false);
 
   // Start background music when component mounts
   useEffect(() => {
     startMusic();
   }, [startMusic]);
+
+  const handleTitleComplete = () => {
+    // Trigger initial post-it animations after title screen finishes
+    if (!hasTriggeredInitialAnimation.current) {
+      hasTriggeredInitialAnimation.current = true;
+      // Dispatch a custom event to trigger initial post-it animations
+      window.dispatchEvent(new CustomEvent('animateInitialPostIts'));
+    }
+  };
 
   // Character-based interruption tracking
   const charCountRef = useRef(0);
@@ -119,7 +130,12 @@ export function PasswordStep() {
   return (
     <>
       {/* Title Screen Overlay */}
-      {showTitleScreen && <TitleScreen onComplete={() => setShowTitleScreen(false)} />}
+      {showTitleScreen && (
+        <TitleScreen
+          onComplete={() => setShowTitleScreen(false)}
+          onTitleComplete={handleTitleComplete}
+        />
+      )}
 
       {/* Password Form */}
       <StepperFormBox

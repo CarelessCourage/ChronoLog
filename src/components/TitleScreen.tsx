@@ -3,9 +3,10 @@ import { gsap } from 'gsap';
 
 interface TitleScreenProps {
   onComplete: () => void;
+  onTitleComplete?: () => void;
 }
 
-export function TitleScreen({ onComplete }: TitleScreenProps) {
+export function TitleScreen({ onComplete, onTitleComplete }: TitleScreenProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const titleRefs = useRef<(HTMLDivElement | null)[]>([]);
   const flashBangAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -51,9 +52,16 @@ export function TitleScreen({ onComplete }: TitleScreenProps) {
           { opacity: 0, scale: 0.5 },
           { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.7)' }
         );
+
+        // If this is the last word, notify that title animation is complete
+        if (visibleWordCount === 3 && onTitleComplete) {
+          setTimeout(() => {
+            onTitleComplete();
+          }, 500); // Wait for animation to finish
+        }
       }
     }
-  }, [visibleWordCount]);
+  }, [visibleWordCount, onTitleComplete]);
 
   const handleClick = () => {
     if (overlayRef.current) {

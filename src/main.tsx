@@ -36,6 +36,9 @@ function App() {
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
   const postItRefs = useRef<Map<number, HTMLDivElement>>(new Map());
+  const animatedPostIts = useRef<Set<number>>(new Set());
+  const animationQueue = useRef<number[]>([]);
+  const isAnimating = useRef(false);
 
   const addPostIt = (note: Omit<PostItNote, 'id'>) => {
     const newId = Date.now();
@@ -45,6 +48,52 @@ function App() {
     };
     
     setPostIts((prev) => [...prev, newPostIt]);
+    
+    // Add to animation queue
+    animationQueue.current.push(newId);
+    
+    // Start processing queue if not already animating
+    if (!isAnimating.current) {
+      processAnimationQueue();
+    }
+  };
+
+  const processAnimationQueue = () => {
+    if (animationQueue.current.length === 0) {
+      isAnimating.current = false;
+      return;
+    }
+
+    isAnimating.current = true;
+    const nextId = animationQueue.current.shift();
+    
+    if (nextId) {
+      // Wait a bit for the element to be in DOM, then animate
+      setTimeout(() => {
+        const element = postItRefs.current.get(nextId);
+        if (element && !animatedPostIts.current.has(nextId)) {
+          animatedPostIts.current.add(nextId);
+          gsap.fromTo(
+            element,
+            { opacity: 0, scale: 0, rotation: -180 },
+            { 
+              opacity: 1, 
+              scale: 1, 
+              rotation: nextId % 2 === 0 ? -2 : 2, 
+              duration: 0.6, 
+              ease: 'back.out(1.7)',
+              onComplete: () => {
+                // Process next in queue after animation completes
+                setTimeout(() => processAnimationQueue(), 200);
+              }
+            }
+          );
+        } else {
+          // If element not found, try next immediately
+          processAnimationQueue();
+        }
+      }, 50);
+    }
   };
 
   // Subscribe to credential changes and add new login post-it
@@ -93,6 +142,37 @@ function App() {
     });
 
     return unsubscribe;
+  }, []);
+
+  // Listen for initial post-it animation trigger
+  useEffect(() => {
+    const handleAnimateInitial = () => {
+      // Small delay to ensure all refs are set
+      setTimeout(() => {
+        INITIAL_POSTITS.forEach((postIt, index) => {
+          setTimeout(() => {
+            const element = postItRefs.current.get(postIt.id);
+            if (element && !animatedPostIts.current.has(postIt.id)) {
+              animatedPostIts.current.add(postIt.id);
+              gsap.fromTo(
+                element,
+                { opacity: 0, scale: 0, rotation: -180 },
+                { 
+                  opacity: 1, 
+                  scale: 1, 
+                  rotation: postIt.id % 2 === 0 ? -2 : 2, 
+                  duration: 0.6, 
+                  ease: 'back.out(1.7)'
+                }
+              );
+            }
+          }, index * 300); // Stagger by 300ms
+        });
+      }, 100);
+    };
+
+    window.addEventListener('animateInitialPostIts', handleAnimateInitial);
+    return () => window.removeEventListener('animateInitialPostIts', handleAnimateInitial);
   }, []);
 
   const handleMouseDown = (id: number, e: React.MouseEvent) => {
@@ -161,16 +241,9 @@ function App() {
             ref={(el) => {
               if (el) {
                 postItRefs.current.set(postIt.id, el);
-                // If this is a new post-it (opacity is 0), animate it
-                if (el.style.opacity === '' || el.style.opacity === '0') {
+                // Set initial invisible state for all post-its that haven't been animated yet
+                if (!animatedPostIts.current.has(postIt.id)) {
                   gsap.set(el, { opacity: 0, scale: 0, rotation: -180 });
-                  gsap.to(el, {
-                    opacity: 1,
-                    scale: 1,
-                    rotation: postIt.id % 2 === 0 ? -2 : 2,
-                    duration: 0.6,
-                    ease: 'back.out(1.7)',
-                  });
                 }
               } else {
                 postItRefs.current.delete(postIt.id);
@@ -178,20 +251,20 @@ function App() {
             }}
             className="fixed w-48 p-4 shadow-lg cursor-move z-50"
             style={{
-              left: `${postIt.x}px`,
-              top: `${postIt.y}px`,
-              backgroundColor: postIt.color,
-              transform: `rotate(${postIt.id % 2 === 0 ? '-2deg' : '2deg'})`,
-              boxShadow: '2px 2px 8px rgba(0,0,0,0.15)',
-              fontFamily: '"Just Me Again Down Here", cursive',
-            }}
-            onMouseDown={(e) => handleMouseDown(postIt.id, e)}
-          >
-            <div className="text-lg text-slate-800 whitespace-pre-line leading-relaxed cursor-text select-text pointer-events-auto">
-              {postIt.text}
-            </div>
+            left: `${postIt.x}px`,
+            top: `${postIt.y}px`,
+            backgroundColor: postIt.color,
+            transform: `rotate(${postIt.id % 2 === 0 ? '-2deg' : '2deg'})`,
+            boxShadow: '2px 2px 8px rgba(0,0,0,0.15)',
+            fontFamily: '"Just Me Again Down Here", cursive',
+          }}
+          onMouseDown={(e) => handleMouseDown(postIt.id, e)}
+        >
+          <div className="text-lg text-slate-800 whitespace-pre-line leading-relaxed cursor-text select-text pointer-events-auto">
+            {postIt.text}
           </div>
-        ))}
+        </div>
+      ))}
     </div>
   );
 }
