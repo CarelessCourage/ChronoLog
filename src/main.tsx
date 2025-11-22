@@ -46,12 +46,12 @@ function App() {
       ...note,
       id: newId,
     };
-    
+
     setPostIts((prev) => [...prev, newPostIt]);
-    
+
     // Add to animation queue
     animationQueue.current.push(newId);
-    
+
     // Start processing queue if not already animating
     if (!isAnimating.current) {
       processAnimationQueue();
@@ -66,7 +66,7 @@ function App() {
 
     isAnimating.current = true;
     const nextId = animationQueue.current.shift();
-    
+
     if (nextId) {
       // Wait a bit for the element to be in DOM, then animate
       setTimeout(() => {
@@ -76,16 +76,16 @@ function App() {
           gsap.fromTo(
             element,
             { opacity: 0, scale: 0, rotation: -180 },
-            { 
-              opacity: 1, 
-              scale: 1, 
-              rotation: nextId % 2 === 0 ? -2 : 2, 
-              duration: 0.6, 
+            {
+              opacity: 1,
+              scale: 1,
+              rotation: nextId % 2 === 0 ? -2 : 2,
+              duration: 0.6,
               ease: 'back.out(1.7)',
               onComplete: () => {
                 // Process next in queue after animation completes
                 setTimeout(() => processAnimationQueue(), 200);
-              }
+              },
             }
           );
         } else {
@@ -157,12 +157,12 @@ function App() {
               gsap.fromTo(
                 element,
                 { opacity: 0, scale: 0, rotation: -180 },
-                { 
-                  opacity: 1, 
-                  scale: 1, 
-                  rotation: postIt.id % 2 === 0 ? -2 : 2, 
-                  duration: 0.6, 
-                  ease: 'back.out(1.7)'
+                {
+                  opacity: 1,
+                  scale: 1,
+                  rotation: postIt.id % 2 === 0 ? -2 : 2,
+                  duration: 0.6,
+                  ease: 'back.out(1.7)',
                 }
               );
             }
@@ -251,20 +251,20 @@ function App() {
             }}
             className="fixed w-48 p-4 shadow-lg cursor-move z-50"
             style={{
-            left: `${postIt.x}px`,
-            top: `${postIt.y}px`,
-            backgroundColor: postIt.color,
-            transform: `rotate(${postIt.id % 2 === 0 ? '-2deg' : '2deg'})`,
-            boxShadow: '2px 2px 8px rgba(0,0,0,0.15)',
-            fontFamily: '"Just Me Again Down Here", cursive',
-          }}
-          onMouseDown={(e) => handleMouseDown(postIt.id, e)}
-        >
-          <div className="text-lg text-slate-800 whitespace-pre-line leading-relaxed cursor-text select-text pointer-events-auto">
-            {postIt.text}
+              left: `${postIt.x}px`,
+              top: `${postIt.y}px`,
+              backgroundColor: postIt.color,
+              transform: `rotate(${postIt.id % 2 === 0 ? '-2deg' : '2deg'})`,
+              boxShadow: '2px 2px 8px rgba(0,0,0,0.15)',
+              fontFamily: '"Just Me Again Down Here", cursive',
+            }}
+            onMouseDown={(e) => handleMouseDown(postIt.id, e)}
+          >
+            <div className="text-lg text-slate-800 whitespace-pre-line leading-relaxed cursor-text select-text pointer-events-auto">
+              {postIt.text}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </div>
   );
 }

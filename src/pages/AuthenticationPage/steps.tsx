@@ -3,6 +3,7 @@ import { DNASampleStep } from '@/pages/AuthenticationPage/steps/DNASampleStep/DN
 import { PasswordStep } from './steps/PasswordStep';
 import { BinaryQuestionStep } from './steps/BinaryQuestionStep';
 import { ResetPasswordStep } from './steps/ResetPasswordState.tsx';
+import { LoginAgainStep } from './steps/LoginAgainStep';
 import { ButtonSyncStep } from './steps/ButtonSyncStep';
 import { VoiceRecognition } from '@/pages/AuthenticationPage/steps/VoiceRecognition.tsx';
 import { DanceVerificationStep } from './steps/DanceVerificationStep';
@@ -28,6 +29,10 @@ export const loginSteps: Step[] = [
   {
     id: 'reset-password',
     content: <ResetPasswordStep />,
+  },
+  {
+    id: 'login-again',
+    content: <LoginAgainStep />,
   },
   {
     id: 'voicerecognition',

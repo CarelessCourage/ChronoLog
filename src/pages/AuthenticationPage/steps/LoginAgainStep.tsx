@@ -2,7 +2,7 @@ import { useStepper } from '@/components/StepperProvider';
 import { StepperFormBox } from '@/components/StepperFormBox.tsx';
 import { Input } from '@/components/ui/input';
 import { RetroButton } from '@/components/ui/retro-button';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,52 +13,26 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { credentials } from '@/lib/credentials';
-import { useBackgroundMusic } from '@/lib/backgroundMusic';
 import { sendVictorToast } from '@/lib/victor';
-import { TitleScreen } from '@/components/TitleScreen';
-import { usePostIts } from '@/lib/postitContext';
 
-// Random interruption messages
+// Fewer interruption messages
 const INTERRUPTION_MESSAGES = [
   'Your session will expire soon!',
-  'New notification: Please verify your identity',
-  'Reminder: Update your security settings',
-  'You have unread messages',
-  'Security alert: Unusual login attempt detected',
-  'System message: Please complete verification',
-  'Action required: Confirm your email address',
-  'Important: Review your account settings',
-  'Nononono 🙂‍↔️',
+  'Security alert: Please verify your identity',
+  'System message: Authentication in progress',
 ];
 
-export function PasswordStep() {
+export function LoginAgainStep() {
   const { nextStep } = useStepper();
-  const { startMusic } = useBackgroundMusic();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogMessage, setDialogMessage] = useState('');
-  const [showTitleScreen, setShowTitleScreen] = useState(true);
-  const hasTriggeredInitialAnimation = useRef(false);
 
-  // Start background music when component mounts
-  useEffect(() => {
-    startMusic();
-  }, [startMusic]);
-
-  const handleTitleComplete = () => {
-    // Trigger initial post-it animations after title screen finishes
-    if (!hasTriggeredInitialAnimation.current) {
-      hasTriggeredInitialAnimation.current = true;
-      // Dispatch a custom event to trigger initial post-it animations
-      window.dispatchEvent(new CustomEvent('animateInitialPostIts'));
-    }
-  };
-
-  // Character-based interruption tracking
+  // Less frequent character-based interruptions (higher threshold)
   const charCountRef = useRef(0);
-  const thresholdRef = useRef(Math.floor(Math.random() * 3) + 2); // Random threshold between 2-4
+  const thresholdRef = useRef(Math.floor(Math.random() * 5) + 8); // Random threshold between 8-12
 
   // Track the previously focused element
   const previouslyFocusedElementRef = useRef<HTMLElement | null>(null);
@@ -78,7 +52,7 @@ export function PasswordStep() {
 
     // Reset counter and set new random threshold
     charCountRef.current = 0;
-    thresholdRef.current = Math.floor(Math.random() * 5) + 2; // New threshold between 2-4
+    thresholdRef.current = Math.floor(Math.random() * 5) + 8; // New threshold between 8-12
   };
 
   const handleDialogClose = () => {
@@ -106,13 +80,10 @@ export function PasswordStep() {
 
   const handlePaste = (e: React.ClipboardEvent) => {
     e.preventDefault();
-    sendVictorToast(
-      'Pasting into input fields is strictly prohibited! Type your credentials manually for security purposes.',
-      {
-        channel: '#security-violations',
-        isViolation: true,
-      }
-    );
+    sendVictorToast('Pasting is prohibited for security purposes.', {
+      channel: '#security-violations',
+      isViolation: true,
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -120,7 +91,6 @@ export function PasswordStep() {
     setError('');
 
     if (credentials.validate(username, password)) {
-      // Second time with correct credentials, allow login
       nextStep();
     } else {
       setError('Invalid username or password');
@@ -129,18 +99,9 @@ export function PasswordStep() {
 
   return (
     <>
-      {/* Title Screen Overlay */}
-      {showTitleScreen && (
-        <TitleScreen
-          onComplete={() => setShowTitleScreen(false)}
-          onTitleComplete={handleTitleComplete}
-        />
-      )}
-
-      {/* Password Form */}
       <StepperFormBox
-        title="Enter Your Credentials"
-        description="Please provide your username and password to continue."
+        title="Login With New Password"
+        description="Please login again with your new password to continue."
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
@@ -159,7 +120,7 @@ export function PasswordStep() {
             <Input
               id="password"
               type="password"
-              placeholder="Password"
+              placeholder="New Password"
               value={password}
               onChange={(e) => handleInputChange(setPassword, e.target.value)}
               onPaste={handlePaste}
