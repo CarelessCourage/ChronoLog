@@ -6,6 +6,8 @@ interface BackgroundMusicContextType {
   startAmbient: () => void;
   stopAmbient: () => void;
   isPlaying: boolean;
+  setMusicVolume: (volume: number) => void;
+  setAmbientVolume: (volume: number) => void;
 }
 
 const BackgroundMusicContext = createContext<BackgroundMusicContextType | null>(null);
@@ -21,7 +23,7 @@ export function BackgroundMusicProvider({ children }: { children: ReactNode }) {
     if (!audioRef.current) {
       audioRef.current = new Audio('/audio/miamiBluesDetective.mp3');
       audioRef.current.loop = true;
-      audioRef.current.volume = 0.7;
+      audioRef.current.volume = 0.2; // Lower default music volume
     }
 
     audioRef.current.play().catch((e) => {
@@ -42,7 +44,7 @@ export function BackgroundMusicProvider({ children }: { children: ReactNode }) {
     if (!ambientRef.current) {
       ambientRef.current = new Audio('/audio/stormyNight.mp3');
       ambientRef.current.loop = true;
-      ambientRef.current.volume = 1;
+      ambientRef.current.volume = 1; // Much higher rain volume (separate channel)
     }
 
     ambientRef.current.play().catch((e) => {
@@ -56,6 +58,18 @@ export function BackgroundMusicProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const setMusicVolume = useCallback((volume: number) => {
+    if (audioRef.current) {
+      audioRef.current.volume = Math.max(0, Math.min(1, volume));
+    }
+  }, []);
+
+  const setAmbientVolume = useCallback((volume: number) => {
+    if (ambientRef.current) {
+      ambientRef.current.volume = Math.max(0, Math.min(1, volume));
+    }
+  }, []);
+
   return (
     <BackgroundMusicContext.Provider
       value={{
@@ -64,6 +78,8 @@ export function BackgroundMusicProvider({ children }: { children: ReactNode }) {
         startAmbient,
         stopAmbient,
         isPlaying: isPlayingRef.current,
+        setMusicVolume,
+        setAmbientVolume,
       }}
     >
       {children}

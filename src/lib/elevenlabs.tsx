@@ -31,6 +31,7 @@ export function ElevenLabsProvider({ children }: { children: ReactNode }) {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const preloadedAudioRef = useRef<Map<string, AudioBuffer>>(new Map());
+  const currentlyPlayingRef = useRef<string | null>(null);
 
   const getAudioContext = () => {
     if (!audioContextRef.current) {
@@ -43,28 +44,31 @@ export function ElevenLabsProvider({ children }: { children: ReactNode }) {
     if (sourceNodeRef.current) {
       try {
         sourceNodeRef.current.stop();
-      } catch (e) {
+        sourceNodeRef.current = null;
+      } catch {
         // Already stopped
       }
-      sourceNodeRef.current = null;
       setIsSpeaking(false);
       setIsLoading(false);
+      currentlyPlayingRef.current = null;
     }
   }, []);
 
   const preloadVoices = useCallback(async (texts: string[], voiceId: string = VOICES.default) => {
     setIsLoading(true);
-    const audioContext = getAudioContext();
 
     try {
+      // Filter out already preloaded texts to avoid duplicate API calls
+      const textsToLoad = texts.filter((text) => !preloadedAudioRef.current.has(text));
+
+      if (textsToLoad.length === 0) {
+        setIsLoading(false);
+        return;
+      }
+
       // Preload all voices in parallel
       await Promise.all(
-        texts.map(async (text) => {
-          // Skip if already preloaded
-          if (preloadedAudioRef.current.has(text)) {
-            return;
-          }
-
+        textsToLoad.map(async (text) => {
           try {
             // Generate audio stream from ElevenLabs
             const audioStream = await elevenlabs.textToSpeech.convert(voiceId, {
@@ -87,11 +91,10 @@ export function ElevenLabsProvider({ children }: { children: ReactNode }) {
             const blob = new Blob(chunks as BlobPart[], { type: 'audio/mpeg' });
             const arrayBuffer = await blob.arrayBuffer();
 
-            // Decode audio data
-            const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-
-            // Store preloaded audio
-            preloadedAudioRef.current.set(text, audioBuffer);
+            // Create AudioContext only when needed (after user gesture)
+            // We'll decode later when actually playing
+            // For now, just store the raw array buffer
+            preloadedAudioRef.current.set(text, arrayBuffer as any);
           } catch (error) {
             console.error(`Error preloading voice for text: "${text}"`, error);
           }
@@ -103,30 +106,54 @@ export function ElevenLabsProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const playPreloaded = useCallback(
-    (text: string) => {
+    async (text: string) => {
       try {
+        // Prevent multiple simultaneous playbacks
+        if (currentlyPlayingRef.current === text) {
+          return;
+        }
+
         // Stop any currently playing audio
         stopSpeaking();
 
-        const audioBuffer = preloadedAudioRef.current.get(text);
-        if (!audioBuffer) {
+        const audioData = preloadedAudioRef.current.get(text);
+        if (!audioData) {
           console.error('Audio not preloaded for text:', text);
           return;
         }
 
+        currentlyPlayingRef.current = text;
+
+        // Create AudioContext on first play (after user gesture)
         const audioContext = getAudioContext();
 
         // Resume audio context if suspended (required for autoplay policy)
         if (audioContext.state === 'suspended') {
-          audioContext.resume();
+          await audioContext.resume();
+        }
+
+        // Decode audio data if needed (stored as ArrayBuffer)
+        let audioBuffer: AudioBuffer;
+        if (audioData instanceof ArrayBuffer) {
+          audioBuffer = await audioContext.decodeAudioData(audioData.slice(0));
+          // Cache the decoded buffer
+          preloadedAudioRef.current.set(text, audioBuffer);
+        } else {
+          audioBuffer = audioData;
         }
 
         setIsSpeaking(true);
 
-        // Create and configure source node
+        // Create and configure source node with gain
         const source = audioContext.createBufferSource();
         source.buffer = audioBuffer;
-        source.connect(audioContext.destination);
+
+        // Add gain node to increase volume
+        const gainNode = audioContext.createGain();
+        gainNode.gain.value = 2.0; // Increase voice volume
+
+        source.connect(gainNode);
+        gainNode.connect(audioContext.destination);
 
         sourceNodeRef.current = source;
 
@@ -134,6 +161,7 @@ export function ElevenLabsProvider({ children }: { children: ReactNode }) {
         source.onended = () => {
           setIsSpeaking(false);
           sourceNodeRef.current = null;
+          currentlyPlayingRef.current = null;
         };
 
         // Start playback
@@ -142,6 +170,7 @@ export function ElevenLabsProvider({ children }: { children: ReactNode }) {
         console.error('Error playing preloaded audio:', error);
         setIsSpeaking(false);
         sourceNodeRef.current = null;
+        currentlyPlayingRef.current = null;
       }
     },
     [stopSpeaking]
@@ -189,10 +218,16 @@ export function ElevenLabsProvider({ children }: { children: ReactNode }) {
         setIsLoading(false);
         setIsSpeaking(true);
 
-        // Create and configure source node
+        // Create and configure source node with gain
         const source = audioContext.createBufferSource();
         source.buffer = audioBuffer;
-        source.connect(audioContext.destination);
+
+        // Add gain node to increase volume
+        const gainNode = audioContext.createGain();
+        gainNode.gain.value = 2.0; // Increase voice volume
+
+        source.connect(gainNode);
+        gainNode.connect(audioContext.destination);
 
         sourceNodeRef.current = source;
 

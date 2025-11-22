@@ -17,7 +17,7 @@ export function TitleScreen({ onComplete, onTitleComplete }: TitleScreenProps) {
   // Initialize flashbang audio
   useEffect(() => {
     flashBangAudioRef.current = new Audio('/audio/flashBang.mp3');
-    flashBangAudioRef.current.volume = 0.5;
+    flashBangAudioRef.current.volume = 0.8; // Higher ambient/SFX volume
   }, []);
 
   // Show words one by one
