@@ -196,7 +196,7 @@ export function TimePage() {
       ...weekDates.map(({ day, date }) =>
         columnHelper.accessor(day.toLowerCase() as keyof TimeSheetRow, {
           header: () => (
-            <div className="text-center">
+            <div>
               <div className="font-semibold text-gray-800">{day.slice(0, 3).toUpperCase()}</div>
               <div className="text-xs text-gray-600">{date.slice(5)}</div>
             </div>
@@ -213,7 +213,7 @@ export function TimePage() {
                 updateHours(info.row.original.project, day, val);
               }}
               disabled={isLocked(day)}
-              className="w-20 text-center win98-inset bg-white text-gray-900 border-gray-500 font-bold disabled:opacity-50 disabled:text-gray-500 disabled:bg-gray-100"
+              className="w-20 win98-inset bg-white text-gray-900 border-gray-500 font-bold disabled:opacity-50 disabled:text-gray-500 disabled:bg-gray-100"
             />
           ),
         })
@@ -248,7 +248,7 @@ export function TimePage() {
                         {headerGroup.headers.map((header) => (
                           <th
                             key={header.id}
-                            className="p-3 text-gray-800 font-bold tracking-wide font-pixel"
+                            className="p-3 text-left text-gray-800 font-bold tracking-wide font-pixel"
                           >
                             {header.isPlaceholder
                               ? null
@@ -276,7 +276,7 @@ export function TimePage() {
               </div>
 
               {validationError && (
-                <div className="mt-4 p-4 bg-red-100 border-2 border-red-500 text-red-800 font-medium text-center win98-inset">
+                <div className="mt-4 p-4 bg-red-100 border-2 border-red-500 text-red-800 font-medium win98-inset">
                   {validationError}
                 </div>
               )}
@@ -298,27 +298,27 @@ export function TimePage() {
       <Dialog open={showSuccess} onOpenChange={setShowSuccess}>
         <DialogContent className="sm:max-w-md win98-outset bg-white border-gray-600">
           <DialogHeader>
-            <DialogTitle className="text-center text-2xl font-semibold text-gray-800 tracking-wider font-pixel">
+            <DialogTitle className="text-2xl font-semibold text-gray-800 tracking-wider font-pixel">
               TIME LOGGED. COMPLIANCE ACHIEVED.
             </DialogTitle>
             <DialogDescription className="space-y-3 pt-4">
-              <p className="text-sm uppercase tracking-[0.3em] text-gray-600 text-center">
+              <p className="text-sm uppercase tracking-[0.3em] text-gray-600">
                 ChronoLog Directive
               </p>
-              <p className="text-gray-700 text-center">
+              <p className="text-gray-700">
                 Your 7.5 hours have been recorded in accordance with Section 12.4 of the Time
                 Compliance Policy.
               </p>
-              <p className="text-gray-700 text-center">
+              <p className="text-gray-700">
                 Thank you for your punctual cooperation. You are now authorized to temporarily
                 detach from your workstation. Enjoy your limited personal time responsibly.
               </p>
-              <p className="text-sm text-gray-500 text-center">
+              <p className="text-sm text-gray-500">
                 You will be reminded to repeat this ceremony tomorrow.
               </p>
             </DialogDescription>
           </DialogHeader>
-          <div className="flex justify-center mt-4">
+          <div className="flex justify-end mt-4">
             <RetroButton
               onClick={() => navigate({ to: '/success' })}
               className="w-full sm:w-auto win98-outset bg-gray-300 hover:bg-gray-400 text-gray-900 font-bold tracking-wider font-pixel"
