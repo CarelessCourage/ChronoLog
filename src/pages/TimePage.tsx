@@ -20,30 +20,31 @@ import {
 } from '@/components/ui/dialog';
 
 type Days = 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri';
-type Projects =
-  | 'PWEX'
-  | 'Vacation'
-  | 'Sick Leave'
-  | 'Personal Development'
-  | 'Administrative Tasks'
-  | 'ACL';
+
 
 interface WeekDate {
   hours: number;
-  project: Projects;
+  project: string;
   day: Days;
   locked: boolean;
 }
 
 const INITIAL_TIMESHEET: WeekDate[] = [
-  // Monday - locked
-  { hours: 7.5, project: 'PWEX', day: 'Mon', locked: true },
-  // Tuesday - locked
-  { hours: 7.5, project: 'PWEX', day: 'Tue', locked: true },
-  // Wednesday - locked
-  { hours: 7.5, project: 'PWEX', day: 'Wed', locked: true },
-  // Thursday - locked
-  { hours: 7.5, project: 'PWEX', day: 'Thu', locked: true },
+  // Monday - split across 3 projects
+  { hours: 3, project: 'QZX.4827.MA9T2.64', day: 'Mon', locked: true },
+  { hours: 2.5, project: 'NPT.1173.HD6R4.85', day: 'Mon', locked: true },
+  { hours: 2, project: 'XWF.2649.CE5K0.93', day: 'Mon', locked: true },
+  // Tuesday - split across 2 projects
+  { hours: 5.5, project: 'DJA.8881.RM2V7.11', day: 'Tue', locked: true },
+  { hours: 2, project: 'LKM.7502.YS3B1.22', day: 'Tue', locked: true },
+  // Wednesday - split across 4 projects
+  { hours: 1.5, project: 'BRN.9305.ZQ1L8.07', day: 'Wed', locked: true },
+  { hours: 2.5, project: 'LKM.7502.YS3B1.22', day: 'Wed', locked: true },
+  { hours: 1, project: 'QZX.4827.MA9T2.64', day: 'Wed', locked: true },
+  { hours: 2.5, project: 'DJA.8881.RM2V7.11', day: 'Wed', locked: true },
+  // Thursday - split across 2 projects
+  { hours: 4.5, project: 'NPT.1173.HD6R4.85', day: 'Thu', locked: true },
+  { hours: 3, project: 'BRN.9305.ZQ1L8.07', day: 'Thu', locked: true },
   // Friday - unlocked for user to fill
 ];
 
@@ -65,7 +66,7 @@ function getWeekDates(): { day: string; date: string }[] {
 }
 
 interface TimeSheetRow {
-  project: Projects;
+  project: string;
   monday: number;
   tuesday: number;
   wednesday: number;
@@ -73,13 +74,14 @@ interface TimeSheetRow {
   friday: number;
 }
 
-const PROJECTS: Projects[] = [
-  'PWEX',
-  'Vacation',
-  'Sick Leave',
-  'Personal Development',
-  'Administrative Tasks',
-  'ACL',
+const PROJECTS: string[] = [
+'QZX.4827.MA9T2.64',
+'BRN.9305.ZQ1L8.07',
+'NPT.1173.HD6R4.85',
+'LKM.7502.YS3B1.22',
+'XWF.2649.CE5K0.93',
+'DJA.8881.RM2V7.11'
+,
 ];
 
 export function TimePage() {
