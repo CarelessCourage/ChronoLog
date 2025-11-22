@@ -52,58 +52,55 @@ export function ElevenLabsProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const preloadVoices = useCallback(
-    async (texts: string[], voiceId: string = VOICES.default) => {
-      setIsLoading(true);
-      const audioContext = getAudioContext();
+  const preloadVoices = useCallback(async (texts: string[], voiceId: string = VOICES.default) => {
+    setIsLoading(true);
+    const audioContext = getAudioContext();
 
-      try {
-        // Preload all voices in parallel
-        await Promise.all(
-          texts.map(async (text) => {
-            // Skip if already preloaded
-            if (preloadedAudioRef.current.has(text)) {
-              return;
+    try {
+      // Preload all voices in parallel
+      await Promise.all(
+        texts.map(async (text) => {
+          // Skip if already preloaded
+          if (preloadedAudioRef.current.has(text)) {
+            return;
+          }
+
+          try {
+            // Generate audio stream from ElevenLabs
+            const audioStream = await elevenlabs.textToSpeech.convert(voiceId, {
+              text,
+              modelId: 'eleven_multilingual_v2',
+              outputFormat: 'mp3_44100_128',
+            });
+
+            // Read the stream into chunks
+            const reader = audioStream.getReader();
+            const chunks: Uint8Array[] = [];
+
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+              chunks.push(value);
             }
 
-            try {
-              // Generate audio stream from ElevenLabs
-              const audioStream = await elevenlabs.textToSpeech.convert(voiceId, {
-                text,
-                modelId: 'eleven_multilingual_v2',
-                outputFormat: 'mp3_44100_128',
-              });
+            // Create a blob from chunks
+            const blob = new Blob(chunks as BlobPart[], { type: 'audio/mpeg' });
+            const arrayBuffer = await blob.arrayBuffer();
 
-              // Read the stream into chunks
-              const reader = audioStream.getReader();
-              const chunks: Uint8Array[] = [];
+            // Decode audio data
+            const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
 
-              while (true) {
-                const { done, value } = await reader.read();
-                if (done) break;
-                chunks.push(value);
-              }
-
-              // Create a blob from chunks
-              const blob = new Blob(chunks as BlobPart[], { type: 'audio/mpeg' });
-              const arrayBuffer = await blob.arrayBuffer();
-
-              // Decode audio data
-              const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-
-              // Store preloaded audio
-              preloadedAudioRef.current.set(text, audioBuffer);
-            } catch (error) {
-              console.error(`Error preloading voice for text: "${text}"`, error);
-            }
-          })
-        );
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    []
-  );
+            // Store preloaded audio
+            preloadedAudioRef.current.set(text, audioBuffer);
+          } catch (error) {
+            console.error(`Error preloading voice for text: "${text}"`, error);
+          }
+        })
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   const playPreloaded = useCallback(
     (text: string) => {

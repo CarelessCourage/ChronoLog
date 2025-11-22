@@ -3,6 +3,7 @@ import { useNavigate } from '@tanstack/react-router';
 import { gsap } from 'gsap';
 import { TextPlugin } from 'gsap/TextPlugin';
 import { useElevenLabs } from '@/lib/elevenlabs';
+import { useBackgroundMusic } from '@/lib/backgroundMusic';
 import { RetroButton } from '@/components/ui/retro-button';
 import { Icon } from '@iconify/react';
 
@@ -40,6 +41,7 @@ const scenes: Scene[] = [
 export function IndexPage() {
   const navigate = useNavigate();
   const { playPreloaded, stopSpeaking, isSpeaking, isLoading, preloadVoices } = useElevenLabs();
+  const { startAmbient } = useBackgroundMusic();
   const [showStartScreen, setShowStartScreen] = useState(true);
   const [isPreloading, setIsPreloading] = useState(false);
   const [currentScene, setCurrentScene] = useState(0);
@@ -73,6 +75,8 @@ export function IndexPage() {
   }, [preloadVoices]);
 
   const handleStartGame = () => {
+    // Start ambient sound
+    startAmbient();
     setShowStartScreen(false);
   };
 
@@ -158,7 +162,7 @@ export function IndexPage() {
             console.log('Failed to play flashbang:', err);
           });
         }
-        
+
         gsap.fromTo(
           element,
           { opacity: 0, scale: 0.5 },
