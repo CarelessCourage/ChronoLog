@@ -5,6 +5,7 @@ import { ConvexProvider, ConvexReactClient } from 'convex/react';
 import { router } from './router';
 import { Toaster } from '@/components/ui/toaster';
 import { credentials } from '@/lib/credentials';
+import { ElevenLabsProvider } from '@/lib/elevenlabs';
 import './index.css';
 
 const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string);
@@ -124,7 +125,9 @@ function App() {
   return (
     <div onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} className="relative">
       <ConvexProvider client={convex}>
-        <RouterProvider router={router} />
+        <ElevenLabsProvider>
+          <RouterProvider router={router} />
+        </ElevenLabsProvider>
       </ConvexProvider>
       <Toaster />
 

@@ -4,6 +4,7 @@ import { RetroButton } from '@/components/ui/retro-button';
 import { useEffect, useRef, useState } from 'react';
 import { Progress } from '@/components/ui/progress';
 import { sendVictorToast } from '@/lib/victor.tsx';
+import { useElevenLabs } from '@/lib/elevenlabs';
 
 const MOVEMENT_THRESHOLD = 1000; // Total movement needed to pass
 const MOTION_THRESHOLD = 100; // Minimum difference to count as motion
@@ -13,6 +14,7 @@ const TIME_LIMIT = 30; // 30 seconds to complete the dance
 
 export function DanceVerificationStep() {
   const { nextStep } = useStepper();
+  const { speak } = useElevenLabs();
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isStreaming, setIsStreaming] = useState(false);
@@ -169,6 +171,9 @@ export function DanceVerificationStep() {
     setTimeRemaining(TIME_LIMIT);
     previousFrameRef.current = [];
     startTimeRef.current = Date.now();
+
+    // Speak instruction
+    speak('Show me your moves! Dance like nobody is watching.');
 
     // Start the timer
     timerIntervalRef.current = window.setInterval(() => {

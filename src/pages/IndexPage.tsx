@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { gsap } from 'gsap';
 import { TextPlugin } from 'gsap/TextPlugin';
+import { useElevenLabs } from '@/lib/elevenlabs';
 
 gsap.registerPlugin(TextPlugin);
 
@@ -36,28 +37,65 @@ const scenes: Scene[] = [
 
 export function IndexPage() {
   const navigate = useNavigate();
+  const { speak, stopSpeaking } = useElevenLabs();
   const [currentScene, setCurrentScene] = useState(0);
   const [showTitle, setShowTitle] = useState(false);
   const [visibleWordCount, setVisibleWordCount] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
   const titleRefs = useRef<(HTMLDivElement | null)[]>([]);
   const textRef = useRef<HTMLParagraphElement>(null);
 
   const allWords = ['Write.', 'Your.', 'Hours.'];
 
+  const handleTestAudio = async () => {
+    console.log('Test audio button clicked');
+    const text = showTitle
+      ? 'Write. Your. Hours.'
+      : scenes[currentScene].text.replace(/<br\/>/g, ' ').replace(/<[^>]*>/g, '');
+    console.log('Attempting to speak:', text);
+    try {
+      await speak(text);
+      console.log('Speak completed');
+    } catch (error) {
+      console.error('Speak failed:', error);
+    }
+  };
+
   const handleClick = () => {
+    // Stop any currently playing speech
+    stopSpeaking();
+
+    // On first click, speak the current scene
+    if (!hasStarted) {
+      setHasStarted(true);
+      const text = scenes[currentScene].text;
+      const textForSpeech = text.replace(/<br\/>/g, ' ').replace(/<[^>]*>/g, '');
+      console.log('Speaking first scene:', textForSpeech);
+      speak(textForSpeech);
+      return;
+    }
+
     if (showTitle && visibleWordCount === 3) {
       // If title is fully shown, go to login
       navigate({ to: '/login' });
     } else if (showTitle) {
       // Skip to showing all title words
+      console.log('Speaking title');
+      speak('Write. Your. Hours.');
       setVisibleWordCount(3);
     } else if (currentScene < scenes.length - 1) {
       // Go to next scene with fade transition
       setIsTransitioning(true);
       setTimeout(() => {
-        setCurrentScene(currentScene + 1);
+        const nextScene = currentScene + 1;
+        setCurrentScene(nextScene);
         setIsTransitioning(false);
+        // Speak the new scene's text after transition
+        const text = scenes[nextScene].text;
+        const textForSpeech = text.replace(/<br\/>/g, ' ').replace(/<[^>]*>/g, '');
+        console.log('Speaking scene', nextScene, ':', textForSpeech);
+        speak(textForSpeech);
       }, 500);
     } else {
       // Last scene, transition to title
@@ -117,6 +155,13 @@ export function IndexPage() {
     return (
       <>
         <div className="fixed inset-0 bg-black z-40" />
+        {/* Debug Audio Button */}
+        <button
+          onClick={handleTestAudio}
+          className="fixed top-4 right-4 z-[60] px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm font-semibold shadow-lg"
+        >
+          🔊 Test Audio
+        </button>
         <div
           className={`min-h-screen flex items-center justify-center cursor-pointer transition-opacity duration-500 relative z-50 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
           onClick={handleClick}
@@ -147,6 +192,13 @@ export function IndexPage() {
   return (
     <>
       <div className="fixed inset-0 bg-black z-50" />
+      {/* Debug Audio Button */}
+      <button
+        onClick={handleTestAudio}
+        className="fixed top-4 right-4 z-[60] px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm font-semibold shadow-lg"
+      >
+        🔊 Test Audio
+      </button>
       <div
         className={`min-h-screen relative flex items-center justify-center cursor-pointer transition-opacity duration-500 z-50 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
         onClick={handleClick}
@@ -161,7 +213,10 @@ export function IndexPage() {
         <div className="absolute inset-0 bg-black/60" />
 
         {/* Text content */}
-        <div style={{ minWidth: '56rem', minHeight: '30vh' }} className="relative z-10 max-w-4xl mx-auto px-8">
+        <div
+          style={{ minWidth: '56rem', minHeight: '30vh' }}
+          className="relative z-10 max-w-4xl mx-auto px-8"
+        >
           <p
             ref={textRef}
             className="text-2xl md:text-4xl text-white leading-relaxed whitespace-pre-line font-semibold drop-shadow-2xl"
