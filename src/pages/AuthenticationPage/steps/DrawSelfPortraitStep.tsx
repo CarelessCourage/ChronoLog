@@ -5,7 +5,7 @@ import { Progress } from '@/components/ui/progress';
 import { useState, useRef, useEffect } from 'react';
 import { sendVictorToast } from '@/lib/victor';
 
-const DRAWING_THRESHOLD = 15; // Percentage of canvas that needs to be drawn on
+const DRAWING_THRESHOLD = 20; // Percentage of canvas that needs to be drawn on
 
 export function DrawSelfPortraitStep() {
   const { nextStep } = useStepper();
@@ -135,7 +135,10 @@ export function DrawSelfPortraitStep() {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
           <div className="text-sm font-medium">Drawing Progress</div>
-          <Progress value={drawingProgress} className="h-3" />
+          <Progress
+            value={drawingProgress}
+            className={`h-3 ${drawingProgress >= DRAWING_THRESHOLD ? '[&>div]:bg-green-500' : ''}`}
+          />
           <div className="text-xs text-muted-foreground">
             {Math.floor(drawingProgress)}% drawn (minimum {DRAWING_THRESHOLD}% required)
           </div>
