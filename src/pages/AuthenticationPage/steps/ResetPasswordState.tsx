@@ -57,13 +57,13 @@ export function ResetPasswordStep() {
   const getRequirement = () => {
     switch (resetAttempts) {
       case 0:
-        return 'Password must be ALL UPPERCASE';
+        return 'Password must be all uppercase';
       case 1:
-        return 'Password must be all lowercase';
+        return 'Policy changed, must be ALL LOWERCASE';
       case 2:
-        return 'Password must alternate between lower and UPPER case (e.g., aBcDeF) ';
+        return 'To the MAS2 directive passoword implemented. All passwords must alternate between LOWER and upper case) ';
       default:
-        return 'Invalid password format';
+        return 'Invalid password';
     }
   };
 
