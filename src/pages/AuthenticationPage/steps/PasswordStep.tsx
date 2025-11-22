@@ -130,13 +130,9 @@ export function PasswordStep() {
   // Effect to show Victor notifications after title screen is dismissed
   useEffect(() => {
     if (!showTitleScreen) {
-      sendVictorToast(
-        'Remember to write your hours before you leave!'
-      );
+      sendVictorToast('Remember to write your hours before you leave!');
       const timeout = setTimeout(() => {
-        sendVictorToast(
-          "You only have 3 strikes left and you're out of here!"
-        );
+        sendVictorToast("You only have 3 strikes left and you're out of here!");
       }, 3500);
       return () => clearTimeout(timeout);
     }

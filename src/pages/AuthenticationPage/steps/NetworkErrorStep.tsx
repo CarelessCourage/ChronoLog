@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { RetroButton } from '@/components/ui/retro-button';
 import { useStepper } from '@/components/StepperProvider';
+import { Icon } from '@iconify/react';
 
 const FPS = 60;
 const GRAVITY = 0.6;
@@ -461,11 +462,10 @@ export function NetworkErrorStep() {
         {/* Error header styled like Chrome's offline page */}
         <div className="mb-8">
           <div className="flex items-start gap-4 mb-6">
-            <svg className="w-12 h-12 text-gray-400 mt-1 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <circle cx="12" cy="12" r="10" strokeWidth="2"/>
-              <line x1="12" y1="8" x2="12" y2="12" strokeWidth="2"/>
-              <line x1="12" y1="16" x2="12.01" y2="16" strokeWidth="2"/>
-            </svg>
+            <Icon
+              icon="mdi:alert-circle-outline"
+              className="w-12 h-12 text-gray-400 mt-1 flex-shrink-0"
+            />
             <div>
               <h1 className="text-2xl font-bold text-gray-700 mb-3">No internet</h1>
               <p className="text-gray-500 mb-2">Try:</p>
@@ -559,11 +559,9 @@ export function NetworkErrorStep() {
           <p>💡 Tip: Press SPACE or ↑ to jump</p>
           <p>The game speed increases as you progress</p>
         </div>
-        
+
         {/* Error code at bottom */}
-        <div className="text-xs text-gray-400 mt-8">
-          ERR_INTERNET_DISCONNECTED
-        </div>
+        <div className="text-xs text-gray-400 mt-8">ERR_INTERNET_DISCONNECTED</div>
       </div>
     </div>
   );
