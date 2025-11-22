@@ -19,7 +19,7 @@ export function SuccessPage() {
             <h1 className="text-5xl font-bold text-white tracking-wider font-pixel">
               COMPLIANCE ACHIEVED
             </h1>
-            <p className="text-2xl text-gray-300 uppercase tracking-[0.3em]">
+            <p className="text-2xl text-white uppercase tracking-[0.3em]">
               ChronoLog Directive
             </p>
           </div>
@@ -29,7 +29,7 @@ export function SuccessPage() {
               <h2 className="text-3xl font-semibold text-white tracking-wide font-pixel">
                 TIME LOGGED
               </h2>
-              <p className="text-xl text-gray-300">
+              <p className="text-xl text-white">
                 Your 7.5 hours have been recorded
               </p>
             </div>
@@ -38,7 +38,7 @@ export function SuccessPage() {
               <h2 className="text-2xl font-semibold text-white tracking-wide font-pixel">
                 CREATED BY
               </h2>
-              <p className="text-xl text-gray-300">
+              <p className="text-xl text-white">
                 The ChronoLog Development Team
               </p>
             </div>
@@ -47,33 +47,33 @@ export function SuccessPage() {
               <h2 className="text-2xl font-semibold text-white tracking-wide font-pixel">
                 SPECIAL THANKS
               </h2>
-              <p className="text-xl text-gray-300">
-                Victor - Compliance Officer
+              <p className="text-xl text-white">
+                Viktor (with a K) - Compliance Officer
               </p>
-              <p className="text-xl text-gray-300">
+              <p className="text-xl text-white">
                 Section 12.4 of the Time Compliance Policy
               </p>
             </div>
 
             <div className="space-y-2 pt-8">
-              <p className="text-lg text-gray-400 italic">
+              <p className="text-lg text-white italic">
                 Thank you for your punctual cooperation
               </p>
-              <p className="text-lg text-gray-400">
+              <p className="text-lg text-white">
                 You are now authorized to temporarily detach from your workstation
               </p>
-              <p className="text-lg text-gray-400">
+              <p className="text-lg text-white">
                 Enjoy your limited personal time responsibly
               </p>
             </div>
 
             <div className="pt-12 pb-20">
-              <p className="text-base text-gray-500">
+              <p className="text-base text-white">
                 You will be reminded to repeat this ceremony tomorrow.
               </p>
             </div>
 
-            <div className="pt-8 text-sm text-gray-600 space-y-1">
+            <div className="pt-8 text-sm text-white space-y-1">
               <p>© 2024 ChronoLog Systems</p>
               <p>All rights reserved. All times monitored.</p>
             </div>
@@ -86,16 +86,30 @@ export function SuccessPage() {
 
       <style>{`
         @keyframes scroll-up {
-          from {
+          0% {
             transform: translateY(100vh);
+            opacity: 1;
           }
-          to {
+          90.9% {
             transform: translateY(-100%);
+            opacity: 1;
+          }
+          93% {
+            transform: translateY(-100%);
+            opacity: 0;
+          }
+          97% {
+            transform: translateY(100vh);
+            opacity: 0;
+          }
+          100% {
+            transform: translateY(100vh);
+            opacity: 1;
           }
         }
 
         .credits-scroll {
-          animation: scroll-up 30s linear forwards;
+          animation: scroll-up 33s linear infinite;
         }
 
         /* Hide scrollbar */
