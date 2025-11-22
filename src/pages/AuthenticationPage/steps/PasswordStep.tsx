@@ -2,7 +2,7 @@ import { useStepper } from '@/components/StepperProvider';
 import { StepperFormBox } from '@/components/StepperFormBox.tsx';
 import { Input } from '@/components/ui/input';
 import { RetroButton } from '@/components/ui/retro-button';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,6 +13,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { credentials } from '@/lib/credentials';
+import { useBackgroundMusic } from '@/lib/backgroundMusic';
 
 // Random interruption messages
 const INTERRUPTION_MESSAGES = [
@@ -29,11 +30,17 @@ const INTERRUPTION_MESSAGES = [
 
 export function PasswordStep() {
   const { nextStep } = useStepper();
+  const { startMusic } = useBackgroundMusic();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogMessage, setDialogMessage] = useState('');
+
+  // Start background music when component mounts
+  useEffect(() => {
+    startMusic();
+  }, [startMusic]);
 
   // Character-based interruption tracking
   const charCountRef = useRef(0);
