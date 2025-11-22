@@ -9,6 +9,7 @@ const LOGIN_STEPS = [
   '/login/password',
   '/login/reset-password',
   '/login/login-again',
+  '/login/draw-self-portrait',
   '/login/voice-recognition',
   '/login/dna-sample',
   '/login/dance-verification',

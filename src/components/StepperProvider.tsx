@@ -30,7 +30,7 @@ export function StepperProvider({ children }: StepperProviderProps) {
 
   const nextStepWithPostIt = () => {
     const currentPath = window.location.pathname;
-    
+
     // Don't add random post-it for reset-password step
     // (credentials change will add the login post-it)
     if (currentPath !== '/login/reset-password') {
@@ -42,7 +42,7 @@ export function StepperProvider({ children }: StepperProviderProps) {
         ...position,
       });
     }
-    
+
     stepper.nextStep();
   };
 
