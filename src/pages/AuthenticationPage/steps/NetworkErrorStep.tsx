@@ -7,9 +7,9 @@ const FPS = 60;
 const GRAVITY = 0.6;
 const JUMP_VELOCITY = -12;
 const GAME_SPEED = 6;
-const SPEED_INCREMENT = 0.001;
+const SPEED_INCREMENT = 0.0001;
 const MAX_SPEED = 13;
-const POINTS_TO_WIN = 50;
+const POINTS_TO_WIN = 10;
 
 // Game dimensions
 const CANVAS_WIDTH = 600;
@@ -461,14 +461,6 @@ export function NetworkErrorStep() {
       description="No internet connection detected. Recover connection by playing the game!"
     >
       <div className="space-y-6">
-        {/* Chrome-style error message */}
-        <div className="text-center space-y-2">
-          <div className="text-6xl">🦖</div>
-          <h2 className="text-2xl font-bold text-gray-700">Unable to connect</h2>
-          <p className="text-gray-500">The authentication server is experiencing network issues.</p>
-          <p className="text-sm text-gray-400">Error: ERR_NETWORK_CONNECTION_LOST</p>
-        </div>
-
         {/* Game canvas */}
         <div className="flex flex-col items-center gap-4">
           <div className="relative border-2 border-gray-300 rounded bg-[#f7f7f7]">
