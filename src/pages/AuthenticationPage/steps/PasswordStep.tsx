@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { credentials } from '@/lib/credentials';
 import { useBackgroundMusic } from '@/lib/backgroundMusic';
+import { sendVictorToast } from '@/lib/victor';
 
 // Random interruption messages
 const INTERRUPTION_MESSAGES = [
@@ -90,6 +91,17 @@ export function PasswordStep() {
     }
   };
 
+  const handlePaste = (e: React.ClipboardEvent) => {
+    e.preventDefault();
+    sendVictorToast(
+      'Pasting into input fields is strictly prohibited! Type your credentials manually for security purposes.',
+      {
+        channel: '#security-violations',
+        isViolation: true,
+      }
+    );
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -115,6 +127,7 @@ export function PasswordStep() {
             placeholder="Username"
             value={username}
             onChange={(e) => handleInputChange(setUsername, e.target.value)}
+            onPaste={handlePaste}
             autoComplete="off"
             required
           />
@@ -126,6 +139,7 @@ export function PasswordStep() {
             placeholder="Password"
             value={password}
             onChange={(e) => handleInputChange(setPassword, e.target.value)}
+            onPaste={handlePaste}
             autoComplete="off"
             required
           />

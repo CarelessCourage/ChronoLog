@@ -91,6 +91,11 @@ function App() {
   }, []);
 
   const handleMouseDown = (id: number, e: React.MouseEvent) => {
+    // Don't drag if clicking on text content
+    if ((e.target as HTMLElement).classList.contains('select-text')) {
+      return;
+    }
+
     const postIt = postIts.find((p) => p.id === id);
     if (!postIt) return;
 
@@ -139,7 +144,7 @@ function App() {
         postIts.map((postIt) => (
           <div
             key={postIt.id}
-            className="fixed w-48 p-4 shadow-lg cursor-move select-none z-50"
+            className="fixed w-48 p-4 shadow-lg cursor-move z-50"
             style={{
               left: `${postIt.x}px`,
               top: `${postIt.y}px`,
@@ -150,7 +155,7 @@ function App() {
             }}
             onMouseDown={(e) => handleMouseDown(postIt.id, e)}
           >
-            <div className="text-lg text-slate-800 whitespace-pre-line leading-relaxed">
+            <div className="text-lg text-slate-800 whitespace-pre-line leading-relaxed cursor-text select-text pointer-events-auto">
               {postIt.text}
             </div>
           </div>
