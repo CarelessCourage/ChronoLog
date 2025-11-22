@@ -1,5 +1,7 @@
 import { createContext, useContext, ReactNode } from 'react';
 import { useLoginStepper } from '@/hooks/use-login-stepper';
+import { usePostIts } from '@/lib/postitContext';
+import { getRandomPostItMessage, getRandomPostItColor, getRandomPosition } from '@/lib/postits';
 
 interface StepperContextValue {
   currentStep: number;
@@ -24,9 +26,22 @@ interface StepperProviderProps {
 export function StepperProvider({ children }: StepperProviderProps) {
   // Use the URL-based stepper for login flow
   const stepper = useLoginStepper();
+  const { addPostIt } = usePostIts();
+
+  const nextStepWithPostIt = () => {
+    // Add a random post-it note when completing a step
+    const position = getRandomPosition();
+    addPostIt({
+      text: getRandomPostItMessage(),
+      color: getRandomPostItColor(),
+      ...position,
+    });
+    stepper.nextStep();
+  };
 
   const value: StepperContextValue = {
     ...stepper,
+    nextStep: nextStepWithPostIt,
     goToStep: (step: number | string) => {
       if (typeof step === 'string') {
         stepper.goToStep(step);

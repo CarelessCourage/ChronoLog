@@ -7,17 +7,10 @@ import { Toaster } from '@/components/ui/toaster';
 import { credentials } from '@/lib/credentials';
 import { ElevenLabsProvider } from '@/lib/elevenlabs';
 import { BackgroundMusicProvider } from '@/lib/backgroundMusic';
+import { PostItContext, PostItNote } from '@/lib/postitContext';
 import './index.css';
 
 const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string);
-
-interface PostItNote {
-  id: number;
-  text: string;
-  x: number;
-  y: number;
-  color: string;
-}
 
 const INITIAL_POSTITS: PostItNote[] = [
   {
@@ -41,6 +34,16 @@ function App() {
   const [draggingId, setDraggingId] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
+
+  const addPostIt = (note: Omit<PostItNote, 'id'>) => {
+    setPostIts((prev) => [
+      ...prev,
+      {
+        ...note,
+        id: Date.now(),
+      },
+    ]);
+  };
 
   // Subscribe to credential changes and add new login post-it
   useEffect(() => {
@@ -96,6 +99,8 @@ function App() {
       return;
     }
 
+    e.preventDefault(); // Prevent text selection during drag
+
     const postIt = postIts.find((p) => p.id === id);
     if (!postIt) return;
 
@@ -129,11 +134,18 @@ function App() {
   const showPostIts = currentPath !== '/';
 
   return (
-    <div onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} className="relative">
+    <div
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      className="relative"
+      style={{ userSelect: draggingId !== null ? 'none' : 'auto' }}
+    >
       <ConvexProvider client={convex}>
         <ElevenLabsProvider>
           <BackgroundMusicProvider>
-            <RouterProvider router={router} />
+            <PostItContext.Provider value={{ addPostIt }}>
+              <RouterProvider router={router} />
+            </PostItContext.Provider>
           </BackgroundMusicProvider>
         </ElevenLabsProvider>
       </ConvexProvider>
