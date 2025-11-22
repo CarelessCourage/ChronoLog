@@ -121,10 +121,10 @@ export function ButtonPage() {
             <RetroButton
               onClick={handlePress}
               disabled={hasPressed}
-              className="w-full h-16 text-lg font-bold"
+              className="w-full h-16 text-lg font-bold bg-red-600 hover:bg-red-700 text-white disabled:bg-gray-400"
               variant={hasPressed ? 'secondary' : 'default'}
             >
-              {hasPressed ? '⏳ Button Pressed!' : '👆 PRESS BUTTON'}
+              {hasPressed ? 'Button Pressed!' : 'PRESS BUTTON'}
             </RetroButton>
 
             {session?.userPressed && !session?.helperPressed && (

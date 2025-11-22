@@ -99,19 +99,19 @@ export function ButtonSyncStep() {
   return (
     <StepperFormBox
       title="Two-Person Verification"
-      description="You need a friend to help verify your identity. This is a security measure."
+      description="To uphold organizational security protocols and identity verification standards, managerial intervention is required to authenticate your credentials as part of the mandated safeguard process."
     >
       <div className="space-y-6">
         <div className="bg-yellow-50 border-2 border-yellow-400 p-4 rounded space-y-3">
           <p className="text-sm font-semibold">Instructions:</p>
           <ol className="text-sm space-y-2 list-decimal list-inside">
-            <li>Have someone open this app on a different device</li>
+            <li>Per organizational compliance protocols, your managerial authority is requested to initiate application access on an alternate, approved device to maintain cross-platform operational integrity.</li>
             <li>
               Tell them to go to{' '}
               <span className="font-mono bg-white px-2 py-1 rounded">/button</span>
             </li>
             <li>
-              Give them your ID code:
+              Give them your ID code (NB: NOT by Slack, email or phone. Do NOT write it down):
               <div className="mt-2 bg-white p-3 rounded text-center">
                 <span className="text-2xl font-bold font-mono tracking-wider">
                   {sessionId || '------'}
@@ -127,10 +127,10 @@ export function ButtonSyncStep() {
             onClick={handlePress}
             disabled={!sessionId || hasPressed}
             size="lg"
-            className="w-full h-16"
+            className="w-full h-16 bg-red-600 hover:bg-red-700 text-white disabled:bg-gray-400"
             variant={hasPressed ? 'secondary' : 'default'}
           >
-            {hasPressed ? '⏳ Waiting for helper...' : '👆 PRESS BUTTON'}
+            {hasPressed ? '⏳ Waiting for helper...' : 'PRESS BUTTON'}
           </RetroButton>
 
           {session?.helperPressed && !session?.userPressed && (
