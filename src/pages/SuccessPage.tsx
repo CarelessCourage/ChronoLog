@@ -8,6 +8,7 @@ export function SuccessPage() {
         backgroundPosition: '100% 50%',
         backgroundRepeat: 'no-repeat',
           maxHeight: '100vh',
+          zIndex: 100
       }}
     >
       {/* Dark overlay for better text readability */}
