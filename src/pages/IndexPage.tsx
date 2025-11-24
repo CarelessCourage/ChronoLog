@@ -23,7 +23,7 @@ const scenes: Scene[] = [
   },
   {
     gif: '/gifs/officeInStorm.gif',
-    text: "Some oil company's new time-reporting system is here.<br/> <br/> Built to comply with every dystopian directive. Designed by sadists.<br/> <br/> Protected by Viktor's paranoia.",
+    text: "Some company's new time-reporting system is here.<br/> <br/> Built to comply with every dystopian directive. Designed by sadists.<br/> <br/> Protected by Viktor's paranoia.",
     duration: 5000,
   },
   {
