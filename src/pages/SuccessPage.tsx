@@ -7,8 +7,8 @@ export function SuccessPage() {
         backgroundSize: 'cover',
         backgroundPosition: '100% 50%',
         backgroundRepeat: 'no-repeat',
-          maxHeight: '100vh',
-          zIndex: 100
+        maxHeight: '100vh',
+        zIndex: 100,
       }}
     >
       {/* Dark overlay for better text readability */}
@@ -21,9 +21,7 @@ export function SuccessPage() {
             <h1 className="text-5xl font-bold text-white tracking-wider font-pixel">
               COMPLIANCE ACHIEVED
             </h1>
-            <p className="text-2xl text-white uppercase tracking-[0.3em]">
-              ChronoLog Directive
-            </p>
+            <p className="text-2xl text-white uppercase tracking-[0.3em]">ChronoLog Directive</p>
           </div>
 
           <div className="space-y-6 pt-12">
@@ -31,42 +29,30 @@ export function SuccessPage() {
               <h2 className="text-3xl font-semibold text-white tracking-wide font-pixel">
                 TIME LOGGED
               </h2>
-              <p className="text-xl text-white">
-                Your 7.5 hours have been recorded
-              </p>
+              <p className="text-xl text-white">Your 7.5 hours have been recorded</p>
             </div>
 
             <div className="space-y-2 pt-8">
               <h2 className="text-2xl font-semibold text-white tracking-wide font-pixel">
                 CREATED BY
               </h2>
-              <p className="text-xl text-white">
-                The ChronoLog Development Team
-              </p>
+              <p className="text-xl text-white">The ChronoLog Development Team</p>
             </div>
 
             <div className="space-y-2 pt-8">
               <h2 className="text-2xl font-semibold text-white tracking-wide font-pixel">
                 SPECIAL THANKS
               </h2>
-              <p className="text-xl text-white">
-                Viktor (with a K) - Compliance Officer
-              </p>
-              <p className="text-xl text-white">
-                Section 12.4 of the Time Compliance Policy
-              </p>
+              <p className="text-xl text-white">Vladimir - Compliance Officer</p>
+              <p className="text-xl text-white">Section 12.4 of the Time Compliance Policy</p>
             </div>
 
             <div className="space-y-2 pt-8">
-              <p className="text-lg text-white italic">
-                Thank you for your punctual cooperation
-              </p>
+              <p className="text-lg text-white italic">Thank you for your punctual cooperation</p>
               <p className="text-lg text-white">
                 You are now authorized to temporarily detach from your workstation
               </p>
-              <p className="text-lg text-white">
-                Enjoy your limited personal time responsibly
-              </p>
+              <p className="text-lg text-white">Enjoy your limited personal time responsibly</p>
             </div>
 
             <div className="pt-12 pb-20">

@@ -23,12 +23,12 @@ const scenes: Scene[] = [
   },
   {
     gif: '/gifs/officeInStorm.gif',
-    text: "Some oil company's new time-reporting system is here.<br/> <br/> Built to comply with every dystopian directive. Designed by sadists.<br/> <br/> Protected by Viktor's paranoia.",
+    text: "Some oil company's new time-reporting system is here.<br/> <br/> Built to comply with every dystopian directive. Designed by sadists.<br/> <br/> Protected by Vladimir's paranoia.",
     duration: 5000,
   },
   {
     gif: '/gifs/manTypingAtComputer.gif',
-    text: 'Viktor (with a K!) <br/> <br/> The man who turned security up to eleven',
+    text: 'Vladimir <br/> <br/> The man who turned security up to eleven',
     duration: 4000,
   },
   {

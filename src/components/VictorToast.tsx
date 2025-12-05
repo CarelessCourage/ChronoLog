@@ -11,7 +11,7 @@ interface VictorToastContentProps {
 
 export function VictorToastContent({
   message,
-  channel = 'viktor-directives',
+  channel = 'vladimir-directives',
   timestamp,
   isViolation = false,
   violationCount = 0,
@@ -32,7 +32,7 @@ export function VictorToastContent({
         </Avatar>
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-baseline gap-2">
-            <span className="font-semibold text-slate-900">Viktor</span>
+            <span className="font-semibold text-slate-900">Vladimir</span>
             <span className="text-[10px] uppercase tracking-[0.25em] text-emerald-600">APP</span>
             <span className="text-xs text-slate-400">{displayTime}</span>
           </div>
